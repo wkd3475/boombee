@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:boombee/screens/category_page/category_page.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: MainPage(),
+      home: SplashScreen(),
     );
   }
 }
@@ -37,12 +38,6 @@ class _MainPageState extends State<MainPage> {
     SubscribePage(),
     MyPage(),
   ];
-
-  @override
-  void initState() {
-    super.initState();
-    loading();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,3 +74,82 @@ class _MainPageState extends State<MainPage> {
   }
 }
 
+class SplashScreen extends StatefulWidget {
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Timer(
+      Duration(seconds: 2),
+      () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MainPage()),
+      ),
+    );
+    loading();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Color(0xFFFF9300),
+      ),
+      child: Stack(
+        children: <Widget>[
+          Positioned(
+            top: 0.0,
+            left: 0.0,
+            child: Container(
+              width: width,
+              height: height * 0.65,
+              child: Scaffold(
+                backgroundColor: Colors.transparent,
+                // backgroundColor: Color(0xFFFF9300),
+                body: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Image.asset(
+                      'assets/images/boombee_title.png',
+                      width: 300,
+                      height: 300,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 0.0,
+            left: 0.0,
+            child: Container(
+              width: width,
+              height: height,
+              child: Scaffold(
+                backgroundColor: Colors.transparent,
+                // backgroundColor: Color(0xFFFF9300),
+                body: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Image.asset(
+                      'assets/images/density_level_2.png',
+                      width: 300,
+                      height: 300,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
