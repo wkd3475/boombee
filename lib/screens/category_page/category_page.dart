@@ -5,8 +5,11 @@ import 'package:flutter/services.dart';
 
 import '../../globals.dart' as globals;
 
-class CategoryPage extends StatelessWidget {
-  // This widget is the root of your application.
+class CategoryPage extends StatefulWidget {
+  _CategoryPageState createState() => _CategoryPageState();
+}
+
+class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -32,6 +35,7 @@ class CategoryPage extends StatelessWidget {
       CategoryBox(),
     ]);
   }
+
 }
 
 class AppBarTitle extends StatefulWidget {
