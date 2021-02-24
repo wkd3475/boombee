@@ -129,6 +129,7 @@ class MainInfoPage extends StatelessWidget {
       child: Column(
         children: <Widget>[
           CurrentStatusCard(),
+          Container(height: 20.0),
           UnpopularParkTitle(),
           UnpopularPark(),
         ],
@@ -340,12 +341,18 @@ class _CurrentStatusCard extends State<CurrentStatusCard> {
                 ),
               ],
             ),
-            infoRow("서울", json.data.seoul.newCase, "부산", json.data.busan.newCase, "대구", json.data.daegu.newCase),
-            infoRow("인천", json.data.incheon.newCase, "광주", json.data.gwangju.newCase, "대전", json.data.daejeon.newCase),
-            infoRow("울산", json.data.ulsan.newCase, "세종", json.data.sejong.newCase, "경기", json.data.gyeonggi.newCase),
-            infoRow("강원", json.data.gangwon.newCase, "충북", json.data.chungbuk.newCase, "충남", json.data.chungnam.newCase),
-            infoRow("전북", json.data.jeonbuk.newCase, "전남", json.data.jeonnam.newCase, "경북", json.data.gyeongbuk.newCase),
-            infoRow("경남", json.data.gyeongnam.newCase, "제주", json.data.jeju.newCase, "-", "-"),
+            infoRow("서울", json.data.seoul.newCase, "부산",
+                json.data.busan.newCase, "대구", json.data.daegu.newCase),
+            infoRow("인천", json.data.incheon.newCase, "광주",
+                json.data.gwangju.newCase, "대전", json.data.daejeon.newCase),
+            infoRow("울산", json.data.ulsan.newCase, "세종",
+                json.data.sejong.newCase, "경기", json.data.gyeonggi.newCase),
+            infoRow("강원", json.data.gangwon.newCase, "충북",
+                json.data.chungbuk.newCase, "충남", json.data.chungnam.newCase),
+            infoRow("전북", json.data.jeonbuk.newCase, "전남",
+                json.data.jeonnam.newCase, "경북", json.data.gyeongbuk.newCase),
+            infoRow("경남", json.data.gyeongnam.newCase, "제주",
+                json.data.jeju.newCase, "-", "-"),
           ],
         ),
       ),
@@ -361,7 +368,6 @@ class _CurrentStatusCard extends State<CurrentStatusCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 30),
       child: FutureBuilder(
         future: _coronaInfo,
         builder: (context, snapshot) {
@@ -381,7 +387,7 @@ class UnpopularParkTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 20),
+      margin: EdgeInsets.only(bottom: 10),
       height: 35,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -404,19 +410,20 @@ class UnpopularParkTitle extends StatelessWidget {
             ),
           ),
           Align(
-              child: Container(
-            width: 70,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Color.fromARGB(0xFF, 0xFF, 0x93, 0x00),
-              borderRadius: BorderRadius.all(Radius.circular(5)),
+            child: Container(
+              width: 70,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Color.fromARGB(0xFF, 0xFF, 0x93, 0x00),
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+              ),
+              child: Text('내 주변',
+                  style: TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold)),
             ),
-            child: Text('내 주변',
-                style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold)),
-          ))
+          ),
         ],
       ),
     );
@@ -424,6 +431,116 @@ class UnpopularParkTitle extends StatelessWidget {
 }
 
 class UnpopularPark extends StatelessWidget {
+  Widget densityImage(density) {
+    var d = int.parse(density);
+    double size = 47;
+
+    if (d >= 0 && d < 30) {
+      return Image.asset(
+        'assets/images/density_level_1.png',
+        width: size,
+        height: size,
+      );
+    } else if (d >= 30 && d < 60) {
+      return Image.asset(
+        'assets/images/density_level_2.png',
+        width: size,
+        height: size,
+      );
+    } else if (d >= 60 && d < 80) {
+      return Image.asset(
+        'assets/images/density_level_3.png',
+        width: size,
+        height: size,
+      );
+    } else {
+      return Image.asset(
+        'assets/images/density_level_4.png',
+        width: size,
+        height: size,
+      );
+    }
+  }
+
+  Widget infoRow(rank, park, density, averageLength) {
+    return Container(
+      padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 3.0, bottom: 3.0),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            flex: 1,
+            child: Container(
+              alignment: Alignment.center,
+              child: Container(
+                alignment: Alignment.center,
+                height: 47.0,
+                width: 47.0,
+                decoration: BoxDecoration(
+                  color: Color(0x77FF9300),
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    width: 1.0,
+                    color: Color(0xFFFF9300),
+                  ),
+                ),
+                child: Text(
+                  rank,
+                  style: TextStyle(
+                    color: Color(0xFFFFFFFF),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Container(width: 30.0),
+          Expanded(
+            flex: 7,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(bottom: 3.0),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    park,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Row(
+                  children: <Widget>[
+                    Container(
+                      width: 80.0,
+                      child: Text(
+                        "밀집도 : $density%",
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFFFF9300),
+                        ),
+                      ),
+                    ),
+                    Text(
+                      "평균거리 : ${averageLength}m",
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFFFF9300),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          densityImage(density),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -431,8 +548,20 @@ class UnpopularPark extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: Container(
-        margin: EdgeInsets.only(bottom: 50),
-        height: 100,
+        padding: EdgeInsets.all(10.0),
+        child: Column(
+          children: <Widget>[
+            infoRow("1", "반포 한강 공원", "21", "120"),
+            Divider(),
+            infoRow("2", "반포 한강 공원", "40", "120"),
+            Divider(),
+            infoRow("3", "반포 한강 공원", "65", "120"),
+            Divider(),
+            infoRow("4", "반포 한강 공원", "81", "120"),
+            Divider(),
+            infoRow("5", "반포 한강 공원", "88", "120"),
+          ],
+        ),
       ),
     );
   }
