@@ -414,7 +414,7 @@ class UnpopularParkTitle extends StatelessWidget {
               width: 70,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: Color.fromARGB(0xFF, 0xFF, 0x93, 0x00),
+                color: Color(0xCCFF9300),
                 borderRadius: BorderRadius.all(Radius.circular(5)),
               ),
               child: Text('내 주변',
