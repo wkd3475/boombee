@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
       padding: EdgeInsets.only(top: 15.0, left: 30.0, right: 10),
       height: 105,
       decoration: BoxDecoration(
-        color: Color(0xFFFF9300),
+        color: Color(0xCCFF9300),
         borderRadius: BorderRadius.vertical(
           bottom: Radius.circular(25),
         ),
@@ -292,6 +292,7 @@ class _CurrentStatusCard extends State<CurrentStatusCard> {
                 )
               ],
             ),
+            Container(height: 8.0),
             Row(
               children: <Widget>[
                 Text(
