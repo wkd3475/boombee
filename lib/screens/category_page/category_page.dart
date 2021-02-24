@@ -42,7 +42,9 @@ class _AppBarTitleState extends State<AppBarTitle> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 105,
+      margin: EdgeInsets.only(top: 20.0),
+      height: 85,
+      alignment: Alignment.center,
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFFF),
       ),
