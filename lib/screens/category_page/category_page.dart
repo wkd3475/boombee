@@ -1,3 +1,4 @@
+import 'package:boombee/screens/category_page/park_list_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../globals.dart' as globals;
@@ -7,13 +8,6 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-  var _currentIndex = 0;
-
-  final List<Widget> _children = [
-    CategoryBox(),
-    ParkListBox(),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -62,32 +56,33 @@ class _AppBarTitleState extends State<AppBarTitle> {
         color: Color(0xFFFFFFFFF),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Align(
-            child: FlatButton(
-              onPressed: () {},
-              child: Image.asset(
-                "assets/images/left_arrow.png",
-                width: 35,
-                height: 35,
-              ),
+          Expanded(
+            flex: 1,
+            child: Container(),
+          ),
+          Expanded(
+            flex: 3,
+            child: Container(
+              alignment: Alignment.center,
+              child: Text('공원 보기',
+                  style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF707070))),
             ),
           ),
-          Align(
-            child: Text('공원 보기',
-                style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF707070))),
-          ),
-          Align(
-            child: FlatButton(
-              onPressed: () {},
-              child: Image.asset(
-                "assets/images/search_icon.png",
-                width: 35,
-                height: 35,
+          Expanded(
+            flex: 1,
+            child: Container(
+              alignment: Alignment.center,
+              child: GestureDetector(
+                onTap: () {},
+                child: Image.asset(
+                  "assets/images/search_icon.png",
+                  width: 35,
+                  height: 35,
+                ),
               ),
             ),
           ),
@@ -211,10 +206,18 @@ class _CategoryBoxState extends State<CategoryBox> {
                                   ),
                                 ),
                               ),
-                              Image.asset(
-                                "assets/images/right-bracket.png",
-                                width: 35,
-                                height: 35,
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => ParkListPage())
+                                  );
+                                },
+                                child: Image.asset(
+                                  "assets/images/right-bracket.png",
+                                  width: 35,
+                                  height: 35,
+                                ),
                               ),
                             ],
                           ),
@@ -227,17 +230,5 @@ class _CategoryBoxState extends State<CategoryBox> {
             ],
           )),
     );
-  }
-}
-
-class ParkListBox extends StatefulWidget {
-  _ParkListBoxState createState() => _ParkListBoxState();
-}
-
-class _ParkListBoxState extends State<ParkListBox> {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
   }
 }
