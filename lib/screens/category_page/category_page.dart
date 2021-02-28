@@ -182,6 +182,7 @@ class _CategoryBoxState extends State<CategoryBox> {
                       String guId = globals
                               .cityId2guIdList[globals.cityIdList[_indexCity]]
                           [index];
+                      List<String> parkList = ["C001001001"];
                       return Container(
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
@@ -208,9 +209,10 @@ class _CategoryBoxState extends State<CategoryBox> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
+                                  Navigator.pushNamed(
                                     context,
-                                    MaterialPageRoute(builder: (context) => ParkListPage())
+                                    '/ParkListPage',
+                                    arguments: ["C001001001", "C001001002"],
                                   );
                                 },
                                 child: Image.asset(

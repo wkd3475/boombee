@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:boombee/screens/category_page/category_page.dart';
+import 'package:boombee/screens/category_page/park_list_page.dart';
 import 'package:boombee/screens/home_page/home_page.dart';
 import 'package:boombee/screens/my_page/my_page.dart';
 import 'package:boombee/screens/subscribe_page/subscribe_page.dart';
@@ -20,7 +21,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: SplashScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (BuildContext context) => SplashScreen(),
+        '/MainPage': (BuildContext context) => MainPage(),
+        '/ParkListPage': (BuildContext context) => ParkListPage(),
+      },
     );
   }
 }

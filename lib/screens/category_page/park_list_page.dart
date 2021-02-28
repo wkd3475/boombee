@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 
 class ParkListPage extends StatefulWidget {
-  final List<String> parks;
-  ParkListPage({@required this.parks});
-
   @override
-  _ParkListPageState createState() => _ParkListPageState(parks:parks);
+  _ParkListPageState createState() => _ParkListPageState();
 }
 
 class _ParkListPageState extends State<ParkListPage> {
-  final List<String> parks;
-  _ParkListPageState({this.parks});
+  List<String> parks;
 
   @override
   Widget build(BuildContext context) {
+    parks = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       body: Column(
         children: [
