@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../globals.dart' as globals;
 
@@ -10,11 +7,19 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
+  var _currentIndex = 0;
+
+  final List<Widget> _children = [
+    CategoryBox(),
+    ParkListBox(),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      AppBarTitle(),
-      Container(
+    return Column(
+      children: [
+        AppBarTitle(),
+        Container(
           padding: EdgeInsets.only(left: 25, bottom: 5),
           height: 80,
           alignment: Alignment.centerLeft,
@@ -27,15 +32,19 @@ class _CategoryPageState extends State<CategoryPage> {
               ),
             ),
           ),
-          child: Text('지역별 공원',
-              style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF707070)))),
-      CategoryBox(),
-    ]);
+          child: Text(
+            '지역별 공원',
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF707070),
+            ),
+          ),
+        ),
+        CategoryBox(),
+      ],
+    );
   }
-
 }
 
 class AppBarTitle extends StatefulWidget {
@@ -218,5 +227,17 @@ class _CategoryBoxState extends State<CategoryBox> {
             ],
           )),
     );
+  }
+}
+
+class ParkListBox extends StatefulWidget {
+  _ParkListBoxState createState() => _ParkListBoxState();
+}
+
+class _ParkListBoxState extends State<ParkListBox> {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
   }
 }
