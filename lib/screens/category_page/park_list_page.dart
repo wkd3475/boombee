@@ -143,7 +143,7 @@ class _ParkListPageState extends State<ParkListPage> {
         children: [
           AppBarTitle(),
           Container(
-            padding: EdgeInsets.only(left: 25, bottom: 5),
+            padding: EdgeInsets.only(left: 25, bottom: 5, right: 25),
             height: 80,
             alignment: Alignment.centerLeft,
             decoration: BoxDecoration(
@@ -155,13 +155,53 @@ class _ParkListPageState extends State<ParkListPage> {
                 ),
               ),
             ),
-            child: Text(
-              '지역별 공원',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF707070),
-              ),
+            child: Row(
+              children: [
+                Align(
+                  child: Text(
+                    '지역별 공원',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF707070),
+                    ),
+                  ),
+                ),
+                Spacer(),
+                Align(
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        order = 0;
+                      });
+                    },
+                    child: Text('거리순',
+                        style: TextStyle(
+                            height: 3,
+                            color: order == 0
+                                ? Color(0xFF707070)
+                                : Color(0xFFB5B5B5))),
+                  ),
+                ),
+                Container(
+                  width: 15,
+                ),
+                Align(
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        order = 1;
+                      });
+                    },
+                    child: Text('밀집도 낮은순',
+                        style: TextStyle(
+                            height: 3,
+                            color: order == 1
+                                ? Color(0xFF707070)
+                                : Color(0xFFB5B5B5))),
+                  ),
+                )
+              ],
             ),
           ),
           Expanded(
