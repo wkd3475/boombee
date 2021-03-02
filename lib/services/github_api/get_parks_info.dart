@@ -20,14 +20,14 @@ Future<Map<String, Park>> fetchGetParksInfoMap() async {
   }
 }
 
-Future<List> fetchGetParksInfoList() async {
+Future<List<Park>> fetchGetParksInfoList() async {
   final response =
   await http.get('http://wjddls1771.github.io/boombee/get_parks_info.json');
 
   if (response.statusCode == 200) {
     // 만약 서버로의 요청이 성공하면, JSON을 파싱합니다.
     var dataObjsJson = json.decode(response.body) as List;
-    List _data = dataObjsJson.map((dataJson) => Park.fromJson(dataJson)).toList();
+    List<Park> _data = dataObjsJson.map((dataJson) => Park.fromJson(dataJson)).toList();
     return _data;
   } else {
     // 만약 요청이 실패하면, 에러를 던집니다.
@@ -127,5 +127,12 @@ class Park {
       return 100.0;
     }
     return this.data[0].density;
+  }
+
+  double getLatestAverageDistance() {
+    if (this.data.isEmpty) {
+      return -1;
+    }
+    return this.data[0].averageDistance;
   }
 }
