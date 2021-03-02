@@ -1,5 +1,6 @@
 import 'package:boombee/screens/search_page/search_page.dart';
 import 'package:boombee/services/corona_api/corona_api.dart';
+import 'package:boombee/services/github_api/get_parks_info.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -431,24 +432,30 @@ class UnpopularParkTitle extends StatelessWidget {
   }
 }
 
-class UnpopularPark extends StatelessWidget {
-  Widget densityImage(density) {
-    var d = int.parse(density);
+class UnpopularPark extends StatefulWidget {
+  @override
+  _UnpopularParkState createState() => _UnpopularParkState();
+}
+
+class _UnpopularParkState extends State<UnpopularPark> {
+  Future<List> _parksInfo;
+
+  Widget densityImage(double density) {
     double size = 47;
 
-    if (d >= 0 && d < 30) {
+    if (density >= 0.0 && density < 30.0) {
       return Image.asset(
         'assets/images/density_level_1.png',
         width: size,
         height: size,
       );
-    } else if (d >= 30 && d < 60) {
+    } else if (density >= 30.0 && density < 60.0) {
       return Image.asset(
         'assets/images/density_level_2.png',
         width: size,
         height: size,
       );
-    } else if (d >= 60 && d < 80) {
+    } else if (density >= 60.0 && density < 80.0) {
       return Image.asset(
         'assets/images/density_level_3.png',
         width: size,
@@ -515,7 +522,7 @@ class UnpopularPark extends StatelessWidget {
                     Container(
                       width: 80.0,
                       child: Text(
-                        "밀집도 : $density%",
+                        "밀집도 : ${density.toStringAsFixed(1)}%",
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.bold,
@@ -524,7 +531,7 @@ class UnpopularPark extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "평균거리 : ${averageLength}m",
+                      "평균거리 : ${averageLength.toStringAsFixed(1)}m",
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.bold,
@@ -542,27 +549,57 @@ class UnpopularPark extends StatelessWidget {
     );
   }
 
+  Widget rankList(List<Park> parkInfoList) {
+    for (int i=0; i<parkInfoList.length; i++) {
+      for (int j=i+1; j<parkInfoList.length; j++) {
+        if (parkInfoList[i].getLatestDensity() > parkInfoList[j].getLatestDensity()) {
+          var temp = parkInfoList[i];
+          parkInfoList[i] = parkInfoList[j];
+          parkInfoList[j] = temp;
+        }
+      }
+    }
+
+    return Container(
+      padding: EdgeInsets.all(10.0),
+      child: Column(
+        children: <Widget>[
+          infoRow("1", parkInfoList[0].name, parkInfoList[0].getLatestDensity(), parkInfoList[0].getLatestAverageDistance()),
+          Divider(),
+          infoRow("2", parkInfoList[1].name, parkInfoList[1].getLatestDensity(), parkInfoList[1].getLatestAverageDistance()),
+          Divider(),
+          infoRow("3", parkInfoList[2].name, parkInfoList[2].getLatestDensity(), parkInfoList[2].getLatestAverageDistance()),
+          Divider(),
+          infoRow("4", parkInfoList[3].name, parkInfoList[3].getLatestDensity(), parkInfoList[3].getLatestAverageDistance()),
+          Divider(),
+          infoRow("5", parkInfoList[4].name, parkInfoList[4].getLatestDensity(), parkInfoList[4].getLatestAverageDistance()),
+        ],
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _parksInfo = fetchGetParksInfoList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
-      child: Container(
-        padding: EdgeInsets.all(10.0),
-        child: Column(
-          children: <Widget>[
-            infoRow("1", "반포 한강 공원", "21", "120"),
-            Divider(),
-            infoRow("2", "반포 한강 공원", "40", "120"),
-            Divider(),
-            infoRow("3", "반포 한강 공원", "65", "120"),
-            Divider(),
-            infoRow("4", "반포 한강 공원", "81", "120"),
-            Divider(),
-            infoRow("5", "반포 한강 공원", "88", "120"),
-          ],
-        ),
+      child: FutureBuilder(
+        future: _parksInfo,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return rankList(snapshot.data);
+          } else if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          }
+          return CircularProgressIndicator();
+        },
       ),
     );
   }
