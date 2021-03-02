@@ -23,9 +23,9 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       initialRoute: '/',
       routes: {
-        '/': (BuildContext context) => SplashScreen(),
-        '/MainPage': (BuildContext context) => MainPage(),
-        '/ParkListPage': (BuildContext context) => ParkListPage(),
+        '/': (context) => SplashScreen(),
+        '/MainPage': (context) => MainPage(),
+        '/ParkListPage': (context) => ParkListPage(guId: ModalRoute.of(context).settings.arguments),
       },
     );
   }
