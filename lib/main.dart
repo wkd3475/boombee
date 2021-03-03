@@ -25,7 +25,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => SplashScreen(),
         '/MainPage': (context) => MainPage(),
-        '/ParkListPage': (context) => ParkListPage(guId: ModalRoute.of(context).settings.arguments),
+        '/ParkListPage': (context) =>
+            ParkListPage(guId: ModalRoute.of(context).settings.arguments),
       },
     );
   }
