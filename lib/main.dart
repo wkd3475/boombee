@@ -49,7 +49,13 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _children[_currentIndex],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _children[_currentIndex],
+          ],
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
           onTap: (index) {
             setState(() {

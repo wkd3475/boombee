@@ -50,18 +50,16 @@ class MyPage extends StatelessWidget {
             ),
           ),
         ),
-        Expanded(
+        Container(
+          color: Color(0xFFF5F5F5),
           child: Container(
-            color: Color(0xFFF5F5F5),
-            child: Container(
-              child: Column(
-                children: <Widget>[
-                  item("공지 사항"),
-                  item("데이터 처리 과정"),
-                ],
-              ),
-            )
-          ),
+            child: Column(
+              children: <Widget>[
+                item("공지 사항"),
+                item("데이터 처리 과정"),
+              ],
+            ),
+          )
         ),
       ],
     );
@@ -76,8 +74,8 @@ class _AppBarTitleState extends State<AppBarTitle> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 40.0),
-      height: 80,
+      padding: EdgeInsets.only(top: 40.0),
+      height: 120,
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFFF),
       ),
