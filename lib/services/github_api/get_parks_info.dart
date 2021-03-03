@@ -126,13 +126,13 @@ class Park {
     if (this.data.isEmpty) {
       return 100.0;
     }
-    return this.data[0].density;
+    return this.data[this.data.length-1].density;
   }
 
   double getLatestAverageDistance() {
     if (this.data.isEmpty) {
       return -1;
     }
-    return this.data[0].averageDistance;
+    return this.data[this.data.length-1].averageDistance;
   }
 }
