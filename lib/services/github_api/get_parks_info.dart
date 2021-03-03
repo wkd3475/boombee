@@ -73,8 +73,8 @@ class Park {
   final String id;
   final String name;
   final String location;
-  final String latitude;
-  final String longitude;
+  final double latitude;
+  final double longitude;
   final int radius;
   final String telephone;
   final String hour;
@@ -134,5 +134,9 @@ class Park {
       return -1;
     }
     return this.data[this.data.length-1].averageDistance;
+  }
+
+  List getLocation() {
+    return [this.latitude, this.longitude];
   }
 }

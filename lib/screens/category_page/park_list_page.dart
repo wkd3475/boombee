@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:boombee/globals.dart';
-import 'package:boombee/services/corona_api/git_server_api.dart';
-import 'package:boombee/services/corona_api/search_by_gu_api.dart';
+import 'package:boombee/services/github_api/get_parks_info.dart';
+import 'package:boombee/services/github_api/search_by_gu_api.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 class ParkListPage extends StatefulWidget {
   final String guId;
@@ -13,35 +16,68 @@ class ParkListPage extends StatefulWidget {
 }
 
 class _ParkListPageState extends State<ParkListPage> {
-  Future<Map<String, dynamic>> _parks;
-  String guId;
-  int order = 0;
+  List<String> _parkList;
+  Map<String, Park> _parkInfoMap;
+  Position _position;
 
-  List<dynamic> ordering(parks) {
-    if (order == 0) {
-      return parks;
+  int _currentState = 0;
+  String _guId;
+  int _order = 0;
+  bool _isLocationServiceEnabled = true;
+  bool _isTimeLimited = false;
+
+  void ordering() {
+    if (!_isLocationServiceEnabled && _order == 0) {
+      return;
+    }
+
+    if (_order == 0) {
+      for (int i=0; i<_parkList.length; i++) {
+        for (int j=i+1; j<_parkList.length; j++) {
+          List p1 = _parkInfoMap[_parkList[i]].getLocation();
+          List p2 = _parkInfoMap[_parkList[j]].getLocation();
+          double d1 = Geolocator.distanceBetween(_position.latitude, _position.longitude, p1[0], p1[1]);
+          double d2 = Geolocator.distanceBetween(_position.latitude, _position.longitude, p2[0], p2[1]);
+
+          if (d1 > d2) {
+            var temp = _parkList[i];
+            _parkList[i] = _parkList[j];
+            _parkList[j] = temp;
+          }
+        }
+      }
     } else {
-      return parks;
+      for (int i=0; i<_parkList.length; i++) {
+        for (int j=i+1; j<_parkList.length; j++) {
+          double d1 = _parkInfoMap[_parkList[i]].getLatestDensity();
+          double d2 = _parkInfoMap[_parkList[j]].getLatestDensity();
+
+          if (d1 > d2) {
+            var temp = _parkList[i];
+            _parkList[i] = _parkList[j];
+            _parkList[j] = temp;
+          }
+        }
+      }
     }
   }
 
-  Widget densityImage(density) {
-    var d = int.parse(density);
+  Widget densityImage(double density) {
     double size = 90;
 
-    if (d >= 0 && d < 30) {
+    if (density >= 0.0 && density < 30.0) {
       return Image.asset(
         'assets/images/density_level_1.png',
         width: size,
         height: size,
       );
-    } else if (d >= 30 && d < 60) {
+    } else if (density >= 30.0 && density < 60.0) {
       return Image.asset(
         'assets/images/density_level_2.png',
         width: size,
         height: size,
       );
-    } else if (d >= 60 && d < 80) {
+    } else if (density >= 60.0 && density < 80.0) {
       return Image.asset(
         'assets/images/density_level_3.png',
         width: size,
@@ -74,7 +110,7 @@ class _ParkListPageState extends State<ParkListPage> {
                       child: Text(
                         park,
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF707070),
                         ),
@@ -94,9 +130,9 @@ class _ParkListPageState extends State<ParkListPage> {
                     Row(
                       children: <Widget>[
                         Container(
-                          width: 100.0,
+                          width: 120.0,
                           child: Text(
-                            "밀집도 : $density%",
+                            "밀집도 : ${density.toStringAsFixed(1)}%",
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
@@ -105,7 +141,7 @@ class _ParkListPageState extends State<ParkListPage> {
                           ),
                         ),
                         Text(
-                          "평균거리 : ${averageLength}m",
+                          "평균거리 : ${averageLength.toStringAsFixed(1)}m",
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
@@ -128,11 +164,87 @@ class _ParkListPageState extends State<ParkListPage> {
     );
   }
 
+  Widget parkListBox() {
+    if (_parkList.length == 0) {
+      return Center(
+        child: Text(
+          "${guId2name[_guId]}에 위치한 공원이 없습니다.",
+          style: TextStyle(
+            fontSize: 18,
+          ),
+        ),
+      );
+    }
+
+    if (_isTimeLimited && _order == 0) {
+      return Center(
+        child: Text(
+          "위치 정보를 불러오지 못했습니다.",
+          style: TextStyle(
+            fontSize: 18,
+          ),
+        ),
+      );
+    }
+
+    if (!_isLocationServiceEnabled && _order == 0) {
+      return Center(
+        child: Text(
+          "GPS가 활성화되지 않았습니다.",
+          style: TextStyle(
+            fontSize: 18,
+          ),
+        ),
+      );
+    }
+
+    return Container(
+      color: Color(0xFFF5F5F5),
+      padding: EdgeInsets.all(25.0),
+      child: ListView.builder(
+        padding: EdgeInsets.only(top: 0.0),
+        itemExtent: 140.0,
+        itemCount: _parkList.length,
+        itemBuilder: (context, index) {
+          String name = _parkInfoMap[_parkList[index]].name;
+          String location = _parkInfoMap[_parkList[index]].location;
+          double density = _parkInfoMap[_parkList[index]].getLatestDensity();
+          double averageDistance = _parkInfoMap[_parkList[index]].getLatestAverageDistance();
+          return parkCard(name, location, density, averageDistance);
+        },
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
-    guId = widget.guId;
-    _parks = fetchSearchByGu(widget.guId);
+    _guId = widget.guId;
+    asyncMethods();
+  }
+
+  void asyncMethods() async {
+    _parkList = await fetchSearchByGu(widget.guId);
+    _parkInfoMap = await fetchGetParksInfoMap();
+    if (await Geolocator.isLocationServiceEnabled()) {
+      try {
+        _position = await Geolocator.getCurrentPosition(
+            timeLimit: Duration(seconds: 2),
+            desiredAccuracy: LocationAccuracy.high
+        );
+        _isTimeLimited = false;
+      } catch (e) {
+        _isTimeLimited = true;
+      }
+    } else {
+      _isLocationServiceEnabled = false;
+    }
+    setState(() {
+      _currentState = 1;
+      if (_isTimeLimited)
+        return;
+      ordering();
+    });
   }
 
   @override
@@ -172,13 +284,16 @@ class _ParkListPageState extends State<ParkListPage> {
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
-                        order = 0;
+                        _order = 0;
+                        if (_isTimeLimited)
+                          return;
+                        ordering();
                       });
                     },
                     child: Text('거리순',
                         style: TextStyle(
                             height: 3,
-                            color: order == 0
+                            color: _order == 0
                                 ? Color(0xFF707070)
                                 : Color(0xFFB5B5B5))),
                   ),
@@ -190,13 +305,14 @@ class _ParkListPageState extends State<ParkListPage> {
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
-                        order = 1;
+                        _order = 1;
+                        ordering();
                       });
                     },
                     child: Text('밀집도 낮은순',
                         style: TextStyle(
                             height: 3,
-                            color: order == 1
+                            color: _order == 1
                                 ? Color(0xFF707070)
                                 : Color(0xFFB5B5B5))),
                   ),
@@ -205,44 +321,15 @@ class _ParkListPageState extends State<ParkListPage> {
             ),
           ),
           Expanded(
-            child: Container(
-              padding: EdgeInsets.all(25.0),
-              child: FutureBuilder(
-                future: _parks,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    List<dynamic> parks = ordering(snapshot.data[guId]);
-                    if (parks.length == 0) {
-                      return Center(
-                        child: Text(
-                          "${guId2name[guId]}에 위치한 공원이 없습니다.",
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                      );
-                    }
-                    return ListView.builder(
-                      padding: EdgeInsets.only(top: 0.0),
-                      itemExtent: 140.0,
-                      itemCount: parks.length,
-                      itemBuilder: (context, index) {
-                        return parkCard("$index공원", "성북구 안암동", "30", "100");
-                      },
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text("${snapshot.error}");
-                  }
-                  return Center(
-                    child: SizedBox(
-                      height: 50.0,
-                      width: 50.0,
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                },
+            child: _currentState == 0
+            ? Center(
+              child: SizedBox(
+                height: 50.0,
+                width: 50.0,
+                child: CircularProgressIndicator(),
               ),
-            ),
+            )
+            : parkListBox(),
           ),
         ],
       ),
