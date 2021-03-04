@@ -21,8 +21,8 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
 
   Widget appBarTitle() {
     return Container(
-      margin: EdgeInsets.only(top: 20.0),
-      height: 85,
+      padding: EdgeInsets.only(top: 20.0),
+      height: 105,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFFF),

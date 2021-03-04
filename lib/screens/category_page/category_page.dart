@@ -49,8 +49,8 @@ class _CategoryPageTitleState extends State<CategoryPageTitle> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 20.0),
-      height: 85,
+      padding: EdgeInsets.only(top: 20.0),
+      height: 105,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFFF),
