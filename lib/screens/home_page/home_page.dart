@@ -531,7 +531,7 @@ class _UnpopularParkState extends State<UnpopularPark> {
                       ),
                     ),
                     Text(
-                      "평균거리 : ${averageLength.toStringAsFixed(1)}m",
+                      "사람 간 평균 거리 : ${averageLength.toStringAsFixed(1)}m",
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.bold,

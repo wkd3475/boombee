@@ -138,20 +138,20 @@ class _ParkListPageState extends State<ParkListPage> {
                       Row(
                         children: <Widget>[
                           Container(
-                            width: 120.0,
+                            width: 100.0,
                             child: Text(
                               "밀집도 : ${density.toStringAsFixed(1)}%",
                               style: TextStyle(
-                                fontSize: 15,
+                                fontSize: 13,
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xCCFF9300),
                               ),
                             ),
                           ),
                           Text(
-                            "평균거리 : ${averageLength.toStringAsFixed(1)}m",
+                            "사람 간 평균 거리 : ${averageLength.toStringAsFixed(1)}m",
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 13,
                               fontWeight: FontWeight.bold,
                               color: Color(0xCCFF9300),
                             ),
