@@ -439,7 +439,7 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
                       ),
                       Container(width: 5.0),
                       Text(
-                        "알림 받기",
+                        "지난 밀집도",
                         style: TextStyle(
                           fontSize: smallFontSize,
                           color: Color(0xFFB5B5B5),
