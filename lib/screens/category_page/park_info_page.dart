@@ -275,7 +275,7 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
       child: Container(
         alignment: Alignment.centerLeft,
         width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.all(23.0),
+        padding: EdgeInsets.all(30.0),
         color: Color(0xFFFFFFFF),
         child: Column(
           children: <Widget>[
@@ -433,11 +433,10 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
-                        'assets/images/simple_alert_gray.png',
+                        'assets/images/calendar_icon.png',
                         width: 35.0,
                         height: 35.0,
                       ),
-                      Container(width: 5.0),
                       Text(
                         "지난 밀집도",
                         style: TextStyle(
@@ -478,7 +477,7 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
 
   Widget infoBox() {
     return Container(
-      height: 365.0,
+      height: 385.0,
       child: Column(
         children: <Widget>[
           parkMainInfoBox(),
