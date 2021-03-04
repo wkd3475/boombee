@@ -185,10 +185,10 @@ class _ParkListPageState extends State<ParkListPage> {
       );
     }
 
-    if (_isTimeLimited && _order == 0) {
+    if (!_isLocationServiceEnabled && _order == 0) {
       return Center(
         child: Text(
-          "위치 정보를 불러오지 못했습니다.",
+          "GPS가 활성화되지 않았습니다.",
           style: TextStyle(
             fontSize: 18,
           ),
@@ -196,10 +196,10 @@ class _ParkListPageState extends State<ParkListPage> {
       );
     }
 
-    if (!_isLocationServiceEnabled && _order == 0) {
+    if (_isTimeLimited && _order == 0) {
       return Center(
         child: Text(
-          "GPS가 활성화되지 않았습니다.",
+          "위치 정보를 불러오지 못했습니다.",
           style: TextStyle(
             fontSize: 18,
           ),
