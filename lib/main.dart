@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         '/ParkListPage': (context) =>
             ParkListPage(guId: ModalRoute.of(context).settings.arguments),
         '/ParkInfoPage': (context) =>
-            ParkInfoPage(parkId: ModalRoute.of(context).settings.arguments),
+            ParkInfoPage(park: ModalRoute.of(context).settings.arguments),
       },
     );
   }

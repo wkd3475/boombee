@@ -92,13 +92,13 @@ class _ParkListPageState extends State<ParkListPage> {
     }
   }
 
-  Widget parkCard(parkId, park, location, density, averageLength) {
+  Widget parkCard(Park park) {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(
           context,
           '/ParkInfoPage',
-          arguments: parkId,
+          arguments: park,
         );
       },
       child: Card(
@@ -116,7 +116,7 @@ class _ParkListPageState extends State<ParkListPage> {
                         padding: EdgeInsets.only(bottom: 3.0),
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          park,
+                          park.name,
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -128,7 +128,7 @@ class _ParkListPageState extends State<ParkListPage> {
                         padding: EdgeInsets.only(bottom: 10.0),
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          location,
+                          park.location,
                           style: TextStyle(
                             fontSize: 10,
                             color: Color(0xFF707070),
@@ -140,7 +140,7 @@ class _ParkListPageState extends State<ParkListPage> {
                           Container(
                             width: 100.0,
                             child: Text(
-                              "밀집도 : ${density.toStringAsFixed(1)}%",
+                              "밀집도 : ${park.getLatestDensity().toStringAsFixed(1)}%",
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold,
@@ -149,7 +149,7 @@ class _ParkListPageState extends State<ParkListPage> {
                             ),
                           ),
                           Text(
-                            "사람 간 평균 거리 : ${averageLength.toStringAsFixed(1)}m",
+                            "사람 간 평균 거리 : ${park.getLatestAverageDistance().toStringAsFixed(1)}m",
                             style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.bold,
@@ -164,7 +164,7 @@ class _ParkListPageState extends State<ParkListPage> {
               ),
               Expanded(
                 flex: 3,
-                child: densityImage(density),
+                child: densityImage(park.getLatestDensity()),
               ),
             ],
           ),
@@ -215,11 +215,7 @@ class _ParkListPageState extends State<ParkListPage> {
         itemExtent: 140.0,
         itemCount: _parkList.length,
         itemBuilder: (context, index) {
-          String name = _parkInfoMap[_parkList[index]].name;
-          String location = _parkInfoMap[_parkList[index]].location;
-          double density = _parkInfoMap[_parkList[index]].getLatestDensity();
-          double averageDistance = _parkInfoMap[_parkList[index]].getLatestAverageDistance();
-          return parkCard(_parkList[index], name, location, density, averageDistance);
+          return parkCard(_parkInfoMap[_parkList[index]]);
         },
       ),
     );
