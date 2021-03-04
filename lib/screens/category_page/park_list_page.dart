@@ -262,7 +262,7 @@ class _ParkListPageState extends State<ParkListPage> {
         body: Container(
       child: Column(
         children: [
-          AppBarTitle(),
+          ParkListPageTitle(),
           Container(
             padding: EdgeInsets.only(left: 25, bottom: 5, right: 25),
             height: 80,
@@ -346,11 +346,11 @@ class _ParkListPageState extends State<ParkListPage> {
   }
 }
 
-class AppBarTitle extends StatefulWidget {
-  _AppBarTitleState createState() => _AppBarTitleState();
+class ParkListPageTitle extends StatefulWidget {
+  _ParkListPageTitleState createState() => _ParkListPageTitleState();
 }
 
-class _AppBarTitleState extends State<AppBarTitle> {
+class _ParkListPageTitleState extends State<ParkListPageTitle> {
   @override
   Widget build(BuildContext context) {
     return Container(

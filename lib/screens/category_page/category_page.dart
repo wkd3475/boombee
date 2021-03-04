@@ -12,7 +12,7 @@ class _CategoryPageState extends State<CategoryPage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        AppBarTitle(),
+        CategoryPageTitle(),
         Container(
           padding: EdgeInsets.only(left: 25, bottom: 5),
           height: 80,
@@ -41,11 +41,11 @@ class _CategoryPageState extends State<CategoryPage> {
   }
 }
 
-class AppBarTitle extends StatefulWidget {
-  _AppBarTitleState createState() => _AppBarTitleState();
+class CategoryPageTitle extends StatefulWidget {
+  _CategoryPageTitleState createState() => _CategoryPageTitleState();
 }
 
-class _AppBarTitleState extends State<AppBarTitle> {
+class _CategoryPageTitleState extends State<CategoryPageTitle> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -105,86 +105,28 @@ class _CategoryBoxState extends State<CategoryBox> {
   Widget build(BuildContext context) {
     _cityLength = globals.cityIdList.length;
     _guLength = globals.cityId2guIdList[globals.cityIdList[_indexCity]].length;
-    return Container(
-      color: Color(0xFFF5F5F5),
-      height: MediaQuery.of(context).size.height,
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            flex: 4,
+    return Expanded(
+      child: Container(
+        color: Color(0xFFF5F5F5),
+        height: MediaQuery.of(context).size.height,
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              flex: 4,
 //                color: Color(0xFFF5F5F5),
-            child: ListView.builder(
-              padding: EdgeInsets.only(top: 0.0),
-              itemExtent: 60,
-              itemCount: _cityLength,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (context, index) {
-                var cityId = globals.cityIdList[index];
-                return Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: _indexCity != index
-                        ? Color(0xFFF5F5F5)
-                        : Color(0xFFFFFFFF),
-                    border: Border(
-                      bottom: BorderSide(
-                        width: 1.5,
-                        color: Color(0xFFD9D9D9),
-                      ),
-                    ),
-                  ),
-                  child: ListTile(
-                    title: FlatButton(
-                      height: 20,
-                      child: Text(
-                        globals.cityId2name[cityId],
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF707070),
-                        ),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _indexCity = index;
-                        });
-                      },
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-          Expanded(
-              flex: 1,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Color(0xFFFFFFFF),
-                  border: Border(
-                    left: BorderSide(
-                      width: 1.5,
-                      color: Color(0xFFD9D9D9),
-                    ),
-                  ),
-                ),
-              )),
-          Expanded(
-            flex: 7,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color(0xFFFFFFFF),
-              ),
               child: ListView.builder(
                 padding: EdgeInsets.only(top: 0.0),
-                itemExtent: 60.0,
-                itemCount: _guLength,
+                itemExtent: 60,
+                itemCount: _cityLength,
+                scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
-                  String guId = globals
-                      .cityId2guIdList[globals.cityIdList[_indexCity]]
-                  [index];
+                  var cityId = globals.cityIdList[index];
                   return Container(
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
+                      color: _indexCity != index
+                          ? Color(0xFFF5F5F5)
+                          : Color(0xFFFFFFFF),
                       border: Border(
                         bottom: BorderSide(
                           width: 1.5,
@@ -193,43 +135,103 @@ class _CategoryBoxState extends State<CategoryBox> {
                       ),
                     ),
                     child: ListTile(
-                      tileColor: Color(0xFFFFFFFF),
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            child: Text(
-                              globals.guId2name[guId],
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Color(0xFF707070),
-                              ),
-                            ),
+                      title: FlatButton(
+                        height: 20,
+                        child: Text(
+                          globals.cityId2name[cityId],
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF707070),
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                '/ParkListPage',
-                                arguments: guId,
-                              );
-                              // Navigator.of(context).pushNamed("/ParkListPage", arguments: guId);
-                            },
-                            child: Image.asset(
-                              "assets/images/right-bracket.png",
-                              width: 35,
-                              height: 35,
-                            ),
-                          ),
-                        ],
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _indexCity = index;
+                          });
+                        },
                       ),
                     ),
                   );
                 },
               ),
             ),
-          ),
-        ],
+            Expanded(
+                flex: 1,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xFFFFFFFF),
+                    border: Border(
+                      left: BorderSide(
+                        width: 1.5,
+                        color: Color(0xFFD9D9D9),
+                      ),
+                    ),
+                  ),
+                )),
+            Expanded(
+              flex: 7,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color(0xFFFFFFFF),
+                ),
+                child: ListView.builder(
+                  padding: EdgeInsets.only(top: 0.0),
+                  itemExtent: 60.0,
+                  itemCount: _guLength,
+                  itemBuilder: (context, index) {
+                    String guId = globals
+                        .cityId2guIdList[globals.cityIdList[_indexCity]]
+                    [index];
+                    return Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            width: 1.5,
+                            color: Color(0xFFD9D9D9),
+                          ),
+                        ),
+                      ),
+                      child: ListTile(
+                        tileColor: Color(0xFFFFFFFF),
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              child: Text(
+                                globals.guId2name[guId],
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xFF707070),
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/ParkListPage',
+                                  arguments: guId,
+                                );
+                                // Navigator.of(context).pushNamed("/ParkListPage", arguments: guId);
+                              },
+                              child: Image.asset(
+                                "assets/images/right-bracket.png",
+                                width: 35,
+                                height: 35,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
