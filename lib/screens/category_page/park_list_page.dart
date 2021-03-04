@@ -92,73 +92,82 @@ class _ParkListPageState extends State<ParkListPage> {
     }
   }
 
-  Widget parkCard(park, location, density, averageLength) {
-    return Card(
-      margin: EdgeInsets.only(bottom: 15.0),
-      child: Container(
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              flex: 7,
-              child: Container(
-                margin: EdgeInsets.all(23.0),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.only(bottom: 3.0),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        park,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF707070),
+  Widget parkCard(parkId, park, location, density, averageLength) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          '/ParkInfoPage',
+          arguments: parkId,
+        );
+      },
+      child: Card(
+        margin: EdgeInsets.only(bottom: 15.0),
+        child: Container(
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                flex: 7,
+                child: Container(
+                  margin: EdgeInsets.all(23.0),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.only(bottom: 3.0),
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          park,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF707070),
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(bottom: 10.0),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        location,
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Color(0xFF707070),
+                      Container(
+                        padding: EdgeInsets.only(bottom: 10.0),
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          location,
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Color(0xFF707070),
+                          ),
                         ),
                       ),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          width: 120.0,
-                          child: Text(
-                            "밀집도 : ${density.toStringAsFixed(1)}%",
+                      Row(
+                        children: <Widget>[
+                          Container(
+                            width: 120.0,
+                            child: Text(
+                              "밀집도 : ${density.toStringAsFixed(1)}%",
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xCCFF9300),
+                              ),
+                            ),
+                          ),
+                          Text(
+                            "평균거리 : ${averageLength.toStringAsFixed(1)}m",
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
                               color: Color(0xCCFF9300),
                             ),
                           ),
-                        ),
-                        Text(
-                          "평균거리 : ${averageLength.toStringAsFixed(1)}m",
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xCCFF9300),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              flex: 3,
-              child: densityImage(density),
-            ),
-          ],
+              Expanded(
+                flex: 3,
+                child: densityImage(density),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -210,7 +219,7 @@ class _ParkListPageState extends State<ParkListPage> {
           String location = _parkInfoMap[_parkList[index]].location;
           double density = _parkInfoMap[_parkList[index]].getLatestDensity();
           double averageDistance = _parkInfoMap[_parkList[index]].getLatestAverageDistance();
-          return parkCard(name, location, density, averageDistance);
+          return parkCard(_parkList[index], name, location, density, averageDistance);
         },
       ),
     );
