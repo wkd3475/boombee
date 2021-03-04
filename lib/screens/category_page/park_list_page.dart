@@ -244,12 +244,15 @@ class _ParkListPageState extends State<ParkListPage> {
     } else {
       _isLocationServiceEnabled = false;
     }
-    setState(() {
-      _currentState = 1;
-      if (_isTimeLimited)
-        return;
-      ordering();
-    });
+
+    if (mounted) {
+      setState(() {
+        _currentState = 1;
+        if (_isTimeLimited)
+          return;
+        ordering();
+      });
+    }
   }
 
   @override
