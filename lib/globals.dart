@@ -5,4 +5,4 @@ Map cityId2name = {};// city id를 해당하는 city name으로 변환
 Map<String, List<String>> cityId2guIdList = {};// city id에 해당하는 gu의 list를 저장
 Map guId2name = {};// gu id를 해당하는 gu name으로 변환
 
-List<String> subscribeList = ["C001001001"];
+List<String> subscribeList = [];
