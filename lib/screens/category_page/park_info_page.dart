@@ -1,4 +1,5 @@
 import 'package:boombee/services/github_api/get_parks_info.dart';
+import 'package:boombee/utils/subscribe/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import '../../globals.dart' as globals;
@@ -354,21 +355,22 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
             Container(height: 20.0),
             Row(
               children: [
-                Container(
-                  height: 40,
-                  width: buttonWidth,
-                  decoration: BoxDecoration(
-                    color: Color(0xCCFF9300),
-                    border: Border.all(
-                      color: Color(0xFFFF9300),
-                      width: 1.5,
+                GestureDetector(
+                  onTap: () {
+                    globals.subscribe.add(_park.id);
+                    flutterToast("찜한 목록에 추가되었습니다.");
+                  },
+                  child: Container(
+                    height: 40,
+                    width: buttonWidth,
+                    decoration: BoxDecoration(
+                      color: Color(0xCCFF9300),
+                      border: Border.all(
+                        color: Color(0xFFFF9300),
+                        width: 1.5,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(4)),
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      globals.subscribe.add(_park.id);
-                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -425,35 +427,44 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
                   ),
                 ),
                 Container(width: 5.0),
-                Container(
-                  height: 40,
-                  width: buttonWidth,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFF5F5F5),
-                    border: Border.all(
-                      color: Color(0xFFD9D9D9),
-                      width: 2,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/HistoricalDataPage',
+                      arguments: _park,
+                    );
+                  },
+                  child: Container(
+                    height: 40,
+                    width: buttonWidth,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF5F5F5),
+                      border: Border.all(
+                        color: Color(0xFFD9D9D9),
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(4)),
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/calendar_icon.png',
-                        width: 35.0,
-                        height: 35.0,
-                      ),
-                      Text(
-                        "지난 밀집도",
-                        style: TextStyle(
-                          fontSize: smallFontSize,
-                          color: Color(0xFFB5B5B5),
-                          fontWeight: FontWeight.bold,
-                          height: 1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/calendar_icon.png',
+                          width: 35.0,
+                          height: 35.0,
                         ),
-                      ),
-                    ],
+                        Text(
+                          "지난 밀집도",
+                          style: TextStyle(
+                            fontSize: smallFontSize,
+                            color: Color(0xFFB5B5B5),
+                            fontWeight: FontWeight.bold,
+                            height: 1,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Spacer(),
