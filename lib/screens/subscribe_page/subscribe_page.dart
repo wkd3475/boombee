@@ -1,5 +1,6 @@
 import 'package:boombee/services/github_api/get_parks_info.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../globals.dart' as globals;
 
 
@@ -51,74 +52,105 @@ class _SubscribePageState extends State<SubscribePage> {
           arguments: park,
         );
       },
-      child: Card(
-        margin: EdgeInsets.only(bottom: 15.0),
-        child: Container(
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                flex: 7,
-                child: Container(
-                  margin: EdgeInsets.all(23.0),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(bottom: 3.0),
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          park.name,
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF707070),
+      child: Slidable(
+        actionPane: SlidableDrawerActionPane(),
+        actionExtentRatio: 0.15,
+        child: Card(
+          child: Container(
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 7,
+                  child: Container(
+                    margin: EdgeInsets.all(23.0),
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.only(bottom: 3.0),
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            park.name,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF707070),
+                            ),
                           ),
                         ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(bottom: 10.0),
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          park.location,
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Color(0xFF707070),
+                        Container(
+                          padding: EdgeInsets.only(bottom: 10.0),
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            park.location,
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Color(0xFF707070),
+                            ),
                           ),
                         ),
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            width: 100.0,
-                            child: Text(
-                              "밀집도 : ${park.getLatestDensity().toStringAsFixed(1)}%",
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              width: 100.0,
+                              child: Text(
+                                "밀집도 : ${park.getLatestDensity().toStringAsFixed(1)}%",
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xCCFF9300),
+                                ),
+                              ),
+                            ),
+                            Text(
+                              "사람 간 평균 거리 : ${park.getLatestAverageDistance().toStringAsFixed(1)}m",
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xCCFF9300),
                               ),
                             ),
-                          ),
-                          Text(
-                            "사람 간 평균 거리 : ${park.getLatestAverageDistance().toStringAsFixed(1)}m",
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xCCFF9300),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: densityImage(park.getLatestDensity()),
+                ),
+              ],
+            ),
+          ),
+        ),
+        secondaryActions: <Widget>[
+          GestureDetector(
+            onTap: () {
+              globals.subscribe.remove(park.id);
+              setState(() {
+
+              });
+            },
+            child: Padding(
+              padding: EdgeInsets.only(left: 5.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color(0xCCFF9300),
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                ),
+                height: 130,
+                child: Center(
+                  child: Image.asset(
+                    'assets/images/delete.png',
+                    color: Colors.white,
+                    width: 40,
+                    height: 40,
                   ),
                 ),
               ),
-              Expanded(
-                flex: 3,
-                child: densityImage(park.getLatestDensity()),
-              ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
