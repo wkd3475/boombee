@@ -1,3 +1,6 @@
+import 'package:boombee/utils/subscribe/subscribe.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'globals.dart' as globals;
 import 'dart:convert';
 import 'package:flutter/services.dart';
@@ -20,4 +23,9 @@ void loading() async {
       globals.guId2name[key] = value;
     });
   });
+
+  globals.prefs = await SharedPreferences.getInstance();
+
+  globals.subscribe = Subscribe();
+  globals.subscribe.init();
 }

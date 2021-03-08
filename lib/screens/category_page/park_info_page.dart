@@ -1,6 +1,8 @@
 import 'package:boombee/services/github_api/get_parks_info.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import '../../globals.dart' as globals;
+
 
 class ParkInfoPage extends StatefulWidget {
   final Park park;
@@ -363,25 +365,30 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
                     ),
                     borderRadius: BorderRadius.all(Radius.circular(4)),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/heart_white_icon.png',
-                        width: 35.0,
-                        height: 35.0,
-                      ),
-                      Container(width: 10.0),
-                      Text(
-                        "찜 하기",
-                        style: TextStyle(
-                          fontSize: smallFontSize,
-                          color: Color(0xFFFFFFFF),
-                          fontWeight: FontWeight.bold,
-                          height: 1,
+                  child: GestureDetector(
+                    onTap: () {
+                      globals.subscribe.add(_park.id);
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/heart_white_icon.png',
+                          width: 35.0,
+                          height: 35.0,
                         ),
-                      ),
-                    ],
+                        Container(width: 10.0),
+                        Text(
+                          "찜 하기",
+                          style: TextStyle(
+                            fontSize: smallFontSize,
+                            color: Color(0xFFFFFFFF),
+                            fontWeight: FontWeight.bold,
+                            height: 1,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Container(width: 5.0),
