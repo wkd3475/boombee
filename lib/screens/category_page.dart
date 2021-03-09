@@ -1,7 +1,7 @@
-import 'package:boombee/screens/category_page/park_list_page.dart';
+import 'package:boombee/screens/park_list_page.dart';
 import 'package:flutter/material.dart';
 
-import '../../globals.dart' as globals;
+import '../globals.dart' as globals;
 
 class CategoryPage extends StatefulWidget {
   _CategoryPageState createState() => _CategoryPageState();

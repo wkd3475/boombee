@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:boombee/screens/category_page/category_page.dart';
-import 'package:boombee/screens/category_page/historical_data_page.dart';
-import 'package:boombee/screens/category_page/park_info_page.dart';
-import 'package:boombee/screens/category_page/park_list_page.dart';
-import 'package:boombee/screens/home_page/home_page.dart';
-import 'package:boombee/screens/my_page/my_page.dart';
-import 'package:boombee/screens/search_page/search_page.dart';
-import 'package:boombee/screens/subscribe_page/subscribe_page.dart';
+import 'package:boombee/screens/category_page.dart';
+import 'package:boombee/screens/historical_data_page.dart';
+import 'package:boombee/screens/park_info_page.dart';
+import 'package:boombee/screens/park_list_page.dart';
+import 'package:boombee/screens/home_page.dart';
+import 'package:boombee/screens/my_page.dart';
+import 'package:boombee/screens/search_page.dart';
+import 'package:boombee/screens/subscribe_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

@@ -1,4 +1,4 @@
-import 'package:boombee/screens/search_page/search_page.dart';
+import 'package:boombee/screens/search_page.dart';
 import 'package:boombee/services/corona_api/corona_api.dart';
 import 'package:boombee/services/github_api/get_parks_info.dart';
 import 'package:flutter/material.dart';
@@ -457,81 +457,90 @@ class _UnpopularParkState extends State<UnpopularPark> {
     }
   }
 
-  Widget infoRow(rank, park, density, averageLength) {
-    return Container(
-      padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 3.0, bottom: 3.0),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            flex: 1,
-            child: Container(
-              alignment: Alignment.center,
+  Widget infoRow(rank, Park park) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          '/ParkInfoPage',
+          arguments: park,
+        );
+      },
+      child: Container(
+        padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 3.0, bottom: 3.0),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              flex: 1,
               child: Container(
                 alignment: Alignment.center,
-                height: 47.0,
-                width: 47.0,
-                decoration: BoxDecoration(
-                  color: Color(0x77FF9300),
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    width: 1.0,
-                    color: Color(0xFFFF9300),
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 47.0,
+                  width: 47.0,
+                  decoration: BoxDecoration(
+                    color: Color(0x77FF9300),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      width: 1.0,
+                      color: Color(0xFFFF9300),
+                    ),
                   ),
-                ),
-                child: Text(
-                  rank,
-                  style: TextStyle(
-                    color: Color(0xFFFFFFFF),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
+                  child: Text(
+                    rank,
+                    style: TextStyle(
+                      color: Color(0xFFFFFFFF),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          Container(width: 30.0),
-          Expanded(
-            flex: 7,
-            child: Column(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(bottom: 3.0),
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    park,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+            Container(width: 30.0),
+            Expanded(
+              flex: 7,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(bottom: 3.0),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      park.name,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                Row(
-                  children: <Widget>[
-                    Container(
-                      width: 80.0,
-                      child: Text(
-                        "밀집도 : ${density.toStringAsFixed(1)}%",
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        width: 80.0,
+                        child: Text(
+                          "밀집도 : ${park.getLatestDensity().toStringAsFixed(1)}%",
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFFFF9300),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        "사람 간 평균 거리 : ${park.getLatestAverageDistance().toStringAsFixed(1)}m",
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.bold,
                           color: Color(0xFFFF9300),
                         ),
                       ),
-                    ),
-                    Text(
-                      "사람 간 평균 거리 : ${averageLength.toStringAsFixed(1)}m",
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFFFF9300),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-          densityImage(density),
-        ],
+            densityImage(park.getLatestDensity()),
+          ],
+        ),
       ),
     );
   }
@@ -552,20 +561,15 @@ class _UnpopularParkState extends State<UnpopularPark> {
       padding: EdgeInsets.all(10.0),
       child: Column(
         children: <Widget>[
-          infoRow("1", parkInfoList[0].name, parkInfoList[0].getLatestDensity(),
-              parkInfoList[0].getLatestAverageDistance()),
+          infoRow("1", parkInfoList[0]),
           Divider(),
-          infoRow("2", parkInfoList[1].name, parkInfoList[1].getLatestDensity(),
-              parkInfoList[1].getLatestAverageDistance()),
+          infoRow("2", parkInfoList[1]),
           Divider(),
-          infoRow("3", parkInfoList[2].name, parkInfoList[2].getLatestDensity(),
-              parkInfoList[2].getLatestAverageDistance()),
+          infoRow("3", parkInfoList[2]),
           Divider(),
-          infoRow("4", parkInfoList[3].name, parkInfoList[3].getLatestDensity(),
-              parkInfoList[3].getLatestAverageDistance()),
+          infoRow("4", parkInfoList[3]),
           Divider(),
-          infoRow("5", parkInfoList[4].name, parkInfoList[4].getLatestDensity(),
-              parkInfoList[4].getLatestAverageDistance()),
+          infoRow("5", parkInfoList[4]),
         ],
       ),
     );

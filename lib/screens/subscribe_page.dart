@@ -1,7 +1,7 @@
 import 'package:boombee/services/github_api/get_parks_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import '../../globals.dart' as globals;
+import '../globals.dart' as globals;
 
 
 class SubscribePage extends StatefulWidget {

@@ -2,7 +2,7 @@ import 'package:boombee/services/github_api/get_parks_info.dart';
 import 'package:boombee/utils/subscribe/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import '../../globals.dart' as globals;
+import '../globals.dart' as globals;
 
 
 class ParkInfoPage extends StatefulWidget {
