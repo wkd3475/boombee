@@ -480,7 +480,7 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
                     borderRadius: BorderRadius.all(Radius.circular(4)),
                   ),
                   child: Image.asset(
-                    'assets/images/simple_alert_gray.png',
+                    'assets/images/share_icon.png',
                     width: 35.0,
                     height: 35.0,
                   ),
