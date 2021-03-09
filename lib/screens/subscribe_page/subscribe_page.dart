@@ -53,7 +53,16 @@ class _SubscribePageState extends State<SubscribePage> {
         );
       },
       child: Slidable(
+        key: Key(park.id),
         actionPane: SlidableDrawerActionPane(),
+        dismissal: SlidableDismissal(
+          child: SlidableDrawerDismissal(),
+          onDismissed: (actionType) {
+            setState(() {
+              globals.subscribe.remove(park.id);
+            });
+          },
+        ),
         actionExtentRatio: 0.15,
         child: Card(
           child: Container(
@@ -126,9 +135,8 @@ class _SubscribePageState extends State<SubscribePage> {
         secondaryActions: <Widget>[
           GestureDetector(
             onTap: () {
-              globals.subscribe.remove(park.id);
               setState(() {
-
+                globals.subscribe.remove(park.id);
               });
             },
             child: Padding(
