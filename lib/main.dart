@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:boombee/screens/category_page.dart';
 import 'package:boombee/screens/historical_data_page.dart';
@@ -10,7 +9,6 @@ import 'package:boombee/screens/my_page.dart';
 import 'package:boombee/screens/search_page.dart';
 import 'package:boombee/screens/subscribe_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'loading.dart';
 
@@ -19,7 +17,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -250,34 +247,6 @@ class _MainPageState extends State<MainPage> {
           ],
         ),
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //     type: BottomNavigationBarType.fixed,
-      //     onTap: (index) {
-      //       setState(() {
-      //         _currentIndex = index;
-      //       });
-      //     },
-      //     currentIndex: _currentIndex,
-      //     selectedItemColor: Colors.amber,
-      //     unselectedItemColor: Colors.black26,
-      //     items: <BottomNavigationBarItem>[
-      //       BottomNavigationBarItem(
-      //         icon: Icon(Icons.home),
-      //         label: '',
-      //       ),
-      //       BottomNavigationBarItem(
-      //         icon: Icon(Icons.map),
-      //         label: '',
-      //       ),
-      //       BottomNavigationBarItem(
-      //         icon: Icon(Icons.home),
-      //         label: '',
-      //       ),
-      //       BottomNavigationBarItem(
-      //         icon: Icon(Icons.home),
-      //         label: '',
-      //       ),
-      //     ]),
     );
   }
 }
