@@ -2,17 +2,15 @@ import 'package:boombee/services/github_api/get_parks_info.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
-  final Map<String, Park> parkInfoMap;
-
-  SearchPage({@required this.parkInfoMap});
-
   @override
   _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
+  Map<String, Park> _parkInfoMap;
   List<String> _searchParkList = [];
   bool _isSearched = false;
+  bool _isFetched = false;
   TextEditingController _textController = TextEditingController();
 
   Widget appBarTitle() {
@@ -38,26 +36,40 @@ class _SearchPageState extends State<SearchPage> {
                 ),
                 child: Row(
                   children: [
-                    Container(
-                      width: 300,
-                      padding: EdgeInsets.only(left: 25),
-                      child: TextFormField(
-                        controller: _textController,
-                        onFieldSubmitted: _handleSubmitted,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: '검색어를 입력하세요.',
-                          hintStyle: TextStyle(
-                            color: Color.fromARGB(255, 181, 181, 181),
+                    _isFetched
+                        ? Container(
+                            width: 300,
+                            padding: EdgeInsets.only(left: 25),
+                            child: TextFormField(
+                              controller: _textController,
+                              onFieldSubmitted: _handleSubmitted,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: '검색어를 입력하세요.',
+                                hintStyle: TextStyle(
+                                  fontSize: 15,
+                                  color: Color.fromARGB(255, 181, 181, 181),
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container(
+                            padding: EdgeInsets.only(left: 25.0),
+                            child: Text(
+                              "검색어를 입력하세요.",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Color(0xFFB5B5B5),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
                     Spacer(),
                     Container(
                       padding: EdgeInsets.only(right: 20.0),
                       child: GestureDetector(
                         onTap: () {
+                          FocusScopeNode currentFocus = FocusScope.of(context);
+                          currentFocus.unfocus();
                           searchByString(_textController.text);
                         },
                         child: Image.asset(
@@ -73,86 +85,6 @@ class _SearchPageState extends State<SearchPage> {
             ),
             Expanded(
               flex: 1,
-              child: FlatButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Image.asset(
-                  "assets/images/left_arrow.png",
-                  width: 45,
-                  height: 45,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _appBarTitle() {
-    return Container(
-      padding: EdgeInsets.only(top: 15.0, left: 30.0, right: 10),
-      height: 105,
-      decoration: BoxDecoration(
-        color: Color(0xCCFF9300),
-        borderRadius: BorderRadius.vertical(
-          bottom: Radius.circular(25),
-        ),
-      ),
-      child: Container(
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Positioned(
-              child: Row(
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      width: 360,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFFFFFFF),
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                      ),
-                    ),
-                  ),
-                  Spacer(),
-                ],
-              ),
-            ),
-            Positioned(
-                child: Container(
-                  margin: EdgeInsets.only(left: 25),
-                  child: TextFormField(
-                    controller: _textController,
-                    onFieldSubmitted: _handleSubmitted,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: '검색어를 입력하세요.',
-                      hintStyle: TextStyle(
-                        color: Color.fromARGB(255, 181, 181, 181),
-                      ),
-                    ),
-                  ),
-                ),
-            ),
-            Positioned(
-              right: 100,
-              child: GestureDetector(
-                onTap: () {
-                  searchByString(_textController.text);
-                },
-                child: Image.asset(
-                  'assets/images/search_icon.png',
-                  width: 35,
-                  height: 35,
-                ),
-              ),
-            ),
-            Positioned(
-              right: 0,
               child: FlatButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -283,9 +215,11 @@ class _SearchPageState extends State<SearchPage> {
 
   Widget parkListBox() {
     if (!_isSearched) {
-      return Expanded(child: Container(
-        color: Color(0xFFF5F5F5),
-      ),);
+      return Expanded(
+        child: Container(
+          color: Color(0xFFF5F5F5),
+        ),
+      );
     }
     print(_searchParkList.length);
     print(_isSearched);
@@ -304,7 +238,7 @@ class _SearchPageState extends State<SearchPage> {
         ),
       );
     }
-    
+
     return Expanded(
       child: Container(
         color: Color(0xFFF5F5F5),
@@ -314,7 +248,7 @@ class _SearchPageState extends State<SearchPage> {
           itemExtent: 140.0,
           itemCount: _searchParkList.length,
           itemBuilder: (context, index) {
-            return parkCard(widget.parkInfoMap[_searchParkList[index]]);
+            return parkCard(_parkInfoMap[_searchParkList[index]]);
           },
         ),
       ),
@@ -325,7 +259,7 @@ class _SearchPageState extends State<SearchPage> {
     List<String> result = [];
     Map<String, String> words = {};
 
-    widget.parkInfoMap.forEach((k,v) {
+    _parkInfoMap.forEach((k, v) {
       words[v.name] = k;
       words[v.location] = k;
     });
@@ -344,6 +278,19 @@ class _SearchPageState extends State<SearchPage> {
 
   void _handleSubmitted(String text) {
     searchByString(_textController.text);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    asyncMethods();
+  }
+
+  void asyncMethods() async {
+    _parkInfoMap = await fetchGetParksInfoMap();
+    setState(() {
+      _isFetched = true;
+    });
   }
 
   @override

@@ -390,7 +390,12 @@ class _ParkListPageTitleState extends State<ParkListPageTitle> {
             child: Container(
               alignment: Alignment.center,
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/SearchPage',
+                  );
+                },
                 child: Image.asset(
                   "assets/images/search_icon.png",
                   width: 35,

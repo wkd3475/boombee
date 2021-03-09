@@ -70,6 +70,7 @@ class _HomePageState extends State<HomePage> {
                         padding: EdgeInsets.only(left: 25.0),
                         child: Text("검색어를 입력하세요.",
                           style: TextStyle(
+                            fontSize: 15,
                             color: Color(0xFFB5B5B5),
                           ),
                         ),
