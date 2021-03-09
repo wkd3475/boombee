@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:boombee/screens/category_page/category_page.dart';
+import 'package:boombee/screens/category_page/historical_data_page.dart';
 import 'package:boombee/screens/category_page/park_info_page.dart';
 import 'package:boombee/screens/category_page/park_list_page.dart';
 import 'package:boombee/screens/home_page/home_page.dart';
@@ -30,6 +31,8 @@ class MyApp extends StatelessWidget {
             ParkListPage(guId: ModalRoute.of(context).settings.arguments),
         '/ParkInfoPage': (context) =>
             ParkInfoPage(park: ModalRoute.of(context).settings.arguments),
+        '/HistoricalDataPage': (context) =>
+            HistoricalDataPage(park: ModalRoute.of(context).settings.arguments),
       },
     );
   }
