@@ -125,6 +125,8 @@ class _HomePageState extends State<HomePage> {
 class MainInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    currentFocus.unfocus();
     return Container(
       margin: EdgeInsets.all(30),
       child: Column(
