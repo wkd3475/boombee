@@ -1,4 +1,6 @@
-import 'package:boombee/utils/subscribe/subscribe.dart';
+import 'package:boombee/services/github_api/get_parks_info.dart';
+import 'package:boombee/utils/alert.dart';
+import 'package:boombee/utils/subscribe.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'globals.dart' as globals;
@@ -28,4 +30,12 @@ void loading() async {
 
   globals.subscribe = Subscribe();
   globals.subscribe.init();
+
+  globals.alertManager = AlertManager();
+  globals.alertManager.init();
+
+  Map<String, Park> parksInfoMap = await fetchGetParksInfoMap();
+  parksInfoMap.forEach((k, v) {
+    globals.parkId2name[k] = v.name;
+  });
 }

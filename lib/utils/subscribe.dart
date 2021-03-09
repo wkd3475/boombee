@@ -1,4 +1,4 @@
-import '../../globals.dart' as globals;
+import '../globals.dart' as globals;
 
 class Subscribe {
   String key = "subscribe";

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:boombee/screens/alert_page.dart';
 import 'package:boombee/screens/category_page.dart';
 import 'package:boombee/screens/historical_data_page.dart';
 import 'package:boombee/screens/park_info_page.dart';
@@ -32,6 +33,8 @@ class MyApp extends StatelessWidget {
             ParkInfoPage(park: ModalRoute.of(context).settings.arguments),
         '/HistoricalDataPage': (context) =>
             HistoricalDataPage(park: ModalRoute.of(context).settings.arguments),
+        '/AlertPage': (context) =>
+            AlertPage(),
       },
     );
   }

@@ -1,5 +1,5 @@
 import 'package:boombee/services/github_api/get_parks_info.dart';
-import 'package:boombee/utils/subscribe/toast.dart';
+import 'package:boombee/utils/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../globals.dart' as globals;
