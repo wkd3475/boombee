@@ -27,6 +27,7 @@ class Subscribe {
 
     globals.prefs.setStringList(key, content);
     subscribeList = content;
+    print(subscribeList.toString());
   }
 
   void remove(String parkId) {
@@ -44,5 +45,6 @@ class Subscribe {
 
     globals.prefs.setStringList(key, content);
     subscribeList = content;
+    print(subscribeList.toString());
   }
 }
