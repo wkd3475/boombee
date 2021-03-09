@@ -23,15 +23,19 @@ class MyPage extends StatelessWidget {
               height: 35,
             ),
             Container(width: 10),
-            Text(text, style: TextStyle(
-              fontSize: 20,
-              color: Color(0xFF707070),
-            ),),
+            Text(
+              text,
+              style: TextStyle(
+                fontSize: 20,
+                color: Color(0xFF707070),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -51,16 +55,15 @@ class MyPage extends StatelessWidget {
           ),
         ),
         Container(
-          color: Color(0xFFF5F5F5),
-          child: Container(
-            child: Column(
-              children: <Widget>[
-                item("공지 사항"),
-                item("데이터 처리 과정"),
-              ],
-            ),
-          )
-        ),
+            color: Color(0xFFF5F5F5),
+            child: Container(
+              child: Column(
+                children: <Widget>[
+                  item("공지 사항"),
+                  item("데이터 처리 과정"),
+                ],
+              ),
+            )),
       ],
     );
   }
@@ -82,25 +85,23 @@ class _AppBarTitleState extends State<AppBarTitle> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Align(
-            child: FlatButton(
-              onPressed: () {},
-              child: Image.asset(
-                "assets/images/left_arrow.png",
-                width: 35,
-                height: 35,
-              ),
+          Expanded(
+            flex: 1,
+            child: Container(),
+          ),
+          Expanded(
+            flex: 1,
+            child: Center(
+              child: Text('마이 페이지',
+                  style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF707070))),
             ),
           ),
-          Align(
-            child: Text('마이 페이지',
-                style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF707070))),
-          ),
-          Align(
-            child: FlatButton(),
+          Expanded(
+            flex: 1,
+            child: Container(),
           ),
         ],
       ),
