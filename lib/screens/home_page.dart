@@ -91,7 +91,12 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 flex: 1,
                 child: FlatButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/AlertPage',
+                    );
+                  },
                   child: Image.asset(
                     "assets/images/alert_icon.png",
                     width: 45,

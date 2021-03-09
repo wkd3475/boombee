@@ -65,7 +65,12 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
             child: Container(
               alignment: Alignment.center,
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/AlertPage',
+                  );
+                },
                 child: Image.asset(
                   "assets/images/simple_alert.png",
                   width: 35,
