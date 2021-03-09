@@ -17,6 +17,12 @@ class _HistoricalDataPageState extends State<HistoricalDataPage> {
   Park _park;
   CalendarController _calendarController;
 
+  double logTitleHeight = 40.0;
+  double logDataHeight = 40.0;
+  double logTitleFontSize = 17.0;
+  double logTimeFontSize = 15.0;
+  double logDataFontSize = 13.0;
+
   Widget appBarTitle() {
     return Container(
       padding: EdgeInsets.only(top: 20.0),
@@ -250,219 +256,144 @@ class _HistoricalDataPageState extends State<HistoricalDataPage> {
     );
   }
 
-  Widget parkDetailInfoBox() {
-    double bigFontSize = 20.0;
-    double smallFontSize = 15.0;
-    double buttonWidth = 120;
+  Widget logTitle() {
+    return Row(
+      children: [
+        Expanded(
+          flex: 1,
+          child: Container(
+            height: logTitleHeight,
+            decoration: BoxDecoration(
+              color: Color(0xCCFF9300),
+              border: Border(
+                right: BorderSide(
+                  color: Colors.white,
+                  width: 1.0,
+                ),
+                bottom: BorderSide(
+                  color: Color(0xFFD9D9D9),
+                  width: 1.0,
+                ),
+              ),
+            ),
+            child: Center(
+              child: Text(
+                "시각",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: logTitleFontSize,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 2,
+          child: Container(
+            height: logTitleHeight,
+            decoration: BoxDecoration(
+              color: Color(0xCCFF9300),
+              border: Border(
+                bottom: BorderSide(
+                  color: Color(0xFFD9D9D9),
+                  width: 1.0,
+                ),
+              ),
+            ),
+            child: Center(
+              child: Text(
+                "인구 밀집도",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: logTitleFontSize,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 
+  Widget logBox() {
     return Expanded(
       child: Container(
-        alignment: Alignment.centerLeft,
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.all(30.0),
-        color: Color(0xFFFFFFFF),
-        child: Column(
-          children: <Widget>[
-            Row(
-              children: [
-                Text(
-                  "공원 정보",
-                  style: TextStyle(
-                    fontSize: bigFontSize,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFFB5B5B5),
-                  ),
-                ),
-              ],
-            ),
-            Container(height: 20.0),
-            Row(
-              children: [
-                Text(
-                  "전화: ",
-                  style: TextStyle(
-                    fontSize: smallFontSize,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFFB5B5B5),
-                  ),
-                ),
-                Text(
-                  "${_park.telephone}",
-                  style: TextStyle(
-                    fontSize: smallFontSize,
-                    color: Color(0xFFB5B5B5),
-                  ),
-                ),
-              ],
-            ),
-            Container(height: 10.0),
-            Row(
-              children: [
-                Text(
-                  "운영 시간: ",
-                  style: TextStyle(
-                    fontSize: smallFontSize,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFFB5B5B5),
-                  ),
-                ),
-                Text(
-                  "${_park.hour}",
-                  style: TextStyle(
-                    fontSize: smallFontSize,
-                    color: Color(0xFFB5B5B5),
-                  ),
-                ),
-              ],
-            ),
-            Container(height: 10.0),
-            Row(
-              children: [
-                Text(
-                  "홈페이지: ",
-                  style: TextStyle(
-                    fontSize: smallFontSize,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFFB5B5B5),
-                  ),
-                ),
-                Text(
-                  "${_park.website}",
-                  style: TextStyle(
-                    fontSize: smallFontSize,
-                    color: Color(0xFFB5B5B5),
-                  ),
-                ),
-              ],
-            ),
-            Container(height: 50.0),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    globals.subscribe.add(_park.id);
-                    flutterToast("찜한 목록에 추가되었습니다.");
-                  },
-                  child: Container(
-                    height: 40,
-                    width: buttonWidth,
-                    decoration: BoxDecoration(
-                      color: Color(0xCCFF9300),
-                      border: Border.all(
-                        color: Color(0xFFFF9300),
-                        width: 1.5,
-                      ),
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/heart_white_icon.png',
-                          width: 35.0,
-                          height: 35.0,
-                        ),
-                        Container(width: 10.0),
-                        Text(
-                          "찜 하기",
-                          style: TextStyle(
-                            fontSize: smallFontSize,
-                            color: Color(0xFFFFFFFF),
-                            fontWeight: FontWeight.bold,
-                            height: 1,
+        child: ListView.builder(
+          itemCount: 24,
+          scrollDirection: Axis.vertical,
+            itemBuilder: (context, index) {
+              return Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      height: logDataHeight,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFF5F5F5),
+                        border: Border(
+                          right: BorderSide(
+                            color: Color(0xFFD9D9D9),
+                            width: 1.0,
+                          ),
+                          bottom: BorderSide(
+                            color: Color(0xFFD9D9D9),
+                            width: 1.0,
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(width: 5.0),
-                Container(
-                  height: 40,
-                  width: buttonWidth,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFF5F5F5),
-                    border: Border.all(
-                      color: Color(0xFFD9D9D9),
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/simple_alert_gray.png',
-                        width: 35.0,
-                        height: 35.0,
                       ),
-                      Container(width: 5.0),
-                      Text(
-                        "알림 받기",
-                        style: TextStyle(
-                          fontSize: smallFontSize,
-                          color: Color(0xFFB5B5B5),
-                          fontWeight: FontWeight.bold,
-                          height: 1,
+                      child: Center(
+                        child: Text(
+                          "$index시",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: logTimeFontSize,
+                            color: Color(0xFF707070),
+                          ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                Container(width: 5.0),
-                Container(
-                  height: 40,
-                  width: buttonWidth,
-                  decoration: BoxDecoration(
-                    color: Color(0xCCFF9300),
-                    border: Border.all(
-                      color: Color(0xFFFF9300),
-                      width: 1.5,
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/calendar_white_icon.png',
-                        width: 35.0,
-                        height: 35.0,
-                      ),
-                      Text(
-                        "지난 밀집도",
-                        style: TextStyle(
-                          fontSize: smallFontSize,
-                          color: Color(0xFFFFFFFF),
-                          fontWeight: FontWeight.bold,
-                          height: 1,
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      height: logDataHeight,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFFFFFFF),
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Color(0xFFD9D9D9),
+                            width: 1.0,
+                          ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                Spacer(),
-                Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFF5F5F5),
-                    border: Border.all(
-                      color: Color(0xFFD9D9D9),
-                      width: 2,
+                      child: Center(
+                        child: Text(
+                          "$index%",
+                          style: TextStyle(
+                            fontSize: logDataFontSize,
+                            color: Color(0xFF707070),
+                          ),
+                        ),
+                      ),
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
                   ),
-                  child: Image.asset(
-                    'assets/images/simple_alert_gray.png',
-                    width: 35.0,
-                    height: 35.0,
-                  ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              );
+            },
         ),
+      ),
+    );
+  }
+
+  Widget parkDetailInfoBox() {
+    return Expanded(
+      child: Column(
+        children: [
+          logTitle(),
+          logBox(),
+        ],
       ),
     );
   }
