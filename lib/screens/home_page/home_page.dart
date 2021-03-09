@@ -8,12 +8,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var _currentIndex = 0;
-  bool _isSearched = false;
   bool _isFetched = false;
-  List<String> _searchParkList = [];
+
   Map<String, Park> _parkInfoMap;
-  TextEditingController _textController = TextEditingController();
 
   @override
   void initState() {
@@ -33,38 +30,9 @@ class _HomePageState extends State<HomePage> {
     return Column(
       children: [
         appBarTitle(),
-        Container(
-          child: _currentIndex == 0
-          ? MainInfoPage()
-          : SearchPage(_searchParkList, _isSearched, _parkInfoMap),
-        ),
+        MainInfoPage(),
       ],
     );
-  }
-
-  void searchByString(String text) {
-    List<String> result = [];
-    Map<String, String> words = {};
-
-    _parkInfoMap.forEach((k,v) {
-      words[v.name] = k;
-      words[v.location] = k;
-    });
-
-    words.forEach((k, v) {
-      if (k.contains(text)) {
-        result.add(v);
-      }
-    });
-
-    setState(() {
-      _searchParkList = result.toSet().toList();
-      _isSearched = true;
-    });
-  }
-
-  void _handleSubmitted(String text) {
-    searchByString(_textController.text);
   }
 
   Widget appBarTitle() {
@@ -77,91 +45,61 @@ class _HomePageState extends State<HomePage> {
           bottom: Radius.circular(25),
         ),
       ),
-      child: Container(
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Positioned(
-              child: Row(
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      width: 360,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFFFFFFF),
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                      ),
-                    ),
-                  ),
-                  Spacer(),
-                ],
-              ),
-            ),
-            Positioned(
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            '/SearchPage',
+            arguments: _parkInfoMap,
+          );
+        },
+        child: Container(
+          child: Row(
+            children: [
+              Expanded(
+                flex: 5,
                 child: Container(
-              margin: EdgeInsets.only(left: 25),
-              child: TextFormField(
-                controller: _textController,
-                onFieldSubmitted: _handleSubmitted,
-                onTap: () {
-                  setState(() {
-                    _currentIndex = 1;
-                  });
-                },
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: '검색어를 입력하세요.',
-                  hintStyle: TextStyle(
-                    color: Color.fromARGB(255, 181, 181, 181),
+                  height: 45,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFFFFFFF),
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(left: 25.0),
+                        child: Text("검색어를 입력하세요.",
+                          style: TextStyle(
+                            color: Color(0xFFB5B5B5),
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+                      Container(
+                        padding: EdgeInsets.only(right: 20.0),
+                        child: Image.asset(
+                          'assets/images/search_icon.png',
+                          width: 35,
+                          height: 35,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            )),
-            Positioned(
-              right: 100,
-              child: GestureDetector(
-                onTap: () {
-                  searchByString(_textController.text);
-                },
-                child: Image.asset(
-                  'assets/images/search_icon.png',
-                  width: 35,
-                  height: 35,
+              Expanded(
+                flex: 1,
+                child: FlatButton(
+                  onPressed: () {},
+                  child: Image.asset(
+                    "assets/images/alert_icon.png",
+                    width: 45,
+                    height: 45,
+                  ),
                 ),
               ),
-            ),
-            _currentIndex == 0
-                ? Positioned(
-                    right: 0,
-                    child: FlatButton(
-                      onPressed: () {},
-                      child: Image.asset(
-                        "assets/images/alert_icon.png",
-                        width: 45,
-                        height: 45,
-                      ),
-                    ),
-                  )
-                : Positioned(
-                    right: 0,
-                    child: FlatButton(
-                      onPressed: () {
-                        setState(() {
-                          _currentIndex = 0;
-                          _textController.clear();
-                          _isSearched = false;
-                        });
-                      },
-                      child: Image.asset(
-                        "assets/images/left_arrow.png",
-                        width: 45,
-                        height: 45,
-                      ),
-                    ),
-                  ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -598,9 +536,10 @@ class _UnpopularParkState extends State<UnpopularPark> {
   }
 
   Widget rankList(List<Park> parkInfoList) {
-    for (int i=0; i<parkInfoList.length; i++) {
-      for (int j=i+1; j<parkInfoList.length; j++) {
-        if (parkInfoList[i].getLatestDensity() > parkInfoList[j].getLatestDensity()) {
+    for (int i = 0; i < parkInfoList.length; i++) {
+      for (int j = i + 1; j < parkInfoList.length; j++) {
+        if (parkInfoList[i].getLatestDensity() >
+            parkInfoList[j].getLatestDensity()) {
           var temp = parkInfoList[i];
           parkInfoList[i] = parkInfoList[j];
           parkInfoList[j] = temp;
@@ -612,15 +551,20 @@ class _UnpopularParkState extends State<UnpopularPark> {
       padding: EdgeInsets.all(10.0),
       child: Column(
         children: <Widget>[
-          infoRow("1", parkInfoList[0].name, parkInfoList[0].getLatestDensity(), parkInfoList[0].getLatestAverageDistance()),
+          infoRow("1", parkInfoList[0].name, parkInfoList[0].getLatestDensity(),
+              parkInfoList[0].getLatestAverageDistance()),
           Divider(),
-          infoRow("2", parkInfoList[1].name, parkInfoList[1].getLatestDensity(), parkInfoList[1].getLatestAverageDistance()),
+          infoRow("2", parkInfoList[1].name, parkInfoList[1].getLatestDensity(),
+              parkInfoList[1].getLatestAverageDistance()),
           Divider(),
-          infoRow("3", parkInfoList[2].name, parkInfoList[2].getLatestDensity(), parkInfoList[2].getLatestAverageDistance()),
+          infoRow("3", parkInfoList[2].name, parkInfoList[2].getLatestDensity(),
+              parkInfoList[2].getLatestAverageDistance()),
           Divider(),
-          infoRow("4", parkInfoList[3].name, parkInfoList[3].getLatestDensity(), parkInfoList[3].getLatestAverageDistance()),
+          infoRow("4", parkInfoList[3].name, parkInfoList[3].getLatestDensity(),
+              parkInfoList[3].getLatestAverageDistance()),
           Divider(),
-          infoRow("5", parkInfoList[4].name, parkInfoList[4].getLatestDensity(), parkInfoList[4].getLatestAverageDistance()),
+          infoRow("5", parkInfoList[4].name, parkInfoList[4].getLatestDensity(),
+              parkInfoList[4].getLatestAverageDistance()),
         ],
       ),
     );

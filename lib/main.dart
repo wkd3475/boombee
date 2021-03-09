@@ -7,6 +7,7 @@ import 'package:boombee/screens/category_page/park_info_page.dart';
 import 'package:boombee/screens/category_page/park_list_page.dart';
 import 'package:boombee/screens/home_page/home_page.dart';
 import 'package:boombee/screens/my_page/my_page.dart';
+import 'package:boombee/screens/search_page/search_page.dart';
 import 'package:boombee/screens/subscribe_page/subscribe_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => SplashScreen(),
         '/MainPage': (context) => MainPage(),
+        '/SearchPage': (context) => SearchPage(parkInfoMap: ModalRoute.of(context).settings.arguments),
         '/ParkListPage': (context) =>
             ParkListPage(guId: ModalRoute.of(context).settings.arguments),
         '/ParkInfoPage': (context) =>
