@@ -9,11 +9,24 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var _currentIndex = 0;
+  bool _isSearched = false;
+  bool _isFetched = false;
+  List<String> _searchParkList = [];
+  Map<String, Park> _parkInfoMap;
+  TextEditingController _textController = TextEditingController();
 
-  final List<Widget> _children = [
-    MainInfoPage(),
-    SearchPage(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    asyncMethods();
+  }
+
+  void asyncMethods() async {
+    _parkInfoMap = await fetchGetParksInfoMap();
+    setState(() {
+      _isFetched = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +34,37 @@ class _HomePageState extends State<HomePage> {
       children: [
         appBarTitle(),
         Container(
-          child: _children[_currentIndex],
+          child: _currentIndex == 0
+          ? MainInfoPage()
+          : SearchPage(_searchParkList, _isSearched, _parkInfoMap),
         ),
       ],
     );
+  }
+
+  void searchByString(String text) {
+    List<String> result = [];
+    Map<String, String> words = {};
+
+    _parkInfoMap.forEach((k,v) {
+      words[v.name] = k;
+      words[v.location] = k;
+    });
+
+    words.forEach((k, v) {
+      if (k.contains(text)) {
+        result.add(v);
+      }
+    });
+
+    setState(() {
+      _searchParkList = result.toSet().toList();
+      _isSearched = true;
+    });
+  }
+
+  void _handleSubmitted(String text) {
+    searchByString(_textController.text);
   }
 
   Widget appBarTitle() {
@@ -63,6 +103,8 @@ class _HomePageState extends State<HomePage> {
                 child: Container(
               margin: EdgeInsets.only(left: 25),
               child: TextFormField(
+                controller: _textController,
+                onFieldSubmitted: _handleSubmitted,
                 onTap: () {
                   setState(() {
                     _currentIndex = 1;
@@ -78,9 +120,11 @@ class _HomePageState extends State<HomePage> {
               ),
             )),
             Positioned(
-              right: 70,
-              child: FlatButton(
-                onPressed: null,
+              right: 100,
+              child: GestureDetector(
+                onTap: () {
+                  searchByString(_textController.text);
+                },
                 child: Image.asset(
                   'assets/images/search_icon.png',
                   width: 35,
@@ -106,6 +150,8 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () {
                         setState(() {
                           _currentIndex = 0;
+                          _textController.clear();
+                          _isSearched = false;
                         });
                       },
                       child: Image.asset(
