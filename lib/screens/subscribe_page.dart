@@ -239,6 +239,12 @@ class _SubscribePageTitleState extends State<SubscribePageTitle> {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFFF),
+        border: Border(
+          bottom: BorderSide(
+            width: 1.0,
+            color: Color(0xFFD9D9D9),
+          ),
+        ),
       ),
       child: Row(
         children: <Widget>[
