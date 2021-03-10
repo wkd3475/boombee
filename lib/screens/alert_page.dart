@@ -11,7 +11,6 @@ class AlertPage extends StatefulWidget {
 
 class _AlertPageState extends State<AlertPage> {
   int _selectedIndex = 0;
-  bool _isSwitchOn = true;
   List<String> period = [
     "30분 마다",
     "1시간 마다",
@@ -66,7 +65,7 @@ class _AlertPageState extends State<AlertPage> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          _isSwitchOn = false;
+          globals.alertSwitchState.switchOff();
         });
       },
       child: Container(
@@ -96,7 +95,7 @@ class _AlertPageState extends State<AlertPage> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          _isSwitchOn = true;
+          globals.alertSwitchState.switchOn();
         });
       },
       child: Container(
@@ -335,7 +334,7 @@ class _AlertPageState extends State<AlertPage> {
       color: Colors.white,
       height: maxHeight,
       padding: EdgeInsets.all(30.0),
-      child: _isSwitchOn
+      child: globals.alertSwitchState.getState()
           ? Column(
               children: [
                 alertSwitchOnButton(maxWidth),

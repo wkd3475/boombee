@@ -1,5 +1,6 @@
 import 'package:boombee/services/github_api/get_parks_info.dart';
 import 'package:boombee/utils/alert.dart';
+import 'package:boombee/utils/alert_switch_state.dart';
 import 'package:boombee/utils/subscribe.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -33,6 +34,9 @@ void loading() async {
 
   globals.alertManager = AlertManager();
   globals.alertManager.init();
+
+  globals.alertSwitchState = AlertSwitchState();
+  globals.alertSwitchState.init();
 
   Map<String, Park> parksInfoMap = await fetchGetParksInfoMap();
   parksInfoMap.forEach((k, v) {

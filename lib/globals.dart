@@ -1,6 +1,7 @@
 library boombee.globals;
 
 import 'package:boombee/utils/alert.dart';
+import 'package:boombee/utils/alert_switch_state.dart';
 import 'package:boombee/utils/subscribe.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,5 +12,8 @@ Map guId2name = {};// gu id를 해당하는 gu name으로 변환
 Map<String, String> parkId2name = {};
 
 Subscribe subscribe;
+
 AlertManager alertManager;
+AlertSwitchState alertSwitchState;
+
 SharedPreferences prefs;
