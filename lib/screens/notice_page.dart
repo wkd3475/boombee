@@ -85,7 +85,9 @@ class _NoticePageState extends State<NoticePage> {
                 ),
                 Expanded(
                   flex: 1,
-                  child: Icon(Icons.keyboard_arrow_down),
+                  child: _isSelected[index]
+                      ? Icon(Icons.keyboard_arrow_up)
+                      : Icon(Icons.keyboard_arrow_down),
                 ),
               ],
             ),
