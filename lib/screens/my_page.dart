@@ -69,11 +69,7 @@ class MyPage extends StatelessWidget {
   }
 }
 
-class AppBarTitle extends StatefulWidget {
-  _AppBarTitleState createState() => _AppBarTitleState();
-}
-
-class _AppBarTitleState extends State<AppBarTitle> {
+class AppBarTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
