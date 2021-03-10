@@ -1,4 +1,3 @@
-import 'package:boombee/screens/search_page.dart';
 import 'package:boombee/services/corona_api/corona_api.dart';
 import 'package:boombee/services/github_api/get_parks_info.dart';
 import 'package:flutter/material.dart';

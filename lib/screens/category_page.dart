@@ -1,4 +1,3 @@
-import 'package:boombee/screens/park_list_page.dart';
 import 'package:flutter/material.dart';
 
 import '../globals.dart' as globals;

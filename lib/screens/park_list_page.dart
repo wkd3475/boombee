@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:boombee/globals.dart';
 import 'package:boombee/services/github_api/get_parks_info.dart';
 import 'package:boombee/services/github_api/search_by_gu_api.dart';
