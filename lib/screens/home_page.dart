@@ -117,7 +117,7 @@ class MainInfoPage extends StatelessWidget {
     FocusScopeNode currentFocus = FocusScope.of(context);
     currentFocus.unfocus();
     return Container(
-      margin: EdgeInsets.all(30),
+      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10,),
       child: Column(
         children: <Widget>[
           CurrentStatusCard(),
