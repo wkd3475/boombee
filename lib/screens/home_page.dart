@@ -471,6 +471,7 @@ class _UnpopularParkState extends State<UnpopularPark> {
         );
       },
       child: Container(
+        color: Colors.white,
         padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 3.0, bottom: 3.0),
         child: Row(
           children: <Widget>[
