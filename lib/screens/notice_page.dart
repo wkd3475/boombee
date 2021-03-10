@@ -58,7 +58,7 @@ class _NoticePageState extends State<NoticePage> {
       )),
     );
 
-    EdgeInsetsGeometry _padding = EdgeInsets.all(10.0);
+    EdgeInsetsGeometry _padding = EdgeInsets.all(20.0);
 
     return Column(
       children: [
