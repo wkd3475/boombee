@@ -225,6 +225,7 @@ class _MainPageState extends State<MainPage> {
                         padding: EdgeInsets.all(circlePaddingSize),
                         child: Image.asset(
                           'assets/images/man_icon.png',
+                          color: Colors.white,
                           width: 30,
                           height: 30,
                         ),
