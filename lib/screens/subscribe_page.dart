@@ -197,9 +197,11 @@ class _SubscribePageState extends State<SubscribePage> {
 
   void asyncMethods() async {
     _parkInfoMap = await fetchGetParksInfoMap();
-    setState(() {
-      isFetched = true;
-    });
+    if (mounted) {
+      setState(() {
+        isFetched = true;
+      });
+    }
   }
 
   @override
