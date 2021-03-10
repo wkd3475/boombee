@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 
 class MyPage extends StatelessWidget {
-  Widget item(text) {
+  Widget item(text, context) {
     return GestureDetector(
+      onTap: () {
+        if (text=="공지 사항") {
+          Navigator.pushNamed(
+            context,
+            '/NoticePage',
+          );
+        }
+      },
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFFFFFFFF),
@@ -42,25 +50,12 @@ class MyPage extends StatelessWidget {
       children: [
         AppBarTitle(),
         Container(
-          padding: EdgeInsets.only(left: 25, bottom: 5),
-          alignment: Alignment.centerLeft,
-          decoration: BoxDecoration(
-            color: Color(0xFFFFFFFF),
-            border: Border(
-              bottom: BorderSide(
-                width: 1.5,
-                color: Color(0xFFD9D9D9),
-              ),
-            ),
-          ),
-        ),
-        Container(
             color: Color(0xFFF5F5F5),
             child: Container(
               child: Column(
                 children: <Widget>[
-                  item("공지 사항"),
-                  item("데이터 처리 과정"),
+                  item("공지 사항", context),
+                  item("데이터 처리 과정", context),
                 ],
               ),
             )),
@@ -76,7 +71,13 @@ class AppBarTitle extends StatelessWidget {
       padding: EdgeInsets.only(top: 40.0),
       height: 120,
       decoration: BoxDecoration(
-        color: Color(0xFFFFFFFFF),
+        color: Color(0xFFFFFFFF),
+        border: Border(
+          bottom: BorderSide(
+            width: 1.0,
+            color: Color(0xFFD9D9D9),
+          ),
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
