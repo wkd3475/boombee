@@ -31,7 +31,7 @@ class AlertManager {
     }
 
     if (!hasParkId) {
-      content.add(Alert(parkId: alert.parkId, periodType: alert.periodType));
+      content.add(Alert(parkId: alert.parkId, periodType: alert.periodType, startTime: DateTime.now().toString()));
     }
 
     globals.prefs.setString(key, Alert.encode(content));
@@ -59,13 +59,15 @@ class AlertManager {
 
   void update(Alert alert, int periodType) {
     List<Alert> content = alertList;
-    Alert newAlert = Alert(parkId: alert.parkId, periodType: periodType);
+    Alert newAlert = Alert(parkId: alert.parkId, periodType: periodType, startTime: alert.startTime);
     bool hasParkId = false;
+    print("update alert $newAlert");
 
     for (var i = 0; i < content.length; i++) {
       if (content[i].parkId == alert.parkId) {
         content[i] = newAlert;
         hasParkId = true;
+        globals.prefs.setString(key, Alert.encode(content));
       }
     }
 
@@ -77,20 +79,23 @@ class AlertManager {
 
 class Alert {
   final String parkId;
+  final String startTime;
   final int periodType;
 
-  Alert({this.parkId, this.periodType});
+  Alert({this.parkId, this.periodType, this.startTime});
 
   factory Alert.fromJson(Map<String, dynamic> json) {
     return Alert(
       parkId: json['parkId'],
       periodType: json['periodType'],
+      startTime: json['startTime'],
     );
   }
 
   static Map<String, dynamic> toMap(Alert alert) => {
         'parkId': alert.parkId,
         'periodType': alert.periodType,
+        'startTime': alert.startTime,
       };
 
   static String encode(List<Alert> alerts) => json.encode(
@@ -106,6 +111,6 @@ class Alert {
 
   @override
   String toString() {
-    return "{\"parkId\": \"$parkId\", \"periodType\": $periodType}";
+    return "{\"parkId\": \"$parkId\", \"periodType\": $periodType, \"startTime\": $startTime}";
   }
 }
