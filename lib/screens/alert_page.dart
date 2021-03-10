@@ -362,7 +362,9 @@ class _AlertPageState extends State<AlertPage> {
                     child: parkListBox(),
                   ),
                 ),
-                periodBox(),
+                globals.alertManager.alertList.length == 0
+                ? Container()
+                : periodBox(),
               ],
             )
           : Column(
