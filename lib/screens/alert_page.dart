@@ -201,7 +201,7 @@ class _AlertPageState extends State<AlertPage> {
                 color: Color(0xCCFF9300),
                 borderRadius: BorderRadius.all(Radius.circular(4)),
               ),
-              height: 130,
+              height: 70,
               child: Center(
                 child: Image.asset(
                   'assets/images/delete.png',
