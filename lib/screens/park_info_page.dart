@@ -364,7 +364,7 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
                 GestureDetector(
                   onTap: () {
                     globals.subscribe.add(_park.id);
-                    flutterToast("찜한 목록에 추가되었습니다.");
+                    flutterToast("찜한 목록에 추가되었습니다.", context);
                   },
                   child: Container(
                     height: 40,
@@ -403,7 +403,7 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
                 GestureDetector(
                   onTap: () {
                     globals.alertManager.add(Alert(parkId: _park.id, periodType: 1));
-                    flutterToast("알림 목록에 추가되었습니다.");
+                    flutterToast("알림 목록에 추가되었습니다.", context);
                   },
                   child: Container(
                     height: 40,

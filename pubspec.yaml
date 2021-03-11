@@ -31,8 +31,9 @@ dependencies:
   geolocator: ^6.2.1
   shared_preferences: ^0.5.12
   flutter_slidable: ^0.5.7
-  fluttertoast: ^7.1.8
   table_calendar: ^2.3.3
+  android_alarm_manager: ^0.4.5+20
+  toast: ^0.1.5
 
 dev_dependencies:
   flutter_test:

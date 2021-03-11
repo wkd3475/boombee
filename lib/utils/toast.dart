@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:toast/toast.dart';
 
-void flutterToast(String message) {
-  Fluttertoast.showToast(
-    msg: message,
-    backgroundColor: Colors.white,
-    toastLength: Toast.LENGTH_SHORT,
-    gravity: ToastGravity.BOTTOM,
-    fontSize: 16.0,
+void flutterToast(String message, BuildContext context) {
+  Toast.show(
+    message,
+    context,
+    gravity: Toast.CENTER,
   );
 }
