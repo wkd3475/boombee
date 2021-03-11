@@ -21,6 +21,8 @@ class AlertManager {
   }
 
   void add(Alert alert) {
+    DateTime now = DateTime.now();
+    DateTime _startTime = DateTime(now.year, now.month, now.day, now.hour, now.minute);
     List<Alert> content = alertList;
     bool hasParkId = false;
 
@@ -31,7 +33,7 @@ class AlertManager {
     }
 
     if (!hasParkId) {
-      content.add(Alert(parkId: alert.parkId, periodType: alert.periodType, startTime: DateTime.now().toString()));
+      content.add(Alert(parkId: alert.parkId, periodType: alert.periodType, startTime: _startTime.toString()));
     }
 
     globals.prefs.setString(key, Alert.encode(content));
