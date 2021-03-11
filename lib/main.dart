@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 
 import 'loading.dart';
 
-void main() {
+Future<void> main() async {
   runApp(MyApp());
 }
 
