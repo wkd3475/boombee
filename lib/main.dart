@@ -11,11 +11,38 @@ import 'package:boombee/screens/my_page.dart';
 import 'package:boombee/screens/search_page.dart';
 import 'package:boombee/screens/subscribe_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'loading.dart';
 
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Timer.periodic(Duration(seconds: 5), (Timer t) => _showNotification());
   runApp(MyApp());
+}
+
+Future<void> _showNotification() async {
+  const AndroidNotificationDetails androidPlatformChannelSpecifics =
+      AndroidNotificationDetails(
+    'your channel id',
+    'your channel name',
+    'your channel description',
+    importance: Importance.max,
+    priority: Priority.high,
+    styleInformation: BigTextStyleInformation("여의도 한강공원 오후 2시 기준 인구 밀집도 82%, 사람 간 평균 거리 10m입니다.\n여의도 한강공원 오후 2시 기준 인구 밀집도 82%, 사람 간 평균 거리 10m입니다.\n여의도 한강공원 오후 2시 기준 인구 밀집도 82%, 사람 간 평균 거리 10m입니다.\n여의도 한강공원 오후 2시 기준 인구 밀집도 82%, 사람 간 평균 거리 10m입니다.")
+  );
+
+  const NotificationDetails platformChannelSpecifics =
+      NotificationDetails(android: androidPlatformChannelSpecifics);
+  await flutterLocalNotificationsPlugin.show(
+      0,
+      '붐비',
+      '공원 알림이 도착했습니다.',
+      platformChannelSpecifics,
+      payload: 'item x');
 }
 
 class MyApp extends StatelessWidget {
@@ -34,10 +61,8 @@ class MyApp extends StatelessWidget {
             ParkInfoPage(park: ModalRoute.of(context).settings.arguments),
         '/HistoricalDataPage': (context) =>
             HistoricalDataPage(park: ModalRoute.of(context).settings.arguments),
-        '/AlertPage': (context) =>
-            AlertPage(),
-        '/NoticePage': (context) =>
-            NoticePage(),
+        '/AlertPage': (context) => AlertPage(),
+        '/NoticePage': (context) => NoticePage(),
       },
     );
   }
