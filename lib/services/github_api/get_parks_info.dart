@@ -7,7 +7,7 @@ Future<Map<String, Park>> fetchGetParksInfoMap() async {
 
   if (response.statusCode == 200) {
     // 만약 서버로의 요청이 성공하면, JSON을 파싱합니다.
-    var dataObjsJson = json.decode(response.body) as List;
+    var dataObjsJson = json.decode(response.body)["parks"] as List;
     List _data = dataObjsJson.map((dataJson) => Park.fromJson(dataJson)).toList();
     Map<String, Park> id2data = {};
     for (int i=0; i<_data.length; i++) {
@@ -26,7 +26,7 @@ Future<List<Park>> fetchGetParksInfoList() async {
 
   if (response.statusCode == 200) {
     // 만약 서버로의 요청이 성공하면, JSON을 파싱합니다.
-    var dataObjsJson = json.decode(response.body) as List;
+    var dataObjsJson = json.decode(response.body)["parks"] as List;
     List<Park> _data = dataObjsJson.map((dataJson) => Park.fromJson(dataJson)).toList();
     return _data;
   } else {
