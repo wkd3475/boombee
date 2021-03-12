@@ -313,7 +313,7 @@ class _AlertPageState extends State<AlertPage> {
       color: Colors.white,
       height: maxHeight,
       padding: EdgeInsets.all(30.0),
-      child: globals.alertManager.alert.isSwitchOn
+      child: globals.alertManager.isSwitchOn()
           ? Column(
               children: [
                 alertSwitchOnButton(maxWidth),

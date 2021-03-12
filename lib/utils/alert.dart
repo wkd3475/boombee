@@ -22,8 +22,6 @@ class AlertManager {
   }
 
   void add(String parkId) {
-    DateTime now = DateTime.now();
-    DateTime _startTime = DateTime(now.year, now.month, now.day, now.hour, now.minute);
     List<String> content = alert.parks;
     bool hasParkId = false;
 
@@ -37,7 +35,7 @@ class AlertManager {
       content.add(parkId);
     }
 
-    Alert newAlert = Alert(alert.periodType, alert.startTime, alert.isSwitchOn, content);
+    Alert newAlert = Alert(alert.periodType, alert.startTime, alert.switchState, content);
 
     globals.prefs.setString(keyAlert, json.encode(Alert.toMap(newAlert)));
     alert = newAlert;
@@ -57,7 +55,7 @@ class AlertManager {
 
     if (!hasParkId) return;
 
-    Alert newAlert = Alert(alert.periodType, alert.startTime, alert.isSwitchOn, content);
+    Alert newAlert = Alert(alert.periodType, alert.startTime, alert.switchState, content);
 
     globals.prefs.setString(keyAlert, json.encode(Alert.toMap(newAlert)));
     alert = newAlert;
@@ -65,7 +63,7 @@ class AlertManager {
   }
 
   void updatePeriod(int periodType) {
-    Alert newAlert = Alert(periodType, alert.startTime, alert.isSwitchOn, alert.parks);
+    Alert newAlert = Alert(periodType, alert.startTime, alert.switchState, alert.parks);
 
     globals.prefs.setString(keyAlert, json.encode(Alert.toMap(newAlert)));
     alert = newAlert;
@@ -73,36 +71,43 @@ class AlertManager {
   }
 
   void switchOn() {
-    Alert newAlert = Alert(alert.periodType, alert.startTime, true, alert.parks);
+    DateTime now = DateTime.now();
+    DateTime _startTime = DateTime(now.year, now.month, now.day, now.hour, now.minute);
+
+    Alert newAlert = Alert(alert.periodType, _startTime.toString(), true, alert.parks);
     globals.prefs.setString(keyAlert, json.encode(Alert.toMap(newAlert)));
     alert = newAlert;
-    print("alert switch on");
+    print("alert switch on : $alert");
   }
 
   void switchOff() {
     Alert newAlert = Alert(alert.periodType, alert.startTime, false, alert.parks);
     globals.prefs.setString(keyAlert, json.encode(Alert.toMap(newAlert)));
     alert = newAlert;
-    print("alert switch off");
+    print("alert switch off : $alert");
+  }
+
+  bool isSwitchOn() {
+    return alert.switchState;
   }
 }
 
 class Alert {
   final int periodType;
   final String startTime;
-  final bool isSwitchOn;
+  final bool switchState;
   final List<String> parks;
 
   static Map<int, String> periodTypeToString = {0: "30분 마다", 1: "1시간 마다", 2: "1시간 30분 마다", 3: "2시간 마다", 4: "2시간 30분 마다", 5: "3시간 마다"};
 
-  Alert(this.periodType, this.startTime, this.isSwitchOn, [this.parks]);
+  Alert(this.periodType, this.startTime, this.switchState, [this.parks]);
 
   factory Alert.fromJson(Map<String, dynamic> json) {
     List<String> _data = List<String>.from(json['parks']);
     return Alert(
       json['periodType'],
       json['startTime'],
-      json['isSwitchOn'],
+      json['switchState'],
       _data
     );
   }
@@ -110,14 +115,12 @@ class Alert {
   static Map<String, dynamic> toMap(Alert alert) => {
         'periodType': alert.periodType,
         'startTime': alert.startTime,
-        'isSwitchOn': alert.isSwitchOn,
+        'switchState': alert.switchState,
         'parks': alert.parks,
       };
 
-
-
   @override
   String toString() {
-    return "{\"isSwitchOn\": $isSwitchOn, \"periodType\": $periodType, \"startTime\": $startTime, \"parks\": $parks}";
+    return "{\"switchState\": $switchState, \"periodType\": $periodType, \"startTime\": $startTime, \"parks\": $parks}";
   }
 }
