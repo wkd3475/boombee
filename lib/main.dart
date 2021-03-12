@@ -28,16 +28,7 @@ Future<void> main() async {
 }
 
 Future<void> _showNotification() async {
-  int _period = Alert.periodTypeToMinutes[globals.alertManager.alert.periodType];
-  DateTime now = DateTime.now();
-  DateTime _now = DateTime(now.year, now.month, now.day, now.hour, now.minute);
-  DateTime _startTime = DateTime.parse(globals.alertManager.alert.startTime);
-  int diff =_now.difference(_startTime).inMinutes;
-
-  if (diff % _period != 0) {
-    print("알림까지 ${_period - (diff % _period)}분 남았습니다");
-    return;
-  }
+  if (!globals.alertManager.isTimeToAlert()) return;
 
   Map<String, Park> parksInfoMap = await fetchGetParksInfoMap();
   List<String> _alertParks = globals.alertManager.alert.parks;
@@ -79,7 +70,6 @@ Future<void> _showNotification() async {
       '붐비',
       '공원 알림이 도착했습니다.',
       platformChannelSpecifics);
-  print("알림이 발송되었습니다.");
 }
 
 

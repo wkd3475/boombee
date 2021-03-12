@@ -90,6 +90,21 @@ class AlertManager {
   bool isSwitchOn() {
     return alert.switchState;
   }
+
+  bool isTimeToAlert() {
+    int _period = Alert.periodTypeToMinutes[globals.alertManager.alert.periodType];
+    DateTime now = DateTime.now();
+    DateTime _now = DateTime(now.year, now.month, now.day, now.hour, now.minute);
+    DateTime _startTime = DateTime.parse(globals.alertManager.alert.startTime);
+    int diff =_now.difference(_startTime).inMinutes;
+
+    if (diff % _period != 0) {
+      print("알림까지 ${_period - (diff % _period)}분 남았습니다");
+      return false;
+    }
+    print("알림을 발송할 시각입니다.");
+    return true;
+  }
 }
 
 class Alert {
