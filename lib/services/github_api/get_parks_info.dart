@@ -79,7 +79,7 @@ class Park {
   final String telephone;
   final String hour;
   final String website;
-  final List data;
+  final List<ParkData> data;
 
   Park(this.id, this.name, this.location,
         this.latitude, this.longitude, this.radius,
@@ -138,5 +138,18 @@ class Park {
 
   List getLocation() {
     return [this.latitude, this.longitude];
+  }
+
+  String getLatestDate() {
+    if (this.data.isEmpty) {
+      return "-1";
+    }
+    return this.data[this.data.length-1].date;
+  }
+
+  bool hasData() {
+    if (this.data.isEmpty)
+      return false;
+    return true;
   }
 }

@@ -10,10 +10,13 @@ import 'package:boombee/screens/home_page.dart';
 import 'package:boombee/screens/my_page.dart';
 import 'package:boombee/screens/search_page.dart';
 import 'package:boombee/screens/subscribe_page.dart';
+import 'package:boombee/services/github_api/get_parks_info.dart';
+import 'package:boombee/utils/alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'loading.dart';
+import './globals.dart' as globals;
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -25,24 +28,58 @@ Future<void> main() async {
 }
 
 Future<void> _showNotification() async {
-  const AndroidNotificationDetails androidPlatformChannelSpecifics =
+  int _period = Alert.periodTypeToMinutes[globals.alertManager.alert.periodType];
+  DateTime now = DateTime.now();
+  DateTime _now = DateTime(now.year, now.month, now.day, now.hour, now.minute);
+  DateTime _startTime = DateTime.parse(globals.alertManager.alert.startTime);
+  int diff =_now.difference(_startTime).inMinutes;
+
+  if (diff % _period != 0) {
+    print("알림까지 ${_period - (diff % _period)}분 남았습니다");
+    return;
+  }
+
+  Map<String, Park> parksInfoMap = await fetchGetParksInfoMap();
+  List<String> _alertParks = globals.alertManager.alert.parks;
+  String text = "";
+
+  for (int i=0; i<_alertParks.length; i++) {
+    String _parkId = _alertParks[i];
+    String _name = parksInfoMap[_parkId].name;
+    if (!parksInfoMap[_parkId].hasData()) {
+      text += "$_name 데이터가 없습니다.";
+      continue;
+    }
+
+    String _date = parksInfoMap[_parkId].getLatestDate();
+    String _ad = parksInfoMap[_parkId].getLatestAverageDistance().toStringAsFixed(1);
+    String _density = parksInfoMap[_parkId].getLatestDensity().toStringAsFixed(1);
+
+    text += "$_name 인구 밀집도 $_ad%, 사람 간 평균 거리 ${_density}m입니다.";
+
+    if (i != _alertParks.length - 1) {
+      text += "\n";
+    }
+  }
+
+  AndroidNotificationDetails androidPlatformChannelSpecifics =
       AndroidNotificationDetails(
     'your channel id',
     'your channel name',
     'your channel description',
     importance: Importance.max,
     priority: Priority.high,
-    styleInformation: BigTextStyleInformation("여의도 한강공원 오후 2시 기준 인구 밀집도 82%, 사람 간 평균 거리 10m입니다.\n여의도 한강공원 오후 2시 기준 인구 밀집도 82%, 사람 간 평균 거리 10m입니다.\n여의도 한강공원 오후 2시 기준 인구 밀집도 82%, 사람 간 평균 거리 10m입니다.\n여의도 한강공원 오후 2시 기준 인구 밀집도 82%, 사람 간 평균 거리 10m입니다.")
+    styleInformation: BigTextStyleInformation(text)
   );
 
-  const NotificationDetails platformChannelSpecifics =
+  NotificationDetails platformChannelSpecifics =
       NotificationDetails(android: androidPlatformChannelSpecifics);
   await flutterLocalNotificationsPlugin.show(
       0,
       '붐비',
       '공원 알림이 도착했습니다.',
-      platformChannelSpecifics,
-      payload: 'item x');
+      platformChannelSpecifics);
+  print("알림이 발송되었습니다.");
 }
 
 
