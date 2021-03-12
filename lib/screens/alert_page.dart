@@ -10,7 +10,6 @@ class AlertPage extends StatefulWidget {
 }
 
 class _AlertPageState extends State<AlertPage> {
-  int _selectedIndex = 0;
   List<String> period = [
     "30분 마다",
     "1시간 마다",
@@ -65,7 +64,7 @@ class _AlertPageState extends State<AlertPage> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          globals.alertSwitchState.switchOff();
+          globals.alertManager.switchOff();
         });
       },
       child: Container(
@@ -95,7 +94,7 @@ class _AlertPageState extends State<AlertPage> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          globals.alertSwitchState.switchOn();
+          globals.alertManager.switchOn();
         });
       },
       child: Container(
@@ -121,69 +120,49 @@ class _AlertPageState extends State<AlertPage> {
     );
   }
 
-  Widget parkCard(Alert alert, int index) {
+  Widget parkCard(String parkId, int index) {
     return Slidable(
-      key: Key(alert.parkId),
+      key: Key(parkId),
       actionPane: SlidableDrawerActionPane(),
       dismissal: SlidableDismissal(
         child: SlidableDrawerDismissal(),
         onDismissed: (actionType) {
           setState(() {
-            globals.alertManager.remove(alert.parkId);
+            globals.alertManager.remove(parkId);
           });
         },
       ),
       actionExtentRatio: 0.15,
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        child: Container(
-          margin: EdgeInsets.all(5.0),
-          decoration: BoxDecoration(
-            color: _selectedIndex == index ? Colors.black12 : Colors.white,
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
-            ),
+      child: Container(
+        margin: EdgeInsets.all(5.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
           ),
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 20.0),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 7,
+        ),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                flex: 7,
+                child: Container(
                   child: Container(
-                    child: Container(
-                      padding: EdgeInsets.only(bottom: 3.0),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        globals.parkId2name[alert.parkId],
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF707070),
-                        ),
+                    padding: EdgeInsets.only(bottom: 3.0),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      globals.parkId2name[parkId],
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF707070),
                       ),
                     ),
                   ),
                 ),
-                // Expanded( // 개별 관리 비활성화
-                //   flex: 3,
-                //   child: Container(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(
-                //       period[alert.periodType],
-                //       style: TextStyle(
-                //         fontSize: 12,
-                //         color: Color(0xFF707070),
-                //       ),
-                //     ),
-                //   ),
-                // ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -191,7 +170,7 @@ class _AlertPageState extends State<AlertPage> {
         GestureDetector(
           onTap: () {
             setState(() {
-              globals.alertManager.remove(alert.parkId);
+              globals.alertManager.remove(parkId);
             });
           },
           child: Padding(
@@ -218,7 +197,7 @@ class _AlertPageState extends State<AlertPage> {
   }
 
   Widget parkListBox() {
-    if (globals.alertManager.alertList.length == 0) {
+    if (globals.alertManager.alert.parks.length == 0) {
       return Center(
         child: Text(
           "알림 설정한 공원이 없습니다.",
@@ -236,22 +215,22 @@ class _AlertPageState extends State<AlertPage> {
       child: ListView.builder(
         padding: EdgeInsets.only(top: 0.0),
         itemExtent: 80.0,
-        itemCount: globals.alertManager.alertList.length,
+        itemCount: globals.alertManager.alert.parks.length,
         itemBuilder: (context, index) {
-          return parkCard(globals.alertManager.alertList[index], index);
+          return parkCard(globals.alertManager.alert.parks[index], index);
         },
       ),
     );
   }
 
   Widget periodButton(int index) {
-    int periodType = globals.alertManager.alertList[_selectedIndex].periodType;
+    int periodType = globals.alertManager.alert.periodType;
     return Expanded(
       flex: 1,
       child: GestureDetector(
         onTap: () {
           setState(() {
-            globals.alertManager.update(globals.alertManager.alertList[_selectedIndex], index);
+            globals.alertManager.updatePeriod(index);
           });
         },
         child: Container(
@@ -334,7 +313,7 @@ class _AlertPageState extends State<AlertPage> {
       color: Colors.white,
       height: maxHeight,
       padding: EdgeInsets.all(30.0),
-      child: globals.alertSwitchState.getState()
+      child: globals.alertManager.alert.isSwitchOn
           ? Column(
               children: [
                 alertSwitchOnButton(maxWidth),
@@ -362,9 +341,7 @@ class _AlertPageState extends State<AlertPage> {
                     child: parkListBox(),
                   ),
                 ),
-                globals.alertManager.alertList.length == 0
-                ? Container()
-                : periodBox(),
+                periodBox(),
               ],
             )
           : Column(

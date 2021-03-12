@@ -402,7 +402,7 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
                 Container(width: 5.0),
                 GestureDetector(
                   onTap: () {
-                    globals.alertManager.add(Alert(parkId: _park.id, periodType: 1));
+                    globals.alertManager.add(_park.id);
                     flutterToast("알림 목록에 추가되었습니다.", context);
                   },
                   child: Container(
