@@ -29,7 +29,16 @@ class _HomePageState extends State<HomePage> {
     return Column(
       children: [
         appBarTitle(),
-        MainInfoPage(),
+        Expanded(
+          child: ListView.builder(
+            padding: EdgeInsets.all(0.0),
+            scrollDirection: Axis.vertical,
+            itemCount: 1,
+            itemBuilder: (context, index) {
+              return MainInfoPage();
+            },
+          ),
+        ),
       ],
     );
   }
