@@ -10,15 +10,6 @@ class AlertPage extends StatefulWidget {
 }
 
 class _AlertPageState extends State<AlertPage> {
-  List<String> period = [
-    "30분 마다",
-    "1시간 마다",
-    "1시간 30분 마다",
-    "2시간 마다",
-    "2시간 30분 마다",
-    "3시간 마다"
-  ];
-
   Widget appBarTitle(double maxWidth, double maxHeight) {
     return Container(
       padding: EdgeInsets.only(top: 20.0),
@@ -256,7 +247,7 @@ class _AlertPageState extends State<AlertPage> {
                 ),
           child: Center(
             child: Text(
-              period[index],
+              Alert.periodTypeToString[index],
               style: TextStyle(
                 color: periodType == index ? Colors.white : Color(0xFFB5B5B5),
                 fontWeight: FontWeight.bold,

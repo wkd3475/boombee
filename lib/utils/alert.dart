@@ -100,6 +100,8 @@ class Alert {
 
   static Map<int, String> periodTypeToString = {0: "30분 마다", 1: "1시간 마다", 2: "1시간 30분 마다", 3: "2시간 마다", 4: "2시간 30분 마다", 5: "3시간 마다"};
 
+  static Map<int, int> periodTypeToMinutes = {0: 30, 1: 60, 2: 90, 3: 120, 4: 150, 5: 180};
+
   Alert(this.periodType, this.startTime, this.switchState, [this.parks]);
 
   factory Alert.fromJson(Map<String, dynamic> json) {
