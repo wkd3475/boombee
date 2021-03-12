@@ -169,19 +169,19 @@ class _AlertPageState extends State<AlertPage> {
                     ),
                   ),
                 ),
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      period[alert.periodType],
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color(0xFF707070),
-                      ),
-                    ),
-                  ),
-                ),
+                // Expanded( // 개별 관리 비활성화
+                //   flex: 3,
+                //   child: Container(
+                //     alignment: Alignment.centerRight,
+                //     child: Text(
+                //       period[alert.periodType],
+                //       style: TextStyle(
+                //         fontSize: 12,
+                //         color: Color(0xFF707070),
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
