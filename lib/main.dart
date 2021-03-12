@@ -20,7 +20,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Timer.periodic(Duration(seconds: 5), (Timer t) => _showNotification());
+  Timer.periodic(Duration(minutes: 1), (Timer t) => _showNotification());
   runApp(MyApp());
 }
 

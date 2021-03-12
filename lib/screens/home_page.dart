@@ -529,7 +529,7 @@ class _UnpopularParkState extends State<UnpopularPark> {
                   Row(
                     children: <Widget>[
                       Container(
-                        width: 80.0,
+                        width: 90.0,
                         child: Text(
                           "밀집도 : ${park.getLatestDensity().toStringAsFixed(1)}%",
                           style: TextStyle(
