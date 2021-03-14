@@ -1,12 +1,14 @@
+import 'dart:async';
+
 import 'package:boombee/services/github_api/get_parks_info.dart';
 import 'package:boombee/utils/toast.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/rendering.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -24,15 +26,13 @@ class ParkInfoPage extends StatefulWidget {
 
 class _ParkInfoPageState extends State<ParkInfoPage> {
   Park _park;
-  Position _position;
 
   int _currentState = 0;
-  bool _isLocationServiceEnabled = true;
-  bool _isTimeLimited = false;
 
   File _imageFile;
 
   ScreenshotController screenshotController = ScreenshotController();
+  Completer<GoogleMapController> _controller = Completer();
 
   _takeScreenshotandShare() async {
     _imageFile = null;
@@ -117,59 +117,32 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
 
   Widget mapBox() {
     double widthSize = MediaQuery.of(context).size.width;
+    double densityToOpacity = 0x255 * _park.getLatestDensity() / 100;
 
-    if (_currentState == 0) {
-      return Expanded(
-        child: Container(
-          color: Color(0xFFF5F5F5),
-          width: widthSize,
-          child: Center(
-            child: SizedBox(
-              child: CircularProgressIndicator(),
-            ),
-          ),
-        ),
-      );
-    }
+    Set<Circle> circles = Set.from([Circle(
+      circleId: CircleId(_park.id),
+      center: LatLng(_park.latitude, _park.longitude),
+      radius: _park.radius.toDouble(),
+      fillColor: Color.fromRGBO(0xFF,0x93,0x0,densityToOpacity),
+      strokeWidth: 0,
+    )]);
 
-    if (!_isLocationServiceEnabled) {
-      return Expanded(
-        child: Container(
-          color: Color(0xFFF5F5F5),
-          width: widthSize,
-          child: Center(
-            child: Text(
-              "GPS가 활성화되지 않았습니다.",
-              style: TextStyle(
-                fontSize: 18,
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-
-    if (_isTimeLimited) {
-      return Expanded(
-        child: Container(
-          color: Color(0xFFF5F5F5),
-          width: widthSize,
-          child: Center(
-            child: Text(
-              "위치 정보를 불러오지 못했습니다.",
-              style: TextStyle(
-                fontSize: 18,
-              ),
-            ),
-          ),
-        ),
-      );
-    }
+    CameraPosition _currentPosition = CameraPosition(
+      target: LatLng(_park.latitude, _park.longitude),
+      zoom: 14.4746,
+    );
 
     return Expanded(
       child: Container(
         width: widthSize,
-        child: Text(_position.toString()),
+        child: GoogleMap(
+          mapType: MapType.normal,
+          circles: circles,
+          initialCameraPosition: _currentPosition,
+          onMapCreated: (GoogleMapController controller) {
+            _controller.complete(controller);
+          },
+        ),
       ),
     );
   }
@@ -269,7 +242,8 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
                           Container(
                               width: 120.0,
                               child: Text(
-                                "인구 밀집도 : ${_park.getLatestDensity().toStringAsFixed(1)}%",
+                                "인구 밀집도 : ${_park.getLatestDensity()
+                                    .toStringAsFixed(1)}%",
                                 style: TextStyle(
                                   fontSize: smallFontSize,
                                   fontWeight: FontWeight.bold,
@@ -278,7 +252,8 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
                               )),
                           Container(
                             child: Text(
-                              "사람 간 평균 거리 : ${_park.getLatestAverageDistance().toStringAsFixed(1)}m",
+                              "사람 간 평균 거리 : ${_park.getLatestAverageDistance()
+                                  .toStringAsFixed(1)}m",
                               style: TextStyle(
                                 fontSize: smallFontSize,
                                 fontWeight: FontWeight.bold,
@@ -556,28 +531,6 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
   void initState() {
     super.initState();
     _park = widget.park;
-    asyncMethods();
-  }
-
-  void asyncMethods() async {
-    if (await Geolocator.isLocationServiceEnabled()) {
-      try {
-        _position = await Geolocator.getCurrentPosition(
-            timeLimit: Duration(seconds: 2),
-            desiredAccuracy: LocationAccuracy.high);
-        _isTimeLimited = false;
-      } catch (e) {
-        _isTimeLimited = true;
-      }
-    } else {
-      _isLocationServiceEnabled = false;
-    }
-
-    if (mounted) {
-      setState(() {
-        _currentState = 1;
-      });
-    }
   }
 
   @override
