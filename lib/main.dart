@@ -11,7 +11,6 @@ import 'package:boombee/screens/my_page.dart';
 import 'package:boombee/screens/search_page.dart';
 import 'package:boombee/screens/subscribe_page.dart';
 import 'package:boombee/services/github_api/get_parks_info.dart';
-import 'package:boombee/utils/alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -21,10 +20,9 @@ import './globals.dart' as globals;
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  Timer.periodic(Duration(minutes: 1), (Timer t) => _showNotification());
+void main()  {
   runApp(MyApp());
+  Timer.periodic(Duration(minutes: 1), (Timer t) => _showNotification());
 }
 
 Future<void> _showNotification() async {
