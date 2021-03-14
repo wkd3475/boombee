@@ -304,25 +304,6 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
       ),
     );
   }
-  //
-  // _takeScreenshotandShare() async {
-  //   _imageFile = null;
-  //   screenshotController
-  //       .capture(delay: Duration(milliseconds: 10), pixelRatio: 2.0)
-  //       .then((File image) async {
-  //     setState(() {
-  //       _imageFile = image;
-  //     });
-  //     final directory = (await getApplicationDocumentsDirectory()).path;
-  //     Uint8List pngBytes = _imageFile.readAsBytesSync();
-  //     File imgFile = new File('$directory/screenshot.png');
-  //     imgFile.writeAsBytes(pngBytes);
-  //     print("File Saved to Gallery");
-  //     await Share.file('boombee', 'screenshot.png', pngBytes, 'image/png');
-  //   }).catchError((onError) {
-  //     print(onError);
-  //   });
-  // }
 
   Widget parkDetailInfoBox() {
     double bigFontSize = 20.0;
