@@ -389,7 +389,7 @@ class UnpopularParkTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 10),
+      margin: EdgeInsets.only(bottom: 10, left: 5, right: 5),
       height: 35,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
