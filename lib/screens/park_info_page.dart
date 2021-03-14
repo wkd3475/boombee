@@ -1,8 +1,15 @@
 import 'package:boombee/services/github_api/get_parks_info.dart';
-import 'package:boombee/utils/alert.dart';
 import 'package:boombee/utils/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
+import 'package:flutter/rendering.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:path_provider/path_provider.dart';
+
 import '../globals.dart' as globals;
 
 
@@ -22,6 +29,29 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
   int _currentState = 0;
   bool _isLocationServiceEnabled = true;
   bool _isTimeLimited = false;
+
+  File _imageFile;
+
+  ScreenshotController screenshotController = ScreenshotController();
+
+  _takeScreenshotandShare() async {
+    _imageFile = null;
+    screenshotController
+        .capture(delay: Duration(milliseconds: 10), pixelRatio: 2.0)
+        .then((File image) async {
+      setState(() {
+        _imageFile = image;
+      });
+      final directory = (await getApplicationDocumentsDirectory()).path;
+      Uint8List pngBytes = _imageFile.readAsBytesSync();
+      File imgFile = new File('$directory/screenshot.png');
+      imgFile.writeAsBytes(pngBytes);
+      print("File Saved to Gallery");
+      await Share.file('Boombee', 'screenshot.png', pngBytes, 'image/png');
+    }).catchError((onError) {
+      print(onError);
+    });
+  }
 
   Widget appBarTitle() {
     return Container(
@@ -274,6 +304,25 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
       ),
     );
   }
+  //
+  // _takeScreenshotandShare() async {
+  //   _imageFile = null;
+  //   screenshotController
+  //       .capture(delay: Duration(milliseconds: 10), pixelRatio: 2.0)
+  //       .then((File image) async {
+  //     setState(() {
+  //       _imageFile = image;
+  //     });
+  //     final directory = (await getApplicationDocumentsDirectory()).path;
+  //     Uint8List pngBytes = _imageFile.readAsBytesSync();
+  //     File imgFile = new File('$directory/screenshot.png');
+  //     imgFile.writeAsBytes(pngBytes);
+  //     print("File Saved to Gallery");
+  //     await Share.file('boombee', 'screenshot.png', pngBytes, 'image/png');
+  //   }).catchError((onError) {
+  //     print(onError);
+  //   });
+  // }
 
   Widget parkDetailInfoBox() {
     double bigFontSize = 20.0;
@@ -361,53 +410,132 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
             Container(height: 20.0),
             Row(
               children: [
-                GestureDetector(
-                  onTap: () {
-                    globals.subscribe.add(_park.id);
-                    flutterToast("찜한 목록에 추가되었습니다.", context);
-                  },
-                  child: Container(
-                    height: 40,
-                    width: buttonWidth,
-                    decoration: BoxDecoration(
-                      color: Color(0xCCFF9300),
-                      border: Border.all(
-                        color: Color(0xFFFF9300),
-                        width: 1.5,
+                  GestureDetector(
+                    onTap: () {
+                      globals.subscribe.add(_park.id);
+                      flutterToast("찜한 목록에 추가되었습니다.", context);
+                    },
+                    child: Container(
+                      height: 40,
+                      width: buttonWidth,
+                      decoration: BoxDecoration(
+                        color: Color(0xCCFF9300),
+                        border: Border.all(
+                          color: Color(0xFFFF9300),
+                          width: 1.5,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
                       ),
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/heart_white_icon.png',
-                          width: 35.0,
-                          height: 35.0,
-                        ),
-                        Container(width: 10.0),
-                        Text(
-                          "찜 하기",
-                          style: TextStyle(
-                            fontSize: smallFontSize,
-                            color: Color(0xFFFFFFFF),
-                            fontWeight: FontWeight.bold,
-                            height: 1,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/heart_white_icon.png',
+                            width: 35.0,
+                            height: 35.0,
                           ),
-                        ),
-                      ],
+                          Container(width: 10.0),
+                          Text(
+                            "찜 하기",
+                            style: TextStyle(
+                              fontSize: smallFontSize,
+                              color: Color(0xFFFFFFFF),
+                              fontWeight: FontWeight.bold,
+                              height: 1,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                Container(width: 5.0),
+                  Container(width: 5.0),
+                  GestureDetector(
+                    onTap: () {
+                      globals.alertManager.add(_park.id);
+                      flutterToast("알림 목록에 추가되었습니다.", context);
+                    },
+                    child: Container(
+                      height: 40,
+                      width: buttonWidth,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFF5F5F5),
+                        border: Border.all(
+                          color: Color(0xFFD9D9D9),
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/simple_alert_gray.png',
+                            width: 35.0,
+                            height: 35.0,
+                          ),
+                          Container(width: 5.0),
+                          Text(
+                            "알림 받기",
+                            style: TextStyle(
+                              fontSize: smallFontSize,
+                              color: Color(0xFFB5B5B5),
+                              fontWeight: FontWeight.bold,
+                              height: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(width: 5.0),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/HistoricalDataPage',
+                        arguments: _park,
+                      );
+                    },
+                    child: Container(
+                      height: 40,
+                      width: buttonWidth,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFF5F5F5),
+                        border: Border.all(
+                          color: Color(0xFFD9D9D9),
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/calendar_icon.png',
+                            width: 35.0,
+                            height: 35.0,
+                          ),
+                          Text(
+                            "지난 밀집도",
+                            style: TextStyle(
+                              fontSize: smallFontSize,
+                              color: Color(0xFFB5B5B5),
+                              fontWeight: FontWeight.bold,
+                              height: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Spacer(),
                 GestureDetector(
                   onTap: () {
-                    globals.alertManager.add(_park.id);
-                    flutterToast("알림 목록에 추가되었습니다.", context);
+                    _takeScreenshotandShare();
                   },
                   child: Container(
                     height: 40,
-                    width: buttonWidth,
+                    width: 40,
                     decoration: BoxDecoration(
                       color: Color(0xFFF5F5F5),
                       border: Border.all(
@@ -416,85 +544,11 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
                       ),
                       borderRadius: BorderRadius.all(Radius.circular(4)),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/simple_alert_gray.png',
-                          width: 35.0,
-                          height: 35.0,
-                        ),
-                        Container(width: 5.0),
-                        Text(
-                          "알림 받기",
-                          style: TextStyle(
-                            fontSize: smallFontSize,
-                            color: Color(0xFFB5B5B5),
-                            fontWeight: FontWeight.bold,
-                            height: 1,
-                          ),
-                        ),
-                      ],
+                    child: Image.asset(
+                      'assets/images/share_icon.png',
+                      width: 35.0,
+                      height: 35.0,
                     ),
-                  ),
-                ),
-                Container(width: 5.0),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      '/HistoricalDataPage',
-                      arguments: _park,
-                    );
-                  },
-                  child: Container(
-                    height: 40,
-                    width: buttonWidth,
-                    decoration: BoxDecoration(
-                      color: Color(0xFFF5F5F5),
-                      border: Border.all(
-                        color: Color(0xFFD9D9D9),
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/calendar_icon.png',
-                          width: 35.0,
-                          height: 35.0,
-                        ),
-                        Text(
-                          "지난 밀집도",
-                          style: TextStyle(
-                            fontSize: smallFontSize,
-                            color: Color(0xFFB5B5B5),
-                            fontWeight: FontWeight.bold,
-                            height: 1,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Spacer(),
-                Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFF5F5F5),
-                    border: Border.all(
-                      color: Color(0xFFD9D9D9),
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
-                  ),
-                  child: Image.asset(
-                    'assets/images/share_icon.png',
-                    width: 35.0,
-                    height: 35.0,
                   ),
                 ),
               ],
@@ -547,14 +601,17 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            appBarTitle(),
-            mapBox(),
-            infoBox(),
-          ],
+    return Screenshot(
+      controller: screenshotController,
+      child: Scaffold(
+        body: Container(
+          child: Column(
+            children: <Widget>[
+              appBarTitle(),
+              mapBox(),
+              infoBox(),
+            ],
+          ),
         ),
       ),
     );
