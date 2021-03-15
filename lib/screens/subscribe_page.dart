@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../globals.dart' as globals;
 
-
 class SubscribePage extends StatefulWidget {
   @override
   _SubscribePageState createState() => _SubscribePageState();
@@ -99,23 +98,26 @@ class _SubscribePageState extends State<SubscribePage> {
                         ),
                         Row(
                           children: <Widget>[
-                            Container(
-                              width: 100.0,
+                            Expanded(
+                              flex: 1,
                               child: Text(
                                 "밀집도 : ${park.getLatestDensity().toStringAsFixed(1)}%",
                                 style: TextStyle(
-                                  fontSize: 13,
+                                  fontSize: 10,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xCCFF9300),
+                                  color: Color(0xFFFF9300),
                                 ),
                               ),
                             ),
-                            Text(
-                              "사람 간 평균 거리 : ${park.getLatestAverageDistance().toStringAsFixed(1)}m",
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xCCFF9300),
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                "사람 간 평균 거리 : ${park.getLatestAverageDistance().toStringAsFixed(1)}m",
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFFFF9300),
+                                ),
                               ),
                             ),
                           ],
@@ -126,7 +128,10 @@ class _SubscribePageState extends State<SubscribePage> {
                 ),
                 Expanded(
                   flex: 3,
-                  child: densityImage(park.getLatestDensity()),
+                  child: Container(
+                    padding: EdgeInsets.only(right: 10.0),
+                    child: densityImage(park.getLatestDensity()),
+                  ),
                 ),
               ],
             ),
@@ -140,13 +145,12 @@ class _SubscribePageState extends State<SubscribePage> {
               });
             },
             child: Padding(
-              padding: EdgeInsets.only(left: 5.0),
+              padding: EdgeInsets.all(4.0),
               child: Container(
                 decoration: BoxDecoration(
                   color: Color(0xCCFF9300),
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                 ),
-                height: 130,
                 child: Center(
                   child: Image.asset(
                     'assets/images/delete.png',
@@ -180,7 +184,6 @@ class _SubscribePageState extends State<SubscribePage> {
       padding: EdgeInsets.all(25.0),
       child: ListView.builder(
         padding: EdgeInsets.only(top: 0.0),
-        itemExtent: 140.0,
         itemCount: globals.subscribe.subscribeList.length,
         itemBuilder: (context, index) {
           return parkCard(_parkInfoMap[globals.subscribe.subscribeList[index]]);
@@ -207,24 +210,25 @@ class _SubscribePageState extends State<SubscribePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-          child: Column(
-            children: [
-              SubscribePageTitle(),
-              Expanded(
-                child: isFetched
+      body: Container(
+        child: Column(
+          children: [
+            SubscribePageTitle(),
+            Expanded(
+              child: isFetched
                   ? parkListBox()
                   : Center(
-                  child: SizedBox(
-                    height: 50.0,
-                    width: 50.0,
-                    child: CircularProgressIndicator(),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),);
+                      child: SizedBox(
+                        height: 50.0,
+                        width: 50.0,
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 

@@ -14,7 +14,6 @@ import 'package:path_provider/path_provider.dart';
 
 import '../globals.dart' as globals;
 
-
 class ParkInfoPage extends StatefulWidget {
   final Park park;
 
@@ -117,13 +116,15 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
     double widthSize = MediaQuery.of(context).size.width;
     double densityToOpacity = 0x255 * _park.getLatestDensity() / 100;
 
-    Set<Circle> circles = Set.from([Circle(
-      circleId: CircleId(_park.id),
-      center: LatLng(_park.latitude, _park.longitude),
-      radius: _park.radius.toDouble(),
-      fillColor: Color.fromRGBO(0xFF,0x93,0x0,densityToOpacity),
-      strokeWidth: 0,
-    )]);
+    Set<Circle> circles = Set.from([
+      Circle(
+        circleId: CircleId(_park.id),
+        center: LatLng(_park.latitude, _park.longitude),
+        radius: _park.radius.toDouble(),
+        fillColor: Color.fromRGBO(0xFF, 0x93, 0x0, densityToOpacity),
+        strokeWidth: 0,
+      )
+    ]);
 
     CameraPosition _currentPosition = CameraPosition(
       target: LatLng(_park.latitude, _park.longitude),
@@ -177,7 +178,7 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
 
   Widget parkMainInfoBox() {
     double bigFontSize = 20.0;
-    double smallFontSize = 13.0;
+    double smallFontSize = 11.0;
 
     return Container(
       decoration: BoxDecoration(
@@ -237,21 +238,20 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
                           Container(
                             width: 15.0,
                           ),
-                          Container(
-                              width: 120.0,
+                          Expanded(
+                              flex: 2,
                               child: Text(
-                                "인구 밀집도 : ${_park.getLatestDensity()
-                                    .toStringAsFixed(1)}%",
+                                "인구 밀집도 : ${_park.getLatestDensity().toStringAsFixed(1)}%",
                                 style: TextStyle(
                                   fontSize: smallFontSize,
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xFFFFFFFF),
                                 ),
                               )),
-                          Container(
+                          Expanded(
+                            flex: 3,
                             child: Text(
-                              "사람 간 평균 거리 : ${_park.getLatestAverageDistance()
-                                  .toStringAsFixed(1)}m",
+                              "사람 간 평균 거리 : ${_park.getLatestAverageDistance().toStringAsFixed(1)}m",
                               style: TextStyle(
                                 fontSize: smallFontSize,
                                 fontWeight: FontWeight.bold,
@@ -270,6 +270,7 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
           Expanded(
             flex: 3,
             child: Container(
+                padding: EdgeInsets.only(right: 20.0),
                 alignment: Alignment.centerLeft,
                 child: densityImage(_park.getLatestDensity())),
           ),
@@ -280,210 +281,221 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
 
   Widget parkDetailInfoBox() {
     double bigFontSize = 20.0;
-    double smallFontSize = 15.0;
+    double smallFontSize = 13.0;
     double buttonWidth = 120;
+    double iconSize = 20.0;
 
-    return Expanded(
-      child: Container(
-        alignment: Alignment.centerLeft,
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.all(30.0),
-        color: Color(0xFFFFFFFF),
-        child: Column(
-          children: <Widget>[
-            Row(
-              children: [
-                Text(
-                  "공원 정보",
-                  style: TextStyle(
-                    fontSize: bigFontSize,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFFB5B5B5),
-                  ),
+    return Container(
+      alignment: Alignment.centerLeft,
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.all(30.0),
+      color: Color(0xFFFFFFFF),
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: [
+              Text(
+                "공원 정보",
+                style: TextStyle(
+                  fontSize: bigFontSize,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFFB5B5B5),
                 ),
-              ],
-            ),
-            Container(height: 5.0),
-            Row(
-              children: [
-                Text(
-                  "전화: ",
-                  style: TextStyle(
-                    fontSize: smallFontSize,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFFB5B5B5),
-                  ),
+              ),
+            ],
+          ),
+          Container(height: 5.0),
+          Row(
+            children: [
+              Text(
+                "전화: ",
+                style: TextStyle(
+                  fontSize: smallFontSize,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFFB5B5B5),
                 ),
-                Text(
-                  "${_park.telephone}",
-                  style: TextStyle(
-                    fontSize: smallFontSize,
-                    color: Color(0xFFB5B5B5),
-                  ),
+              ),
+              Text(
+                "${_park.telephone}",
+                style: TextStyle(
+                  fontSize: smallFontSize,
+                  color: Color(0xFFB5B5B5),
                 ),
-              ],
-            ),
-            Row(
-              children: [
-                Text(
-                  "운영 시간: ",
-                  style: TextStyle(
-                    fontSize: smallFontSize,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFFB5B5B5),
-                  ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text(
+                "운영 시간: ",
+                style: TextStyle(
+                  fontSize: smallFontSize,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFFB5B5B5),
                 ),
-                Text(
-                  "${_park.hour}",
-                  style: TextStyle(
-                    fontSize: smallFontSize,
-                    color: Color(0xFFB5B5B5),
-                  ),
+              ),
+              Text(
+                "${_park.hour}",
+                style: TextStyle(
+                  fontSize: smallFontSize,
+                  color: Color(0xFFB5B5B5),
                 ),
-              ],
-            ),
-            Row(
-              children: [
-                Text(
-                  "홈페이지: ",
-                  style: TextStyle(
-                    fontSize: smallFontSize,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFFB5B5B5),
-                  ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text(
+                "홈페이지: ",
+                style: TextStyle(
+                  fontSize: smallFontSize,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFFB5B5B5),
                 ),
-                Text(
-                  "${_park.website}",
-                  style: TextStyle(
-                    fontSize: smallFontSize,
-                    color: Color(0xFFB5B5B5),
-                  ),
+              ),
+              Text(
+                "${_park.website}",
+                style: TextStyle(
+                  fontSize: smallFontSize,
+                  color: Color(0xFFB5B5B5),
                 ),
-              ],
-            ),
-            Container(height: 20.0),
-            Row(
-              children: [
-                  GestureDetector(
-                    onTap: () {
-                      globals.subscribe.add(_park.id);
-                      flutterToast("찜한 목록에 추가되었습니다.", context);
-                    },
-                    child: Container(
-                      height: 40,
-                      width: buttonWidth,
-                      decoration: BoxDecoration(
-                        color: Color(0xCCFF9300),
-                        border: Border.all(
-                          color: Color(0xFFFF9300),
-                          width: 1.5,
+              ),
+            ],
+          ),
+          Container(height: 20.0),
+          Row(
+            children: [
+              Expanded(
+                flex: 5,
+                child: GestureDetector(
+                  onTap: () {
+                    globals.subscribe.add(_park.id);
+                    flutterToast("찜한 목록에 추가되었습니다.", context);
+                  },
+                  child: Container(
+                    height: 40,
+                    width: buttonWidth,
+                    decoration: BoxDecoration(
+                      color: Color(0xCCFF9300),
+                      border: Border.all(
+                        color: Color(0xFFFF9300),
+                        width: 1.5,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(4)),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/heart_white_icon.png',
+                          width: iconSize,
+                          height: iconSize,
                         ),
-                        borderRadius: BorderRadius.all(Radius.circular(4)),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/heart_white_icon.png',
-                            width: 35.0,
-                            height: 35.0,
+                        Container(width: 10.0),
+                        Text(
+                          "찜 하기",
+                          style: TextStyle(
+                            fontSize: smallFontSize,
+                            color: Color(0xFFFFFFFF),
+                            fontWeight: FontWeight.bold,
+                            height: 1,
                           ),
-                          Container(width: 10.0),
-                          Text(
-                            "찜 하기",
-                            style: TextStyle(
-                              fontSize: smallFontSize,
-                              color: Color(0xFFFFFFFF),
-                              fontWeight: FontWeight.bold,
-                              height: 1,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                  Container(width: 5.0),
-                  GestureDetector(
-                    onTap: () {
-                      globals.alertManager.add(_park.id);
-                      flutterToast("알림 목록에 추가되었습니다.", context);
-                    },
-                    child: Container(
-                      height: 40,
-                      width: buttonWidth,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFF5F5F5),
-                        border: Border.all(
-                          color: Color(0xFFD9D9D9),
-                          width: 2,
+                ),
+              ),
+              Container(width: 5.0),
+              Expanded(
+                flex: 5,
+                child: GestureDetector(
+                  onTap: () {
+                    globals.alertManager.add(_park.id);
+                    flutterToast("알림 목록에 추가되었습니다.", context);
+                  },
+                  child: Container(
+                    height: 40,
+                    width: buttonWidth,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF5F5F5),
+                      border: Border.all(
+                        color: Color(0xFFD9D9D9),
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(4)),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/simple_alert_gray.png',
+                          width: iconSize,
+                          height: iconSize,
                         ),
-                        borderRadius: BorderRadius.all(Radius.circular(4)),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/simple_alert_gray.png',
-                            width: 35.0,
-                            height: 35.0,
+                        Container(width: 5.0),
+                        Text(
+                          "알림 받기",
+                          style: TextStyle(
+                            fontSize: smallFontSize,
+                            color: Color(0xFFB5B5B5),
+                            fontWeight: FontWeight.bold,
+                            height: 1,
                           ),
-                          Container(width: 5.0),
-                          Text(
-                            "알림 받기",
-                            style: TextStyle(
-                              fontSize: smallFontSize,
-                              color: Color(0xFFB5B5B5),
-                              fontWeight: FontWeight.bold,
-                              height: 1,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                  Container(width: 5.0),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        '/HistoricalDataPage',
-                        arguments: _park,
-                      );
-                    },
-                    child: Container(
-                      height: 40,
-                      width: buttonWidth,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFF5F5F5),
-                        border: Border.all(
-                          color: Color(0xFFD9D9D9),
-                          width: 2,
+                ),
+              ),
+              Container(width: 5.0),
+              Expanded(
+                flex: 5,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/HistoricalDataPage',
+                      arguments: _park,
+                    );
+                  },
+                  child: Container(
+                    height: 40,
+                    width: buttonWidth,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF5F5F5),
+                      border: Border.all(
+                        color: Color(0xFFD9D9D9),
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(4)),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/calendar_icon.png',
+                          width: iconSize,
+                          height: iconSize,
                         ),
-                        borderRadius: BorderRadius.all(Radius.circular(4)),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/calendar_icon.png',
-                            width: 35.0,
-                            height: 35.0,
+                        Text(
+                          "지난 밀집도",
+                          style: TextStyle(
+                            fontSize: smallFontSize,
+                            color: Color(0xFFB5B5B5),
+                            fontWeight: FontWeight.bold,
+                            height: 1,
                           ),
-                          Text(
-                            "지난 밀집도",
-                            style: TextStyle(
-                              fontSize: smallFontSize,
-                              color: Color(0xFFB5B5B5),
-                              fontWeight: FontWeight.bold,
-                              height: 1,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                  Spacer(),
-                GestureDetector(
+                ),
+              ),
+              Spacer(),
+              Expanded(
+                flex: 2,
+                child: GestureDetector(
                   onTap: () {
                     _takeScreenshotandShare();
                   },
@@ -500,22 +512,21 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
                     ),
                     child: Image.asset(
                       'assets/images/share_icon.png',
-                      width: 35.0,
-                      height: 35.0,
+                      width: iconSize,
+                      height: iconSize,
                     ),
                   ),
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
 
   Widget infoBox() {
     return Container(
-      height: 385.0,
       child: Column(
         children: <Widget>[
           parkMainInfoBox(),

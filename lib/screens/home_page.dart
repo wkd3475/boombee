@@ -76,7 +76,8 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Container(
                         padding: EdgeInsets.only(left: 25.0),
-                        child: Text("검색어를 입력하세요.",
+                        child: Text(
+                          "검색어를 입력하세요.",
                           style: TextStyle(
                             fontSize: 15,
                             color: Color(0xFFB5B5B5),
@@ -126,7 +127,10 @@ class MainInfoPage extends StatelessWidget {
     FocusScopeNode currentFocus = FocusScope.of(context);
     currentFocus.unfocus();
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10,),
+      margin: EdgeInsets.symmetric(
+        horizontal: 30,
+        vertical: 10,
+      ),
       child: Column(
         children: <Widget>[
           CurrentStatusCard(),
@@ -496,7 +500,8 @@ class _UnpopularParkState extends State<UnpopularPark> {
       },
       child: Container(
         color: Colors.white,
-        padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 3.0, bottom: 3.0),
+        padding:
+            EdgeInsets.only(left: 20.0, right: 20.0, top: 3.0, bottom: 3.0),
         child: Row(
           children: <Widget>[
             Expanded(
@@ -526,9 +531,9 @@ class _UnpopularParkState extends State<UnpopularPark> {
                 ),
               ),
             ),
-            Container(width: 30.0),
+            Container(width: 20.0),
             Expanded(
-              flex: 7,
+              flex: 5,
               child: Column(
                 children: <Widget>[
                   Container(
@@ -543,23 +548,26 @@ class _UnpopularParkState extends State<UnpopularPark> {
                   ),
                   Row(
                     children: <Widget>[
-                      Container(
-                        width: 90.0,
+                      Expanded(
+                        flex: 2,
                         child: Text(
                           "밀집도 : ${park.getLatestDensity().toStringAsFixed(1)}%",
                           style: TextStyle(
-                            fontSize: 11,
+                            fontSize: 10,
                             fontWeight: FontWeight.bold,
                             color: Color(0xFFFF9300),
                           ),
                         ),
                       ),
-                      Text(
-                        "사람 간 평균 거리 : ${park.getLatestAverageDistance().toStringAsFixed(1)}m",
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFFFF9300),
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          "사람 간 평균 거리 : ${park.getLatestAverageDistance().toStringAsFixed(1)}m",
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFFFF9300),
+                          ),
                         ),
                       ),
                     ],
@@ -567,7 +575,11 @@ class _UnpopularParkState extends State<UnpopularPark> {
                 ],
               ),
             ),
-            densityImage(park.getLatestDensity()),
+            Container(width: 10.0),
+            Expanded(
+              flex: 1,
+              child: densityImage(park.getLatestDensity()),
+            ),
           ],
         ),
       ),

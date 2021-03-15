@@ -30,12 +30,14 @@ class _ParkListPageState extends State<ParkListPage> {
     }
 
     if (_order == 0) {
-      for (int i=0; i<_parkList.length; i++) {
-        for (int j=i+1; j<_parkList.length; j++) {
+      for (int i = 0; i < _parkList.length; i++) {
+        for (int j = i + 1; j < _parkList.length; j++) {
           List p1 = _parkInfoMap[_parkList[i]].getLocation();
           List p2 = _parkInfoMap[_parkList[j]].getLocation();
-          double d1 = Geolocator.distanceBetween(_position.latitude, _position.longitude, p1[0], p1[1]);
-          double d2 = Geolocator.distanceBetween(_position.latitude, _position.longitude, p2[0], p2[1]);
+          double d1 = Geolocator.distanceBetween(
+              _position.latitude, _position.longitude, p1[0], p1[1]);
+          double d2 = Geolocator.distanceBetween(
+              _position.latitude, _position.longitude, p2[0], p2[1]);
 
           if (d1 > d2) {
             var temp = _parkList[i];
@@ -45,8 +47,8 @@ class _ParkListPageState extends State<ParkListPage> {
         }
       }
     } else {
-      for (int i=0; i<_parkList.length; i++) {
-        for (int j=i+1; j<_parkList.length; j++) {
+      for (int i = 0; i < _parkList.length; i++) {
+        for (int j = i + 1; j < _parkList.length; j++) {
           double d1 = _parkInfoMap[_parkList[i]].getLatestDensity();
           double d2 = _parkInfoMap[_parkList[j]].getLatestDensity();
 
@@ -105,7 +107,7 @@ class _ParkListPageState extends State<ParkListPage> {
           child: Row(
             children: <Widget>[
               Expanded(
-                flex: 7,
+                flex: 9,
                 child: Container(
                   margin: EdgeInsets.all(23.0),
                   child: Column(
@@ -135,23 +137,26 @@ class _ParkListPageState extends State<ParkListPage> {
                       ),
                       Row(
                         children: <Widget>[
-                          Container(
-                            width: 100.0,
+                          Expanded(
+                            flex: 2,
                             child: Text(
                               "밀집도 : ${park.getLatestDensity().toStringAsFixed(1)}%",
                               style: TextStyle(
-                                fontSize: 13,
+                                fontSize: 11,
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xCCFF9300),
                               ),
                             ),
                           ),
-                          Text(
-                            "사람 간 평균 거리 : ${park.getLatestAverageDistance().toStringAsFixed(1)}m",
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xCCFF9300),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "사람 간 평균 거리 : ${park.getLatestAverageDistance().toStringAsFixed(1)}m",
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xCCFF9300),
+                              ),
                             ),
                           ),
                         ],
@@ -162,7 +167,10 @@ class _ParkListPageState extends State<ParkListPage> {
               ),
               Expanded(
                 flex: 3,
-                child: densityImage(park.getLatestDensity()),
+                child: Container(
+                  padding: EdgeInsets.only(right: 10.0),
+                  child: densityImage(park.getLatestDensity()),
+                ),
               ),
             ],
           ),
@@ -210,7 +218,6 @@ class _ParkListPageState extends State<ParkListPage> {
       padding: EdgeInsets.all(25.0),
       child: ListView.builder(
         padding: EdgeInsets.only(top: 0.0),
-        itemExtent: 140.0,
         itemCount: _parkList.length,
         itemBuilder: (context, index) {
           return parkCard(_parkInfoMap[_parkList[index]]);
@@ -233,8 +240,7 @@ class _ParkListPageState extends State<ParkListPage> {
       try {
         _position = await Geolocator.getCurrentPosition(
             timeLimit: Duration(seconds: 2),
-            desiredAccuracy: LocationAccuracy.high
-        );
+            desiredAccuracy: LocationAccuracy.high);
         _isTimeLimited = false;
       } catch (e) {
         _isTimeLimited = true;
@@ -246,8 +252,7 @@ class _ParkListPageState extends State<ParkListPage> {
     if (mounted) {
       setState(() {
         _currentState = 1;
-        if (_isTimeLimited)
-          return;
+        if (_isTimeLimited) return;
         ordering();
       });
     }
@@ -275,7 +280,8 @@ class _ParkListPageState extends State<ParkListPage> {
             ),
             child: Row(
               children: [
-                Align(
+                Expanded(
+                  flex: 4,
                   child: Text(
                     '지역별 공원',
                     style: TextStyle(
@@ -285,29 +291,31 @@ class _ParkListPageState extends State<ParkListPage> {
                     ),
                   ),
                 ),
-                Spacer(),
-                Align(
+                Expanded(
+                  flex: 1,
+                  child: Container(),
+                ),
+                Expanded(
+                  flex: 1,
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
                         _order = 0;
-                        if (_isTimeLimited)
-                          return;
+                        if (_isTimeLimited) return;
                         ordering();
                       });
                     },
-                    child: Text('거리순',
-                        style: TextStyle(
-                            height: 3,
-                            color: _order == 0
-                                ? Color(0xFF707070)
-                                : Color(0xFFB5B5B5))),
+                    child: Center(
+                      child: Text('거리순',
+                          style: TextStyle(
+                              color: _order == 0
+                                  ? Color(0xFF707070)
+                                  : Color(0xFFB5B5B5))),
+                    ),
                   ),
                 ),
-                Container(
-                  width: 15,
-                ),
-                Align(
+                Expanded(
+                  flex: 2,
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
@@ -315,27 +323,28 @@ class _ParkListPageState extends State<ParkListPage> {
                         ordering();
                       });
                     },
-                    child: Text('밀집도 낮은순',
-                        style: TextStyle(
-                            height: 3,
-                            color: _order == 1
-                                ? Color(0xFF707070)
-                                : Color(0xFFB5B5B5))),
+                    child: Center(
+                      child: Text('밀집도 낮은순',
+                          style: TextStyle(
+                              color: _order == 1
+                                  ? Color(0xFF707070)
+                                  : Color(0xFFB5B5B5))),
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           ),
           Expanded(
             child: _currentState == 0
-            ? Center(
-              child: SizedBox(
-                height: 50.0,
-                width: 50.0,
-                child: CircularProgressIndicator(),
-              ),
-            )
-            : parkListBox(),
+                ? Center(
+                    child: SizedBox(
+                      height: 50.0,
+                      width: 50.0,
+                      child: CircularProgressIndicator(),
+                    ),
+                  )
+                : parkListBox(),
           ),
         ],
       ),

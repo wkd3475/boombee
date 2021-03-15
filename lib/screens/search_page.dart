@@ -178,23 +178,26 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                       Row(
                         children: <Widget>[
-                          Container(
-                            width: 100.0,
+                          Expanded(
+                            flex: 2,
                             child: Text(
                               "밀집도 : ${park.getLatestDensity().toStringAsFixed(1)}%",
                               style: TextStyle(
-                                fontSize: 13,
+                                fontSize: 11,
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xCCFF9300),
                               ),
                             ),
                           ),
-                          Text(
-                            "사람 간 평균 거리 : ${park.getLatestAverageDistance().toStringAsFixed(1)}m",
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xCCFF9300),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "사람 간 평균 거리 : ${park.getLatestAverageDistance().toStringAsFixed(1)}m",
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xCCFF9300),
+                              ),
                             ),
                           ),
                         ],
@@ -205,7 +208,10 @@ class _SearchPageState extends State<SearchPage> {
               ),
               Expanded(
                 flex: 3,
-                child: densityImage(park.getLatestDensity()),
+                child: Container(
+                  padding: EdgeInsets.only(right: 10.0),
+                  child: densityImage(park.getLatestDensity()),
+                ),
               ),
             ],
           ),
@@ -246,7 +252,6 @@ class _SearchPageState extends State<SearchPage> {
         padding: EdgeInsets.all(25.0),
         child: ListView.builder(
           padding: EdgeInsets.only(top: 0.0),
-          itemExtent: 140.0,
           itemCount: _searchParkList.length,
           itemBuilder: (context, index) {
             return parkCard(_parkInfoMap[_searchParkList[index]]);
