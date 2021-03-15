@@ -27,8 +27,6 @@ class ParkInfoPage extends StatefulWidget {
 class _ParkInfoPageState extends State<ParkInfoPage> {
   Park _park;
 
-  int _currentState = 0;
-
   File _imageFile;
 
   ScreenshotController screenshotController = ScreenshotController();
