@@ -36,34 +36,35 @@ class _SearchPageState extends State<SearchPage> {
                 ),
                 child: Row(
                   children: [
-                    _isFetched
-                        ? Container(
-                            width: 300,
-                            padding: EdgeInsets.only(left: 25),
-                            child: TextFormField(
-                              controller: _textController,
-                              onFieldSubmitted: _handleSubmitted,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: '검색어를 입력하세요.',
-                                hintStyle: TextStyle(
+                    Expanded(
+                      flex: 7,
+                      child: _isFetched
+                          ? Container(
+                              padding: EdgeInsets.only(left: 25),
+                              child: TextFormField(
+                                controller: _textController,
+                                onFieldSubmitted: _handleSubmitted,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: '검색어를 입력하세요.',
+                                  hintStyle: TextStyle(
+                                    fontSize: 15,
+                                    color: Color.fromARGB(255, 181, 181, 181),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Container(
+                              padding: EdgeInsets.only(left: 25.0),
+                              child: Text(
+                                "검색어를 입력하세요.",
+                                style: TextStyle(
                                   fontSize: 15,
-                                  color: Color.fromARGB(255, 181, 181, 181),
+                                  color: Color(0xFFB5B5B5),
                                 ),
                               ),
                             ),
-                          )
-                        : Container(
-                            padding: EdgeInsets.only(left: 25.0),
-                            child: Text(
-                              "검색어를 입력하세요.",
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Color(0xFFB5B5B5),
-                              ),
-                            ),
-                          ),
-                    Spacer(),
+                    ),
                     Container(
                       padding: EdgeInsets.only(right: 20.0),
                       child: GestureDetector(

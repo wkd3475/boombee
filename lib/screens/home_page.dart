@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
           child: Row(
             children: [
               Expanded(
-                flex: 5,
+                flex: 7,
                 child: Container(
                   height: 45,
                   decoration: BoxDecoration(
@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Expanded(
-                flex: 1,
+                flex: 2,
                 child: FlatButton(
                   onPressed: () {
                     Navigator.pushNamed(
@@ -385,7 +385,12 @@ class _CurrentStatusCard extends State<CurrentStatusCard> {
   }
 }
 
-class UnpopularParkTitle extends StatelessWidget {
+class UnpopularParkTitle extends StatefulWidget {
+  @override
+  _UnpopularParkTitleState createState() => _UnpopularParkTitleState();
+}
+
+class _UnpopularParkTitleState extends State<UnpopularParkTitle> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -412,18 +417,28 @@ class UnpopularParkTitle extends StatelessWidget {
             ),
           ),
           Align(
-            child: Container(
-              width: 70,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Color(0xCCFF9300),
-                borderRadius: BorderRadius.all(Radius.circular(5)),
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  Navigator.pushNamed(
+                    context,
+                    '/SurroundingMapPage',
+                  );
+                });
+              },
+              child: Container(
+                width: 70,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Color(0xCCFF9300),
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                ),
+                child: Text('내 주변',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold)),
               ),
-              child: Text('내 주변',
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold)),
             ),
           ),
         ],
