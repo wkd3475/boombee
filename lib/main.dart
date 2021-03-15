@@ -10,6 +10,7 @@ import 'package:boombee/screens/home_page.dart';
 import 'package:boombee/screens/my_page.dart';
 import 'package:boombee/screens/search_page.dart';
 import 'package:boombee/screens/subscribe_page.dart';
+import 'package:boombee/screens/surrounding_map_page.dart';
 import 'package:boombee/services/github_api/get_parks_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -94,6 +95,7 @@ class _MyAppState extends State<MyApp> {
             HistoricalDataPage(park: ModalRoute.of(context).settings.arguments),
         '/AlertPage': (context) => AlertPage(),
         '/NoticePage': (context) => NoticePage(),
+        '/SurroundingMapPage': (context) => SurroundingMapPage(),
       },
     );
   }
