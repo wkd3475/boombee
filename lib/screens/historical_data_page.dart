@@ -21,6 +21,8 @@ class _HistoricalDataPageState extends State<HistoricalDataPage> {
   double logTimeFontSize = 15.0;
   double logDataFontSize = 13.0;
 
+  DateTime _selectedDate;
+
   Widget appBarTitle() {
     return Container(
       padding: EdgeInsets.only(top: 20.0),
@@ -83,7 +85,11 @@ class _HistoricalDataPageState extends State<HistoricalDataPage> {
       color: Color(0xCCFF9300),
       child: TableCalendar(
         onDaySelected:
-            (DateTime dateTime, List<dynamic> event, List<dynamic> holiday) {},
+            (DateTime dateTime, List<dynamic> event, List<dynamic> holiday) {
+          setState(() {
+            _selectedDate = dateTime;
+          });
+        },
         calendarController: _calendarController,
         headerStyle: HeaderStyle(
           headerMargin: EdgeInsets.symmetric(horizontal: 25.0, vertical: 20.0),
@@ -322,65 +328,72 @@ class _HistoricalDataPageState extends State<HistoricalDataPage> {
           padding: EdgeInsets.all(0.0),
           itemCount: 24,
           scrollDirection: Axis.vertical,
-            itemBuilder: (context, index) {
-              return Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      height: logDataHeight,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFF5F5F5),
-                        border: Border(
-                          right: BorderSide(
-                            color: Color(0xFFD9D9D9),
-                            width: 1.0,
-                          ),
-                          bottom: BorderSide(
-                            color: Color(0xFFD9D9D9),
-                            width: 1.0,
-                          ),
+          itemBuilder: (context, index) {
+            int _year = _selectedDate.year;
+            int _month = _selectedDate.month;
+            int _day = _selectedDate.day;
+            int _hour = index;
+            double _density =
+                _park.getDensityByDate(_year, _month, _day, _hour);
+
+            return Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: logDataHeight,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF5F5F5),
+                      border: Border(
+                        right: BorderSide(
+                          color: Color(0xFFD9D9D9),
+                          width: 1.0,
+                        ),
+                        bottom: BorderSide(
+                          color: Color(0xFFD9D9D9),
+                          width: 1.0,
                         ),
                       ),
-                      child: Center(
-                        child: Text(
-                          "$index시",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: logTimeFontSize,
-                            color: Color(0xFF707070),
-                          ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "$index시",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: logTimeFontSize,
+                          color: Color(0xFF707070),
                         ),
                       ),
                     ),
                   ),
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      height: logDataHeight,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFFFFFFF),
-                        border: Border(
-                          bottom: BorderSide(
-                            color: Color(0xFFD9D9D9),
-                            width: 1.0,
-                          ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    height: logDataHeight,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFFFFFFF),
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Color(0xFFD9D9D9),
+                          width: 1.0,
                         ),
                       ),
-                      child: Center(
-                        child: Text(
-                          "$index%",
-                          style: TextStyle(
-                            fontSize: logDataFontSize,
-                            color: Color(0xFF707070),
-                          ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        _density == -1.0 ? "-" : "${_density.toStringAsFixed(1)}%",
+                        style: TextStyle(
+                          fontSize: logDataFontSize,
+                          color: Color(0xFF707070),
                         ),
                       ),
                     ),
                   ),
-                ],
-              );
-            },
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -415,6 +428,7 @@ class _HistoricalDataPageState extends State<HistoricalDataPage> {
     super.initState();
     _park = widget.park;
     _calendarController = CalendarController();
+    _selectedDate = DateTime.now();
     asyncMethods();
   }
 
