@@ -319,6 +319,7 @@ class _HistoricalDataPageState extends State<HistoricalDataPage> {
     return Expanded(
       child: Container(
         child: ListView.builder(
+          padding: EdgeInsets.all(0.0),
           itemCount: 24,
           scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {
