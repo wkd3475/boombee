@@ -10,6 +10,12 @@ class MyPage extends StatelessWidget {
             '/NoticePage',
           );
         }
+        if (text=="데이터 처리 과정") {
+          Navigator.pushNamed(
+            context,
+            '/DataProcessingPage',
+          );
+        }
       },
       child: Container(
         decoration: BoxDecoration(

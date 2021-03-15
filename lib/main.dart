@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:boombee/screens/alert_page.dart';
 import 'package:boombee/screens/category_page.dart';
+import 'package:boombee/screens/data_processing_page.dart';
 import 'package:boombee/screens/historical_data_page.dart';
 import 'package:boombee/screens/notice_page.dart';
 import 'package:boombee/screens/park_info_page.dart';
@@ -96,6 +97,7 @@ class _MyAppState extends State<MyApp> {
         '/AlertPage': (context) => AlertPage(),
         '/NoticePage': (context) => NoticePage(),
         '/SurroundingMapPage': (context) => SurroundingMapPage(),
+        '/DataProcessingPage': (context) => DataProcessingPage(),
       },
     );
   }
