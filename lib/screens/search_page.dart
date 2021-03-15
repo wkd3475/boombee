@@ -262,6 +262,13 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void searchByString(String text) {
+    if (text == "" && text == " ") {
+      setState(() {
+        _searchParkList = [];
+        _isSearched = true;
+      });
+      return;
+    }
     List<String> result = [];
     Map<String, String> words = {};
 
