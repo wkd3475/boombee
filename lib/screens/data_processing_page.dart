@@ -9,7 +9,9 @@ class _DataProcessingPageState extends State<DataProcessingPage> {
   bool _isLoaded = false;
 
   Widget body() {
-    return Container();
+    return Container(
+      child: Image.network("https://wjddls1771.github.io/boombee/process.png"),
+    );
   }
 
   @override
