@@ -122,6 +122,17 @@ class Park {
     return '{${this.id}, ${this.name}, ${this.location}, ${this.latitude}, ${this.longitude}, ${this.radius}, ${this.telephone}, ${this.hour}, ${this.website}, ${this.data}}';
   }
 
+  double getDensityByDate(int year, int month, int day, int hour) {
+    for (int i=0; i<this.data.length; i++) {
+
+      DateTime _dt = DateTime.parse(this.data[i].date);
+      if (_dt.year == year && _dt.month == month && _dt.day == day && _dt.hour == hour) {
+        return this.data[i].density;
+      }
+    }
+    return -1.0;
+  }
+
   double getLatestDensity() {
     if (this.data.isEmpty) {
       return 100.0;
