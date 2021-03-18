@@ -47,4 +47,13 @@ class Subscribe {
     subscribeList = content;
     print(subscribeList.toString());
   }
+
+  bool isSubscribed(String parkId) {
+    for (int i=0; i<subscribeList.length; i++) {
+      if (subscribeList[i] == parkId) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

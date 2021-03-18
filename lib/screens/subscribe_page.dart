@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:boombee/services/github_api/get_parks_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -11,6 +13,10 @@ class SubscribePage extends StatefulWidget {
 class _SubscribePageState extends State<SubscribePage> {
   bool isFetched = false;
   Map<String, Park> _parkInfoMap;
+
+  FutureOr<dynamic> onGoBack(dynamic) {
+    setState(() {});
+  }
 
   Widget densityImage(double density) {
     double size = 90;
@@ -49,7 +55,7 @@ class _SubscribePageState extends State<SubscribePage> {
           context,
           '/ParkInfoPage',
           arguments: park,
-        );
+        ).then(onGoBack);
       },
       child: Slidable(
         key: Key(park.id),

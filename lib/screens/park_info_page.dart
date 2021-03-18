@@ -50,6 +50,10 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
     });
   }
 
+  FutureOr<dynamic> onGoBack(dynamic) {
+    setState(() {});
+  }
+
   Widget appBarTitle() {
     return Container(
       padding: EdgeInsets.only(top: 20.0),
@@ -97,7 +101,7 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
                   Navigator.pushNamed(
                     context,
                     '/AlertPage',
-                  );
+                  ).then(onGoBack);
                 },
                 child: Image.asset(
                   "assets/images/simple_alert.png",
@@ -369,17 +373,23 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
                 flex: 5,
                 child: GestureDetector(
                   onTap: () {
-                    globals.subscribe.add(_park.id);
-                    flutterToast("찜한 목록에 추가되었습니다.", context);
+                    if (globals.subscribe.isSubscribed(_park.id)) {
+                      globals.subscribe.remove(_park.id);
+                      flutterToast("찜한 목록에서 삭제되었습니다.", context);
+                    } else {
+                      globals.subscribe.add(_park.id);
+                      flutterToast("찜한 목록에 추가되었습니다.", context);
+                    }
+                    setState(() {});
                   },
-                  child: Container(
+                  child: globals.subscribe.isSubscribed(_park.id) ? Container(
                     height: 40,
                     width: buttonWidth,
                     decoration: BoxDecoration(
                       color: Color(0xCCFF9300),
                       border: Border.all(
                         color: Color(0xFFFF9300),
-                        width: 1.5,
+                        width: 2,
                       ),
                       borderRadius: BorderRadius.all(Radius.circular(4)),
                     ),
@@ -403,6 +413,37 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
                         ),
                       ],
                     ),
+                  ) : Container(
+                    height: 40,
+                    width: buttonWidth,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF5F5F5),
+                      border: Border.all(
+                        color: Color(0xFFD9D9D9),
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(4)),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/heart_icon.png',
+                          width: iconSize,
+                          height: iconSize,
+                        ),
+                        Container(width: 10.0),
+                        Text(
+                          "찜 하기",
+                          style: TextStyle(
+                            fontSize: smallFontSize,
+                            color: Color(0xFFB5B5B5),
+                            fontWeight: FontWeight.bold,
+                            height: 1,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -411,10 +452,48 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
                 flex: 5,
                 child: GestureDetector(
                   onTap: () {
-                    globals.alertManager.add(_park.id);
-                    flutterToast("알림 목록에 추가되었습니다.", context);
+                    if (globals.alertManager.isInAlertList(_park.id)) {
+                      globals.alertManager.remove(_park.id);
+                      flutterToast("알림 목록에서 삭제되었습니다.", context);
+                    } else {
+                      globals.alertManager.add(_park.id);
+                      flutterToast("알림 목록에 추가되었습니다.", context);
+                    }
+                    setState(() {});
                   },
-                  child: Container(
+                  child: globals.alertManager.isInAlertList(_park.id) ? Container(
+                    height: 40,
+                    width: buttonWidth,
+                    decoration: BoxDecoration(
+                      color: Color(0xCCFF9300),
+                      border: Border.all(
+                        color: Color(0xFFFF9300),
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(4)),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/simple_alert_gray.png',
+                          width: iconSize,
+                          height: iconSize,
+                          color: Colors.white,
+                        ),
+                        Container(width: 5.0),
+                        Text(
+                          "알림 받기",
+                          style: TextStyle(
+                            fontSize: smallFontSize,
+                            color: Color(0xFFFFFFFF),
+                            fontWeight: FontWeight.bold,
+                            height: 1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ) : Container(
                     height: 40,
                     width: buttonWidth,
                     decoration: BoxDecoration(
@@ -526,12 +605,15 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
   }
 
   Widget infoBox() {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          parkMainInfoBox(),
-          parkDetailInfoBox(),
-        ],
+    return Screenshot(
+      controller: screenshotController,
+      child: Container(
+        child: Column(
+          children: <Widget>[
+            parkMainInfoBox(),
+            parkDetailInfoBox(),
+          ],
+        ),
       ),
     );
   }
@@ -544,17 +626,14 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Screenshot(
-      controller: screenshotController,
-      child: Scaffold(
-        body: Container(
-          child: Column(
-            children: <Widget>[
-              appBarTitle(),
-              mapBox(),
-              infoBox(),
-            ],
-          ),
+    return Scaffold(
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            appBarTitle(),
+            mapBox(),
+            infoBox(),
+          ],
         ),
       ),
     );

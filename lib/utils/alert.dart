@@ -105,6 +105,18 @@ class AlertManager {
     print("알림을 발송할 시각입니다.");
     return true;
   }
+
+  bool isInAlertList(String parkId) {
+    print("isInAlertList :"+parkId);
+    print("isInAlertList :"+alert.parks.toString());
+    for (int i=0; i<alert.parks.length; i++) {
+      if (alert.parks[i] == parkId) {
+        print("isInAlertList : return true");
+        return true;
+      }
+    }
+    return false;
+  }
 }
 
 class Alert {
