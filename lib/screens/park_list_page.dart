@@ -281,18 +281,21 @@ class _ParkListPageState extends State<ParkListPage> {
             child: Row(
               children: [
                 Expanded(
-                  flex: 4,
-                  child: Text(
-                    '지역별 공원',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF707070),
+                  flex: 3,
+                  child: Container(
+                    height: 30,
+                    child: Text(
+                      '지역별 공원',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF707070),
+                      ),
                     ),
                   ),
                 ),
                 Expanded(
-                  flex: 1,
+                  flex: 2,
                   child: Container(),
                 ),
                 Expanded(
@@ -305,9 +308,11 @@ class _ParkListPageState extends State<ParkListPage> {
                         ordering();
                       });
                     },
-                    child: Center(
+                    child: Container(
+                      height: 30,
                       child: Text('거리순',
                           style: TextStyle(
+                              fontSize: 13,
                               color: _order == 0
                                   ? Color(0xFF707070)
                                   : Color(0xFFB5B5B5))),
@@ -323,9 +328,11 @@ class _ParkListPageState extends State<ParkListPage> {
                         ordering();
                       });
                     },
-                    child: Center(
+                    child: Container(
+                      height: 30,
                       child: Text('밀집도 낮은순',
                           style: TextStyle(
+                              fontSize: 13,
                               color: _order == 1
                                   ? Color(0xFF707070)
                                   : Color(0xFFB5B5B5))),

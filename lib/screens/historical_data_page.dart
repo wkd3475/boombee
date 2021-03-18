@@ -66,7 +66,12 @@ class _HistoricalDataPageState extends State<HistoricalDataPage> {
             child: Container(
               alignment: Alignment.center,
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/AlertPage',
+                  );
+                },
                 child: Image.asset(
                   "assets/images/simple_alert.png",
                   width: 35,
@@ -161,7 +166,7 @@ class _HistoricalDataPageState extends State<HistoricalDataPage> {
 
   Widget parkMainInfoBox() {
     double bigFontSize = 20.0;
-    double smallFontSize = 13.0;
+    double smallFontSize = 11.0;
 
     return Container(
       decoration: BoxDecoration(
@@ -180,9 +185,9 @@ class _HistoricalDataPageState extends State<HistoricalDataPage> {
       child: Row(
         children: <Widget>[
           Expanded(
-            flex: 8,
+            flex: 9,
             child: Container(
-              margin: EdgeInsets.all(30.0),
+              margin: EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: <Widget>[
                   Container(
@@ -208,7 +213,6 @@ class _HistoricalDataPageState extends State<HistoricalDataPage> {
                       ),
                     ),
                   ),
-                  Container(height: 10.0),
                   Container(
                     height: 30,
                     decoration: BoxDecoration(
@@ -219,10 +223,10 @@ class _HistoricalDataPageState extends State<HistoricalDataPage> {
                       child: Row(
                         children: <Widget>[
                           Container(
-                            width: 15.0,
+                            width: 10.0,
                           ),
                           Container(
-                              width: 120.0,
+                              width: 100.0,
                               child: Text(
                                 "인구 밀집도 : ${_park.getLatestDensity().toStringAsFixed(1)}%",
                                 style: TextStyle(
@@ -254,6 +258,9 @@ class _HistoricalDataPageState extends State<HistoricalDataPage> {
             child: Container(
                 alignment: Alignment.centerLeft,
                 child: densityImage(_park.getLatestDensity())),
+          ),
+          Container(
+            width: 5.0,
           ),
         ],
       ),

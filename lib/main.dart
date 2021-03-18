@@ -12,66 +12,14 @@ import 'package:boombee/screens/my_page.dart';
 import 'package:boombee/screens/search_page.dart';
 import 'package:boombee/screens/subscribe_page.dart';
 import 'package:boombee/screens/surrounding_map_page.dart';
-import 'package:boombee/services/github_api/get_parks_info.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'loading.dart';
-import './globals.dart' as globals;
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-
-void main()  {
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
-  Timer.periodic(Duration(minutes: 1), (Timer t) => _showNotification());
 }
-
-Future<void> _showNotification() async {
-  if (!globals.alertManager.isTimeToAlert()) return;
-
-  Map<String, Park> parksInfoMap = await fetchGetParksInfoMap();
-  List<String> _alertParks = globals.alertManager.alert.parks;
-  String text = "";
-
-  for (int i=0; i<_alertParks.length; i++) {
-    String _parkId = _alertParks[i];
-    String _name = parksInfoMap[_parkId].name;
-    if (!parksInfoMap[_parkId].hasData()) {
-      text += "$_name 데이터가 없습니다.";
-      continue;
-    }
-
-    String _date = parksInfoMap[_parkId].getLatestDate();
-    String _ad = parksInfoMap[_parkId].getLatestAverageDistance().toStringAsFixed(1);
-    String _density = parksInfoMap[_parkId].getLatestDensity().toStringAsFixed(1);
-
-    text += "$_name 인구 밀집도 $_ad%, 사람 간 평균 거리 ${_density}m입니다.";
-
-    if (i != _alertParks.length - 1) {
-      text += "\n";
-    }
-  }
-
-  AndroidNotificationDetails androidPlatformChannelSpecifics =
-      AndroidNotificationDetails(
-    'your channel id',
-    'your channel name',
-    'your channel description',
-    importance: Importance.max,
-    priority: Priority.high,
-    styleInformation: BigTextStyleInformation(text)
-  );
-
-  NotificationDetails platformChannelSpecifics =
-      NotificationDetails(android: androidPlatformChannelSpecifics);
-  await flutterLocalNotificationsPlugin.show(
-      0,
-      '붐비',
-      '공원 알림이 도착했습니다.',
-      platformChannelSpecifics);
-}
-
 
 class MyApp extends StatefulWidget {
   @override
@@ -349,6 +297,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    loading();
     Timer(
       Duration(seconds: 2),
       () => Navigator.pushReplacement(
@@ -356,7 +305,6 @@ class _SplashScreenState extends State<SplashScreen> {
         MaterialPageRoute(builder: (context) => MainPage()),
       ),
     );
-    loading();
   }
 
   @override

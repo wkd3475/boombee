@@ -197,7 +197,7 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
       child: Row(
         children: <Widget>[
           Expanded(
-            flex: 8,
+            flex: 3,
             child: Container(
               margin: EdgeInsets.all(30.0),
               child: Column(
@@ -236,10 +236,10 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
                       child: Row(
                         children: <Widget>[
                           Container(
-                            width: 15.0,
+                            width: 5.0,
                           ),
                           Expanded(
-                              flex: 2,
+                              flex: 5,
                               child: Text(
                                 "인구 밀집도 : ${_park.getLatestDensity().toStringAsFixed(1)}%",
                                 style: TextStyle(
@@ -249,7 +249,7 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
                                 ),
                               )),
                           Expanded(
-                            flex: 3,
+                            flex: 6,
                             child: Text(
                               "사람 간 평균 거리 : ${_park.getLatestAverageDistance().toStringAsFixed(1)}m",
                               style: TextStyle(
@@ -268,7 +268,7 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 1,
             child: Container(
                 padding: EdgeInsets.only(right: 20.0),
                 alignment: Alignment.centerLeft,

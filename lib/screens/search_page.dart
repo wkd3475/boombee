@@ -179,7 +179,7 @@ class _SearchPageState extends State<SearchPage> {
                       Row(
                         children: <Widget>[
                           Expanded(
-                            flex: 2,
+                            flex: 3,
                             child: Text(
                               "밀집도 : ${park.getLatestDensity().toStringAsFixed(1)}%",
                               style: TextStyle(
@@ -190,7 +190,7 @@ class _SearchPageState extends State<SearchPage> {
                             ),
                           ),
                           Expanded(
-                            flex: 3,
+                            flex: 4,
                             child: Text(
                               "사람 간 평균 거리 : ${park.getLatestAverageDistance().toStringAsFixed(1)}m",
                               style: TextStyle(
@@ -207,7 +207,7 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               ),
               Expanded(
-                flex: 3,
+                flex: 2,
                 child: Container(
                   padding: EdgeInsets.only(right: 10.0),
                   child: densityImage(park.getLatestDensity()),
@@ -262,11 +262,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void searchByString(String text) {
-    if (text == "" && text == " ") {
-      setState(() {
-        _searchParkList = [];
-        _isSearched = true;
-      });
+    if (text == "" || text == " ") {
       return;
     }
     List<String> result = [];

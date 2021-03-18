@@ -510,8 +510,8 @@ class _UnpopularParkState extends State<UnpopularPark> {
                 alignment: Alignment.center,
                 child: Container(
                   alignment: Alignment.center,
-                  height: 47.0,
-                  width: 47.0,
+                  height: 30.0,
+                  width: 30.0,
                   decoration: BoxDecoration(
                     color: Color(0x77FF9300),
                     shape: BoxShape.circle,
@@ -531,9 +531,9 @@ class _UnpopularParkState extends State<UnpopularPark> {
                 ),
               ),
             ),
-            Container(width: 20.0),
+            Container(width: 15.0),
             Expanded(
-              flex: 5,
+              flex: 7,
               child: Column(
                 children: <Widget>[
                   Container(
@@ -549,7 +549,7 @@ class _UnpopularParkState extends State<UnpopularPark> {
                   Row(
                     children: <Widget>[
                       Expanded(
-                        flex: 2,
+                        flex: 3,
                         child: Text(
                           "밀집도 : ${park.getLatestDensity().toStringAsFixed(1)}%",
                           style: TextStyle(
@@ -560,7 +560,7 @@ class _UnpopularParkState extends State<UnpopularPark> {
                         ),
                       ),
                       Expanded(
-                        flex: 3,
+                        flex: 5,
                         child: Text(
                           "사람 간 평균 거리 : ${park.getLatestAverageDistance().toStringAsFixed(1)}m",
                           style: TextStyle(
@@ -575,7 +575,6 @@ class _UnpopularParkState extends State<UnpopularPark> {
                 ],
               ),
             ),
-            Container(width: 10.0),
             Expanded(
               flex: 1,
               child: densityImage(park.getLatestDensity()),
