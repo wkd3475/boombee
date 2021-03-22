@@ -236,6 +236,18 @@ class _ParkListPageState extends State<ParkListPage> {
   void asyncMethods() async {
     _parkList = await fetchSearchByGu(widget.guId);
     _parkInfoMap = await fetchGetParksInfoMap();
+    await fetchLocation();
+
+    if (mounted) {
+      setState(() {
+        _currentState = 1;
+        if (_isTimeLimited) return;
+        ordering();
+      });
+    }
+  }
+
+  Future<void> fetchLocation() async {
     if (await Geolocator.isLocationServiceEnabled()) {
       try {
         _position = await Geolocator.getCurrentPosition(
@@ -249,13 +261,7 @@ class _ParkListPageState extends State<ParkListPage> {
       _isLocationServiceEnabled = false;
     }
 
-    if (mounted) {
-      setState(() {
-        _currentState = 1;
-        if (_isTimeLimited) return;
-        ordering();
-      });
-    }
+    setState(() {});
   }
 
   @override
@@ -266,9 +272,8 @@ class _ParkListPageState extends State<ParkListPage> {
         children: [
           ParkListPageTitle(),
           Container(
-            padding: EdgeInsets.only(left: 25, bottom: 5, right: 25),
+            padding: EdgeInsets.only(left: 25, right: 25),
             height: 80,
-            alignment: Alignment.centerLeft,
             decoration: BoxDecoration(
               color: Color(0xFFFFFFFF),
               border: Border(
@@ -283,7 +288,8 @@ class _ParkListPageState extends State<ParkListPage> {
                 Expanded(
                   flex: 3,
                   child: Container(
-                    height: 30,
+                    alignment: Alignment.centerLeft,
+                    height: 80,
                     child: Text(
                       '지역별 공원',
                       style: TextStyle(
@@ -302,6 +308,7 @@ class _ParkListPageState extends State<ParkListPage> {
                   flex: 1,
                   child: GestureDetector(
                     onTap: () {
+                      fetchLocation();
                       setState(() {
                         _order = 0;
                         if (_isTimeLimited) return;
@@ -309,7 +316,8 @@ class _ParkListPageState extends State<ParkListPage> {
                       });
                     },
                     child: Container(
-                      height: 30,
+                      alignment: Alignment.centerRight,
+                      height: 80,
                       child: Text('거리순',
                           style: TextStyle(
                               fontSize: 13,
@@ -329,7 +337,8 @@ class _ParkListPageState extends State<ParkListPage> {
                       });
                     },
                     child: Container(
-                      height: 30,
+                      alignment: Alignment.centerRight,
+                      height: 80,
                       child: Text('밀집도 낮은순',
                           style: TextStyle(
                               fontSize: 13,
