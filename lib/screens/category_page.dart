@@ -197,36 +197,36 @@ class _CategoryBoxState extends State<CategoryBox> {
                           ),
                         ),
                       ),
-                      child: ListTile(
-                        tileColor: Color(0xFFFFFFFF),
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              child: Text(
-                                globals.guId2name[guId],
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Color(0xFF707070),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/ParkListPage',
+                            arguments: guId,
+                          );
+                          // Navigator.of(context).pushNamed("/ParkListPage", arguments: guId);
+                        },
+                        child: ListTile(
+                          tileColor: Color(0xFFFFFFFF),
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                child: Text(
+                                  globals.guId2name[guId],
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Color(0xFF707070),
+                                  ),
                                 ),
                               ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  '/ParkListPage',
-                                  arguments: guId,
-                                );
-                                // Navigator.of(context).pushNamed("/ParkListPage", arguments: guId);
-                              },
-                              child: Image.asset(
+                              Image.asset(
                                 "assets/images/right-bracket.png",
                                 width: 35,
                                 height: 35,
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     );

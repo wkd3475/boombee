@@ -154,6 +154,11 @@ class _SurroundingMapPageState extends State<SurroundingMapPage> {
       zoom: 14.4746,
     );
 
+    List<Marker> markerList = [];
+    markerList.add(Marker(markerId: MarkerId("0"), position: LatLng(_position.latitude, _position.longitude)));
+
+    Set<Marker> markers = Set.from(markerList);
+
     return Container(
       child: GoogleMap(
         mapType: MapType.normal,
@@ -162,6 +167,7 @@ class _SurroundingMapPageState extends State<SurroundingMapPage> {
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },
+        markers: markers,
       ),
     );
   }

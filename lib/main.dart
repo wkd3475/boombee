@@ -71,7 +71,7 @@ class _MainPageState extends State<MainPage> {
     return showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text("앱이 종료되면 알림 기능이 비활성화됩니다. 그래도 종료하시겠습니까?"),
+          title: Text("홈버튼을 누르면 알람이 지속됩니다. 앱이 종료되면 알림 기능이 비활성화됩니다. 그래도 종료하시겠습니까?"),
           actions: <Widget>[
             FlatButton(
               child: Text("NO"),
@@ -139,6 +139,7 @@ class _MainPageState extends State<MainPage> {
                           });
                         },
                         child: Container(
+                          color: Color(0xFFFFFFFF),
                           height: circleSize,
                           child: Container(
                             padding: EdgeInsets.all(circlePaddingSize),
@@ -183,6 +184,7 @@ class _MainPageState extends State<MainPage> {
                         },
                         child: Container(
                           height: circleSize,
+                          color: Color(0xFFFFFFFF),
                           child: Container(
                             padding: EdgeInsets.all(circlePaddingSize),
                             child: Image.asset(
@@ -225,6 +227,7 @@ class _MainPageState extends State<MainPage> {
                         },
                         child: Container(
                           height: circleSize,
+                          color: Color(0xFFFFFFFF),
                           child: Container(
                             padding: EdgeInsets.all(circlePaddingSize),
                             child: Image.asset(
@@ -267,6 +270,7 @@ class _MainPageState extends State<MainPage> {
                           });
                         },
                         child: Container(
+                          color: Color(0xFFFFFFFF),
                           height: circleSize,
                           child: Container(
                             padding: EdgeInsets.all(circlePaddingSize),

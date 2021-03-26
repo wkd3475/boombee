@@ -19,9 +19,11 @@ class _HomePageState extends State<HomePage> {
 
   void asyncMethods() async {
     _parkInfoMap = await fetchGetParksInfoMap();
-    setState(() {
-      _isFetched = true;
-    });
+    if (mounted) {
+      setState(() {
+        _isFetched = true;
+      });
+    }
   }
 
   @override

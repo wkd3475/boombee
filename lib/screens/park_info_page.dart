@@ -11,6 +11,8 @@ import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:geolocator/geolocator.dart';
+
 
 import '../globals.dart' as globals;
 
@@ -24,6 +26,11 @@ class ParkInfoPage extends StatefulWidget {
 }
 
 class _ParkInfoPageState extends State<ParkInfoPage> {
+  Position _position;
+  bool _isLocationServiceEnabled = true;
+  bool _isTimeLimited = true;
+  int _currentState = 0;
+
   Park _park;
 
   File _imageFile;
@@ -135,6 +142,14 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
       zoom: 14.4746,
     );
 
+    List<Marker> markerList = [];
+
+    if (_currentState == 1) {
+      markerList.add(Marker(markerId: MarkerId("0"), position: LatLng(_position.latitude, _position.longitude)));
+    }
+
+    Set<Marker> markers = Set.from(markerList);
+
     return Expanded(
       child: Container(
         width: widthSize,
@@ -145,6 +160,7 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);
           },
+          markers: markers,
         ),
       ),
     );
@@ -181,8 +197,8 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
   }
 
   Widget parkMainInfoBox() {
-    double bigFontSize = 20.0;
-    double smallFontSize = 11.0;
+    double bigFontSize = 17.0;
+    double smallFontSize = 13.0;
 
     return Container(
       decoration: BoxDecoration(
@@ -229,37 +245,35 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
                       ),
                     ),
                   ),
-                  Container(height: 10.0),
+                  Container(height: 5.0),
                   Container(
-                    height: 30,
+                    height: 50,
                     decoration: BoxDecoration(
-                      color: Color(0xCCFF9300),
                       borderRadius: BorderRadius.all(Radius.circular(4)),
                     ),
                     child: Container(
-                      child: Row(
+                      child: Column(
                         children: <Widget>[
                           Container(
-                            width: 5.0,
+                            width: 400,
+                            child: Text(
+                              "인구 밀집도 : ${_park.getLatestDensity().toStringAsFixed(1)}%",
+                              style: TextStyle(
+                                fontSize: smallFontSize,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xCCFF9300),
+                              ),
+                            ),
                           ),
-                          Expanded(
-                              flex: 5,
-                              child: Text(
-                                "인구 밀집도 : ${_park.getLatestDensity().toStringAsFixed(1)}%",
-                                style: TextStyle(
-                                  fontSize: smallFontSize,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFFFFFFFF),
-                                ),
-                              )),
-                          Expanded(
-                            flex: 6,
+                          Container(height: 5.0),
+                          Container(
+                            width: 400,
                             child: Text(
                               "사람 간 평균 거리 : ${_park.getLatestAverageDistance().toStringAsFixed(1)}m",
                               style: TextStyle(
                                 fontSize: smallFontSize,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xFFFFFFFF),
+                                color: Color(0xCCFF9300),
                               ),
                             ),
                           ),
@@ -622,6 +636,29 @@ class _ParkInfoPageState extends State<ParkInfoPage> {
   void initState() {
     super.initState();
     _park = widget.park;
+    asyncMethods();
+  }
+
+  void asyncMethods() async {
+    if (await Geolocator.isLocationServiceEnabled()) {
+      try {
+        _position = await Geolocator.getCurrentPosition(
+            timeLimit: Duration(seconds: 2),
+            desiredAccuracy: LocationAccuracy.high);
+      } catch (e) {
+        _isTimeLimited = true;
+        return;
+      }
+    } else {
+      _isLocationServiceEnabled = false;
+      return;
+    }
+
+    if (mounted) {
+      setState(() {
+        _currentState = 1;
+      });
+    }
   }
 
   @override

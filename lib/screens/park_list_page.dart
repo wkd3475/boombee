@@ -316,6 +316,7 @@ class _ParkListPageState extends State<ParkListPage> {
                       });
                     },
                     child: Container(
+                      color: Color(0xFFFFFFFF),
                       alignment: Alignment.centerRight,
                       height: 80,
                       child: Text('거리순',
@@ -337,6 +338,7 @@ class _ParkListPageState extends State<ParkListPage> {
                       });
                     },
                     child: Container(
+                      color: Color(0xFFFFFFFF),
                       alignment: Alignment.centerRight,
                       height: 80,
                       child: Text('밀집도 낮은순',
