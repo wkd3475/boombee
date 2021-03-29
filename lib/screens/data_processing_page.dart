@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+//my_page에서 데이터 처리 과정을 누르면 보이는 페이지
+
 class DataProcessingPage extends StatefulWidget {
   @override
   _DataProcessingPageState createState() => _DataProcessingPageState();

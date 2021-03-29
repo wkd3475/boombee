@@ -2,6 +2,8 @@ import 'package:boombee/services/corona_api/corona_api.dart';
 import 'package:boombee/services/github_api/get_parks_info.dart';
 import 'package:flutter/material.dart';
 
+//앱을 실행했을 때 보이는 첫 화면, 지금 '붐비'지 않는 공원, 코로나 현황을 보여주는 페이지
+
 class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }

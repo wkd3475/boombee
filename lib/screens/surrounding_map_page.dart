@@ -5,6 +5,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:boombee/services/github_api/get_parks_info.dart';
 import 'package:geolocator/geolocator.dart';
 
+//주변 지도를 부여주는 페이지
+
 class SurroundingMapPage extends StatefulWidget {
   @override
   _SurroundingMapPageState createState() => _SurroundingMapPageState();

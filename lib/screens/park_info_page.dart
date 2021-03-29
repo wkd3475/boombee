@@ -16,6 +16,8 @@ import 'package:geolocator/geolocator.dart';
 
 import '../globals.dart' as globals;
 
+//공원에 대한 정보를 보여주는 페이지
+
 class ParkInfoPage extends StatefulWidget {
   final Park park;
 

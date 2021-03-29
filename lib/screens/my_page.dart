@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+//공지사항과 데이터 처리 과정로 전환 가능한 페이지
+
 class MyPage extends StatelessWidget {
   Widget item(text, context) {
     return GestureDetector(

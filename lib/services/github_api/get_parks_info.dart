@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+//모든 공원의 데이터를 한번에 불러와서 map 형태로 저장
 Future<Map<String, Park>> fetchGetParksInfoMap() async {
   final response =
   await http.get('http://wjddls1771.github.io/boombee/get_parks_info.json');
@@ -36,6 +37,7 @@ Future<List<Park>> fetchGetParksInfoList() async {
   }
 }
 
+// 공원 하나에 대한 데이터를 불러오고자 할 때는 아래 함수의 주석을 지우고 사용하면 됨
 // Future<Park> fetchGetParkInfo(String parkId) async {
 //   final response =
 //   await http.get('http://wjddls1771.github.io/boombee/get_park_info/$parkId.json');

@@ -4,6 +4,8 @@ import 'package:boombee/services/github_api/search_by_gu_api.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
+//카테고리에서 지역을 선택하면 보이는 페이지
+
 class ParkListPage extends StatefulWidget {
   final String guId;
 

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../globals.dart' as globals;
 
+//알림 설정 관련 페이지
+
 class AlertPage extends StatefulWidget {
   @override
   _AlertPageState createState() => _AlertPageState();
@@ -51,6 +53,7 @@ class _AlertPageState extends State<AlertPage> {
     );
   }
 
+  //스위치 온 상태의 버튼을 출력
   Widget alertSwitchOnButton(double maxWidth) {
     return GestureDetector(
       onTap: () {
@@ -81,6 +84,7 @@ class _AlertPageState extends State<AlertPage> {
     );
   }
 
+  //스위치 오프 상태의 버튼을 출력
   Widget alertSwitchOffButton(double maxWidth) {
     return GestureDetector(
       onTap: () {
@@ -111,6 +115,7 @@ class _AlertPageState extends State<AlertPage> {
     );
   }
 
+  //추가된 공원에 대한 카드를 출력
   Widget parkCard(String parkId, int index) {
     return Slidable(
       key: Key(parkId),
@@ -187,6 +192,7 @@ class _AlertPageState extends State<AlertPage> {
     );
   }
 
+  //알림 추가된 공원 리스트를 보여주기 위한 용도로 사용됨
   Widget parkListBox() {
     if (globals.alertManager.alert.parks.length == 0) {
       return Center(
@@ -214,6 +220,7 @@ class _AlertPageState extends State<AlertPage> {
     );
   }
 
+  //하나의 주기에 대한 버튼을 출력할 때 사용됨, index는 버튼의 번호를 의미하며, 이를 바탕으로 어떤 문구가 출력되고 어떤 기능을 수행할지 결정됨.
   Widget periodButton(int index) {
     int periodType = globals.alertManager.alert.periodType;
     return Expanded(
@@ -259,6 +266,7 @@ class _AlertPageState extends State<AlertPage> {
     );
   }
 
+  //주기 버튼 6개가 포함되는 하나의 표라고 생각하면 됨.
   Widget periodBox() {
     return Column(
       children: [
@@ -299,6 +307,7 @@ class _AlertPageState extends State<AlertPage> {
     );
   }
 
+  //타이틀을 제외한 나머지 부분에 해당됨.
   Widget body(double maxWidth, double maxHeight) {
     return Container(
       color: Colors.white,

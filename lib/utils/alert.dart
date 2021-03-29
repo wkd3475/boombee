@@ -1,6 +1,7 @@
 import '../globals.dart' as globals;
 import 'dart:convert';
 
+// 알림 관련된 기능을 총괄함
 class AlertManager {
   String keyAlert = "alert";
   Alert alert;

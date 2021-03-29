@@ -1,5 +1,6 @@
 import '../globals.dart' as globals;
 
+// 찜하기 관련된 기능을 총괄함
 class Subscribe {
   String key = "subscribe";
   List<String> subscribeList = [];

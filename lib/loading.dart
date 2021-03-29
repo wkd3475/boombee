@@ -10,6 +10,7 @@ import 'globals.dart' as globals;
 import 'dart:convert';
 import 'package:flutter/services.dart';
 
+//앱을 실행하면 수행되어야 하는 기능들을 모아 둠
 void loading() async {
   String categoryCityJsonString =
       await rootBundle.loadString('assets/static/category/city.json');

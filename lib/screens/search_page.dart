@@ -1,6 +1,8 @@
 import 'package:boombee/services/github_api/get_parks_info.dart';
 import 'package:flutter/material.dart';
 
+//검색 버튼을 누르면 보이는 페이지
+
 class SearchPage extends StatefulWidget {
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -261,8 +263,9 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
+  //문자열을 바탕으로 실제로 해당 키워드가 포함된 공원을 추출해내는 기능을 수행함
   void searchByString(String text) {
-    if (text == "" || text == " ") {
+    if (text == "" || text == " ") { // 아무 것도 입력하지 않고 검색하는 경우를 약하게 차단
       return;
     }
     List<String> result = [];

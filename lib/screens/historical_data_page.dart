@@ -2,6 +2,8 @@ import 'package:boombee/services/github_api/get_parks_info.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+//공원이 과거 데이터를 보기 위한 페이지, 달력 기능을 포함
+
 class HistoricalDataPage extends StatefulWidget {
   final Park park;
 

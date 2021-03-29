@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../globals.dart' as globals;
 
+//찜한 리스트를 확인할 수 있는 페이지
+
 class SubscribePage extends StatefulWidget {
   @override
   _SubscribePageState createState() => _SubscribePageState();

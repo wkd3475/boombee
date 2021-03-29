@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+//공지사항을 불러오는 기능
 Future<List<Notice>> fetchNotices() async {
   final response =
   await http.get('http://wjddls1771.github.io/boombee/get_notices.json');

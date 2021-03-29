@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+//각 구에 어떤 공원들이 속해있는지를 불러옴
 Future<List<String>> fetchSearchByGu(String guId) async {
   final response =
   await http.get('http://wjddls1771.github.io/boombee/search_by_gu.json');

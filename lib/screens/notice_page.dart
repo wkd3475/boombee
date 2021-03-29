@@ -1,6 +1,8 @@
 import 'package:boombee/services/github_api/get_notices.dart';
 import 'package:flutter/material.dart';
 
+//공지사항 페이지
+
 class NoticePage extends StatefulWidget {
   @override
   _NoticePageState createState() => _NoticePageState();

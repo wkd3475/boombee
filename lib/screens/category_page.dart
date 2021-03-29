@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../globals.dart' as globals;
 
+//카테고리 보기 페이지
+
 class CategoryPage extends StatefulWidget {
   _CategoryPageState createState() => _CategoryPageState();
 }

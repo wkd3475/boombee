@@ -51,6 +51,7 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
+//메인 프레임 역할을 수행
 class MainPage extends StatefulWidget {
   _MainPageState createState() => _MainPageState();
 }
@@ -67,6 +68,7 @@ class _MainPageState extends State<MainPage> {
     MyPage(),
   ];
 
+  //뒤로가기를 수행하면 바로 앱이 종료되지 않고 확인을 함
   Future<bool> _onBackPressed(){
     return showDialog(
         context: context,
@@ -297,6 +299,7 @@ class SplashScreen extends StatefulWidget {
   _SplashScreenState createState() => _SplashScreenState();
 }
 
+//2초 동안 보여지는 페이지
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
