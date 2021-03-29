@@ -10,7 +10,17 @@ class _DataProcessingPageState extends State<DataProcessingPage> {
 
   Widget body() {
     return Container(
-      child: Image.network("https://wjddls1771.github.io/boombee/process.png"),
+      width: MediaQuery.of(context).size.width,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            FittedBox(
+              child: Image.network("https://wjddls1771.github.io/boombee/process.png"),
+              fit: BoxFit.fitWidth,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
