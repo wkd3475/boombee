@@ -50,7 +50,7 @@ void loading() async {
     initSettings,
   );
 
-  Timer.periodic(Duration(seconds: 10), (Timer t) => _showNotification());
+  Timer.periodic(Duration(minutes: 1), (Timer t) => _showNotification());
 }
 
 Future<void> _showNotification() async {
